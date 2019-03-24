@@ -1,0 +1,221 @@
+{% extends "main/layout.html" %}
+{% block content %}
+{% load static %}
+  <!-- Page Content -->
+  <div class="container">
+
+    <!-- Page Heading/Breadcrumbs -->
+    <h1 class="mt-4 mb-3">Search
+    </h1>
+
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="{% url 'main:home'%}">Home</a>
+      </li>
+      <li class="breadcrumb-item active">Search</li>
+    </ol>
+
+    <!-- 설문 영역 -->
+    <div class="card mb-4">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-6">
+            <h3 class="card-title">1. 선호지역 또는 특수목적대학교 선택</h3>
+              <span>
+                ※ 1개 항목 선택 필수, 최대 3개 선택 가능<br/>
+                ※ 선택 항목은 우선 순위 없이 일괄 적용됩니다.<br/>
+                ※ 전문 대학은 추천 대학에서 제외됩니다</h3>
+              </span>
+            <div class="form-group">
+                                <select style="margin-bottom: 5px;"
+                                        class="form-control preferRegions" name="preferRegions[]">
+                                    <option value="-1">터치하면 리스트가 보입니다.</option>
+                                    <option
+                                            value="1">서울/인천/경기</option>
+                                    <option
+                                            value="2">강원</option>
+                                    <option
+                                            value="3">충북</option>
+                                    <option
+                                            value="4">대전/충남</option>
+                                    <option
+                                            value="5">대구/경북</option>
+                                    <option
+                                            value="6">부산/울산/경남</option>
+                                    <option
+                                            value="9">전북</option>
+                                    <option
+                                            value="10">광주/전남</option>
+                                    <option
+                                            value="11">제주</option>
+                                    <option
+                                            value="7">교육대학</option>
+                                    <option
+                                            value="8">과학기술대학</option>
+                                </select><select style="margin-bottom: 5px;"
+                                        class="form-control preferRegions" name="preferRegions[]">
+                                    <option value="-1">터치하면 리스트가 보입니다.</option>
+                                    <option
+                                            value="1">서울/인천/경기</option>
+                                    <option
+                                            value="2">강원</option>
+                                    <option
+                                            value="3">충북</option>
+                                    <option
+                                            value="4">대전/충남</option>
+                                    <option
+                                            value="5">대구/경북</option>
+                                    <option
+                                            value="6">부산/울산/경남</option>
+                                    <option
+                                            value="9">전북</option>
+                                    <option
+                                            value="10">광주/전남</option>
+                                    <option
+                                            value="11">제주</option>
+                                    <option
+                                            value="7">교육대학</option>
+                                    <option
+                                            value="8">과학기술대학</option>
+                                </select><select style="margin-bottom: 5px;"
+                                        class="form-control preferRegions" name="preferRegions[]">
+                                    <option value="-1">터치하면 리스트가 보입니다.</option>
+                                    <option
+                                            value="1">서울/인천/경기</option>
+                                    <option
+                                            value="2">강원</option>
+                                    <option
+                                            value="3">충북</option>
+                                    <option
+                                            value="4">대전/충남</option>
+                                    <option
+                                            value="5">대구/경북</option>
+                                    <option
+                                            value="6">부산/울산/경남</option>
+                                    <option
+                                            value="9">전북</option>
+                                    <option
+                                            value="10">광주/전남</option>
+                                    <option
+                                            value="11">제주</option>
+                                    <option
+                                            value="7">교육대학</option>
+                                    <option
+                                            value="8">과학기술대학</option>
+                                </select>
+                            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 설문 영역 -->
+    <div class="card mb-4">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-6">
+            <h3 class="card-title">2. 선호 계열 선택</h3>
+              <span>
+                ※ 설명 ...<br/>
+                ※ 설명 ...<br/>
+                ※ 설명 ...</h3>
+              </span>
+            <div class="form-group">
+                                <select style="margin-bottom: 5px;"
+                                        class="form-control preferRegions" name="preferRegions[]">
+                                    <option value="-1">터치하면 리스트가 보입니다.</option>
+                                    <option
+                                            value="1">서울/인천/경기</option>
+                                    <option
+                                            value="2">강원</option>
+                                    <option
+                                            value="3">충북</option>
+                                    <option
+                                            value="4">대전/충남</option>
+                                    <option
+                                            value="5">대구/경북</option>
+                                    <option
+                                            value="6">부산/울산/경남</option>
+                                    <option
+                                            value="9">전북</option>
+                                    <option
+                                            value="10">광주/전남</option>
+                                    <option
+                                            value="11">제주</option>
+                                    <option
+                                            value="7">교육대학</option>
+                                    <option
+                                            value="8">과학기술대학</option>
+                                </select><select style="margin-bottom: 5px;"
+                                        class="form-control preferRegions" name="preferRegions[]">
+                                    <option value="-1">터치하면 리스트가 보입니다.</option>
+                                    <option
+                                            value="1">서울/인천/경기</option>
+                                    <option
+                                            value="2">강원</option>
+                                    <option
+                                            value="3">충북</option>
+                                    <option
+                                            value="4">대전/충남</option>
+                                    <option
+                                            value="5">대구/경북</option>
+                                    <option
+                                            value="6">부산/울산/경남</option>
+                                    <option
+                                            value="9">전북</option>
+                                    <option
+                                            value="10">광주/전남</option>
+                                    <option
+                                            value="11">제주</option>
+                                    <option
+                                            value="7">교육대학</option>
+                                    <option
+                                            value="8">과학기술대학</option>
+                                </select><select style="margin-bottom: 5px;"
+                                        class="form-control preferRegions" name="preferRegions[]">
+                                    <option value="-1">터치하면 리스트가 보입니다.</option>
+                                    <option
+                                            value="1">서울/인천/경기</option>
+                                    <option
+                                            value="2">강원</option>
+                                    <option
+                                            value="3">충북</option>
+                                    <option
+                                            value="4">대전/충남</option>
+                                    <option
+                                            value="5">대구/경북</option>
+                                    <option
+                                            value="6">부산/울산/경남</option>
+                                    <option
+                                            value="9">전북</option>
+                                    <option
+                                            value="10">광주/전남</option>
+                                    <option
+                                            value="11">제주</option>
+                                    <option
+                                            value="7">교육대학</option>
+                                    <option
+                                            value="8">과학기술대학</option>
+                                </select>
+                            </div>
+          </div>
+        </div>
+      </div>
+    </div>    
+
+    <!-- Pagination -->
+    <ul class="pagination justify-content-center mb-4">
+      <li class="page-item disabled">
+        <a class="page-link" href="#">&larr; Older</a>
+      </li>
+      <li class="page-item disabled">
+        <a class="page-link" href="#">Newer &rarr;</a>
+      </li>
+    </ul>
+
+  </div>
+
+  </div>
+  <!-- /.container -->
+
+{% endblock %}

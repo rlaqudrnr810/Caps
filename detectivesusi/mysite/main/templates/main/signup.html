@@ -1,0 +1,40 @@
+{% extends 'main/layout.html' %}
+{% block content %}
+<div class="container">
+
+ <!-- Page Heading/Breadcrumbs -->
+    <h1 class="mt-4 mb-3">Sign up
+    </h1>
+
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="{% url 'main:home'%}">Home</a>
+      </li>
+      <li class="breadcrumb-item active">Sign up</li>
+    </ol>
+
+<div class="signup">
+   <form action="" method="post">
+      {% csrf_token %}
+      {% for field in signup_form %}
+         <div class="form-group{% if field.errors %} has-error{% endif %}">
+            {{ field.label_tag }}
+            {{ field }}
+            {% if field.errors %}
+               {% for error in field.errors %}
+               <span class="help-block">{{ error }}</span>
+               {% endfor %}
+            {% endif %}
+         </div>
+      {% endfor %}
+
+      {% if signup_form.non_field_errors %}
+         {% for error in login_form.non_field_errors %}
+         <p class="text-danger"><b>{{ error }}</b></p>
+         {% endfor %}
+      {% endif %}
+      <button class="btn btn-primary btn-block">sign up</button>
+   </form>
+</div>
+</div>
+{% endblock %}
