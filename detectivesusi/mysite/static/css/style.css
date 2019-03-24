@@ -1,0 +1,102 @@
+@charset "UTF-8";
+
+/* 폰트 나눔고딕으로 전역 적용 */
+body {
+	font-family: 'Nanum Barun Gothic', sans-serif;
+	background: #eee;
+}
+
+/* 링크 스타일 없애기 */
+a,
+a:hover,
+a:visited,
+a:link {
+	text-decoration: none;
+}
+
+main {
+	padding-top: 3.5rem;
+}s
+
+
+/* 폼 */
+.form-wrapper {
+	margin-top: 84px;
+	margin-bottom: 84px;
+}
+
+#form-signin {
+	max-width: 412px;
+	padding: 71px 31px 71px 31px;
+	margin: 0 auto;
+	background-color: #fff;
+	border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+#form-signin .form-signin-heading {
+	padding-bottom: 8px;
+}
+
+#form-signin .input-group {
+	margin-bottom: 12px;
+}
+
+#form-signin .fa {
+	min-width: 16px;
+}
+
+#form-signin input {
+	font-size: 16px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
+#form-signin .input-group {
+	padding-top: 4px;
+    padding-bottom: 8px;
+}
+
+#form-signin .address-input {
+    padding-top: 4px;
+    padding-bottom: 2px;
+}
+
+footer.container {
+	padding-top: 15px;
+	padding-bottom: 23px;
+	text-align: center;
+}
+
+
+/* 메인 */
+.overlay {
+	padding-left: 16px;
+	padding-right: 16px;
+	padding-top: 51px;
+	padding-bottom: 51px;
+	
+	background-color: #333;
+}
+
+/* modern-business */
+body {
+	font-family: 'Nanum Barun Gothic', sans-serif;
+	background: #eee;
+ 	padding-top: 56px;
+}
+
+.carousel-item {
+  height: 65vh;
+  min-height: 300px;
+  background: no-repeat center center scroll;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+.portfolio-item {
+  margin-bottom: 30px;
+}
