@@ -2,7 +2,7 @@
 <html lang="kor">
 
 <head>
-    <title>SkyGazua</title>
+    <title>Detective Susi</title>
     
     <!-- meta tags -->
     <meta charset="utf-8" />
@@ -29,6 +29,10 @@
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
           {% if user.is_authenticated %}
+             <span class="navbar-text">
+                반갑습니다. <b>{{user.username}}</b>님!　
+             </span>
+
           <li class="nav-item">
             <a class="nav-link" href="/about">About</a>
           </li>
@@ -99,7 +103,7 @@
     <!-- 푸터 부분 -->
   <footer class="py-5 bg-dark">
     <div class="container">
-      <p class="m-0 text-center text-white"> Copyright © CAU - SKYGAZUA 2019 All Rights Reserved.</p>
+      <p class="m-0 text-center text-white"> Copyright © CAU - Detective Susi 2019 All Rights Reserved.</p>
     </div>
   </footer>
     <!-- 푸터 부분 끝 -->
