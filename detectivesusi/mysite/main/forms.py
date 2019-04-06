@@ -29,7 +29,7 @@ class SignupForm(forms.Form):
     )
     password1 = forms.CharField(
         widget=forms.PasswordInput(
-            attrs={
+            attrs={#f
                 'class': 'form-control',
             }
         )
