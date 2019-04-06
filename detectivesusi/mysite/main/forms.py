@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
+# 일반폼. 직접 필드 정의.
 class LoginForm(forms.Form):
     username = forms.CharField(
         widget=forms.TextInput(
@@ -43,10 +44,10 @@ class SignupForm(forms.Form):
         )
     )
 
-    email = forms.CharField(
+    email = forms.EmailField(
         widget=forms.EmailInput(
             attrs={
-                'class': 'form-control',
+                'class': 'required',
             }
         )
     )
