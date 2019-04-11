@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
+# 일반폼. 직접 필드 정의.
 class LoginForm(forms.Form):
     username = forms.CharField(
         widget=forms.TextInput(
@@ -29,7 +30,7 @@ class SignupForm(forms.Form):
     )
     password1 = forms.CharField(
         widget=forms.PasswordInput(
-            attrs={#f
+            attrs={
                 'class': 'form-control',
             }
         )
@@ -43,13 +44,22 @@ class SignupForm(forms.Form):
         )
     )
 
-    email = forms.CharField(
+    email = forms.EmailField(
         widget=forms.EmailInput(
             attrs={
                 'class': 'form-control',
             }
         )
     )
+
+    # birth_date = forms.DateField(
+    #     help_text='Required. YYYY-MM-DD',
+    #     widget=forms.DateInput(
+    #         attrs={
+    #             'class': 'form-control',
+    #         }
+    #     )
+    # )
 
     # username필드의 검증에 username이 이미 사용중인지 여부 검사
     def clean_username(self):

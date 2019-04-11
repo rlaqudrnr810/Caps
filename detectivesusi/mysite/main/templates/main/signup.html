@@ -1,7 +1,6 @@
 {% extends 'main/layout.html' %}
 {% block content %}
 <div class="container">
-
  <!-- Page Heading/Breadcrumbs -->
     <h1 class="mt-4 mb-3">Sign up
     </h1>
@@ -13,8 +12,19 @@
       <li class="breadcrumb-item active">Sign up</li>
     </ol>
 
+<CENTER>
+      <!-- 로그인 박스 부분 -->
+  <section>
+        <div class="container">
+            <div class="col-md-4">
+              <div class="p-8">
+                <div class="check-container">
 <div class="signup">
-   <form action="" method="post">
+   <form align ="left" action="" method="post">
+    <div class="check-container">
+
+
+
       {% csrf_token %}
       {% for field in signup_form %}
          <div class="form-group{% if field.errors %} has-error{% endif %}">
@@ -37,4 +47,9 @@
    </form>
 </div>
 </div>
+              </div>
+            </div>
+          </section>
+        </CENTER>
+      </div>
 {% endblock %}

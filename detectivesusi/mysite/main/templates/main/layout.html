@@ -2,7 +2,7 @@
 <html lang="kor">
 
 <head>
-    <title>SkyGazua</title>
+    <title>Detective Susi</title>
     
     <!-- meta tags -->
     <meta charset="utf-8" />
@@ -11,7 +11,6 @@
 
     <!-- Bootstrap CSS 로드-->
     <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
-
     <!-- Custom styles for this template -->
     <link href="{% static 'css/modern-business.css' %}" rel="stylesheet">
     <!-- <link rel="stylesheet" href="{% static 'css/style.css' %}"> -->
@@ -29,11 +28,15 @@
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
           {% if user.is_authenticated %}
+             <span class="navbar-text">
+                반갑습니다. <b>{{user.username}}</b>님!　
+             </span>
+
           <li class="nav-item">
             <a class="nav-link" href="/about">About</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/contact">Contact</a>
+            <a class="nav-link" href="/notice">Notice</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/search">Search</a>
@@ -46,8 +49,8 @@
               Mypage
             </a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMypage">
-              <a class="dropdown-item" href="portfolio-1-col.html">profile edit</a>
-              <a class="dropdown-item" href="portfolio-2-col.html">previous result</a>
+              <a class="dropdown-item" href="/mypage">profile edit</a>
+              <a class="dropdown-item" href="/result">previous result</a>
             </div>
           </li>
           <li><a class="nav-link" href="{% url 'main:logout' %}">Logout</a></li>
@@ -56,7 +59,7 @@
             <a class="nav-link" href="/about">About</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/contact">Contact</a>
+            <a class="nav-link" href="/Notice">Notice</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/search">Search</a>
@@ -99,7 +102,7 @@
     <!-- 푸터 부분 -->
   <footer class="py-5 bg-dark">
     <div class="container">
-      <p class="m-0 text-center text-white"> Copyright © CAU - SKYGAZUA 2019 All Rights Reserved.</p>
+      <p class="m-0 text-center text-white"> Copyright © CAU - Detective Susi 2019 All Rights Reserved.</p>
     </div>
   </footer>
     <!-- 푸터 부분 끝 -->
