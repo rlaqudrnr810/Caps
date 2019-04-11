@@ -1,0 +1,396 @@
+
+.terms{
+  background:#eee;
+  overflow: auto;
+  font-size: 12px;
+  border: solid 1px #ccc;
+  padding:5px;
+  height:150px;
+}
+.terms p{margin:0 0 3px !important;}
+
+/*.container {
+  max-width: 500px;
+}
+*/
+#selfcheck1Container{
+  min-height: 80vh;
+}
+#selfcheckfinalContainerWrapper {
+  padding: 120px 0;
+}
+
+.indicator {
+  width: 300px;
+  height: 28px;
+  margin: 0 auto;
+  font-size: 0;
+  line-height: 26px;
+  vertical-align: middle;
+
+}
+.indicator .indicator-num {
+  display: inline-block;
+  vertical-align: top;
+  width: 26px;
+  height: 26px;
+  line-height: 26px;
+  border-radius: 13px;
+	box-shadow: 0 2px 8px 0 #c9c9c9, 2px 3px 5px 0 rgba(150, 150, 150, 0.5);
+  background-color: #ffffff;
+  color: #8e8e8e;
+  font-size: 14px;
+  font-weight: bold;
+  margin: 0 auto;
+}
+.indicator .indicator-bar {
+  display: inline-block;
+  vertical-align: middle;
+  width: 60px;
+  height: 1px;
+  background-color: #008937;
+}
+.indicator .indicator-select {
+  background-color: #008937 !important;
+  color: #FFFFFF !important;
+  border: 1px solid #008937 !important;
+}
+.title {
+  margin-top: 22px;
+}
+
+
+.form-desc {
+  width: 100%;
+  display: block;
+  text-align: left;
+}
+#selfcheck2 .form-group .form-desc {
+  height: 50px;
+}
+.form-desc .form-label {
+  display: inline-block;
+  vertical-align: middle;
+  float: left;
+  margin-bottom: 10px;
+}
+.form-desc .form-label span {
+  text-align: left;
+  font-size: 13px;
+  color: #808080;
+}
+.form-desc .form-label span strong {
+  font-size: 15px;
+}
+.form-desc .form-info {
+  /*width: 20px;*/
+    cursor: pointer;
+  vertical-align: bottom;
+  display: inline-block;
+  float: right;
+  color: #515151;
+}
+
+.input-table {
+  display: block;
+  clear: left;
+}
+.input-table tbody td {
+  padding: 2.5px;
+  text-align: left;
+  color: #515151;
+  white-space: nowrap;
+}
+.input-table tbody th {
+  padding: 2.5px;
+  text-align: left;
+  color: #aaaaaa;
+  font-size: 13px;
+  font-weight: normal;
+  white-space: nowrap;
+}
+.form-check {
+  margin-bottom : 10px;
+  text-align: left;
+}
+.form-check .form-check-label span {
+	font-size: 13px;
+  font-weight: normal;
+
+}
+
+.form-check-input {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #008937;
+  float:left;
+  margin-right: 10px !important;
+}
+
+
+.final-table tbody td {
+  padding: 22px 0;
+  text-align: left;
+}
+
+
+.btn-container {
+  margin-top: 130px;
+}
+.btn-container-has-two-btns {
+  height: 80px;
+  max-width: 485px;
+  margin: 0 auto;
+  padding: 30px 15px;
+}
+.btn-container-has-two-btns a .btn-green-border {
+  width: 48%;
+  display: inline-block;
+}
+
+.btn-above-bar {
+	height: 9px;
+  margin-top: 36px;
+	background-color: #eaeaea;
+	border: solid 1px #e5e5e5;
+
+}
+.bar {
+  width: 100%;
+  height: 1px;
+  background-color: #e5e5e5;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.al-left {
+  float: left;
+}
+.al-right {
+  float: right;
+}
+
+#selfcheckresult {
+  max-width: 480px;
+  height: auto;
+  margin: 0 auto;
+  padding: 10px;
+	background-color: #f9f9f9;
+  -moz-box-shadow: 0 2px 1px 0 rgba(54, 54, 54, 0.5);
+  -webkit-box-shadow: 0 2px 1px 0 rgba(54, 54, 54, 0.5);
+	box-shadow: 0 2px 1px 0 rgba(54, 54, 54, 0.5);
+}
+#selfcheckresult .result-table {
+  width: 100%;
+  padding: 10px;
+}
+#selfcheckresult .result-table tr {
+  padding: 10px;
+}
+#selfcheckresult .result-table tr th {
+  text-align: left;
+  padding: 10px;
+  border-bottom: 1px solid #d8d8d8;
+
+  color: #515151;
+	font-size: 16px;
+	font-weight: bold;
+	letter-spacing: -0.1px;
+}
+#selfcheckresult .result-table tr td {
+  text-align: right;
+   padding: 10px;
+   border-bottom: 1px solid #d8d8d8;
+
+  color: #515151;
+	font-size: 16px;
+	font-weight: normal;
+	letter-spacing: -0.1px;
+}
+ .two-btn-container {
+  max-width: 480px;
+  height: 50px;
+  line-height: 50px;
+  font-size: 0;
+  text-align: center;
+  -moz-box-shadow: 0 2px 1px 0 rgba(54, 54, 54, 0.5);
+  -webkit-box-shadow: 0 2px 1px 0 rgba(54, 54, 54, 0.5);
+	box-shadow: 0 2px 1px 0 rgba(54, 54, 54, 0.5);
+}
+ .two-btn-container .btn-left {
+  width: 50%;
+  text-align: center;
+	background-color: #f7f7f7;
+  line-height: 50px;
+  height: 50px;
+  color: #515151;
+	font-size: 15px;
+
+  display: inline-block;
+  vertical-align: middle;
+}
+ .two-btn-container .btn-right {
+  width: 50%;
+  text-align: center;
+	background-color: #008937;
+  line-height: 50px;
+  height: 50px;
+  color: #ffffff;
+	font-size: 15px;
+
+  display: inline-block;
+  vertical-align: middle;
+}
+
+
+
+.modal-header {
+  background-color: #008937;
+  color: #FFF;
+}
+
+.modal-body {
+  padding: 10px;
+}
+.modal-body .accordion {
+  min-width: none;
+  max-width: none;
+  width: 100%;
+  margin: 0;
+  padding: 10px;
+}
+.modal-body .accordion .beefup {
+  border-radius: 0;
+  box-shadow: none;
+}
+.modal-body .accordion .beefup .ac-title-2 {
+  background-color: #FFFFFF;
+  padding: 10px;
+}
+.modal-body .accordion .beefup .ac-title-2 span {
+  font-weight: bold;
+}
+.modal-body .accordion .beefup .ac-depth-2 {
+  padding: 10px;
+}
+.modal-body .accordion .beefup .ac-depth-2 span {
+  font-size: 12px;
+}
+.modal-footer {
+  border-top: 0;
+}
+
+
+
+
+@media all and (max-width: 320px) {
+    .indicator {
+      width: 240px;
+    }
+    .indicator .indicator-bar {
+      width: 40px;
+    }
+    #selfcheck1Content .indicator {
+      margin-top: 20px;
+    }
+    #selfcheck2Content .indicator {
+      margin-top: 20px;
+    }
+    #selfcheck3Content .indicator {
+      margin-top: 20px;
+    }
+    #selfcheck4Content .indicator {
+      margin-top: 20px;
+    }
+    .title {
+      margin-bottom: 30px;
+    }
+    .btn-container {
+      margin-top: 120px;
+    }
+    .btn-above-bar {
+      margin-top: 36px;
+    }
+
+    #selfcheckresult .result-table tr th {
+    	font-size: 13px;
+    }
+    #selfcheckresult .result-table tr td {
+    	font-size: 13px;
+    }
+}
+@media all and (min-width: 321px) and (max-width: 768px) {
+    .indicator {
+      width: 240px;
+    }
+    .indicator .indicator-bar {
+      width: 40px;
+    }
+    #selfcheck1Content .indicator {
+      margin-top: 20px;
+    }
+    #selfcheck2Content .indicator {
+      margin-top: 20px;
+    }
+    #selfcheck3Content .indicator {
+      margin-top: 20px;
+    }
+    #selfcheck4Content .indicator {
+      margin-top: 20px;
+    }
+    .title {
+      margin-bottom: 30px;
+    }
+    .btn-container {
+      margin-top: 120px;
+    }
+    .btn-above-bar {
+      margin-top: 36px;
+    }
+}
+@media all and (min-width: 769px) and (max-width: 1024px) {
+    #selfcheck1Content .indicator {
+      margin-top: 110px;
+    }
+    #selfcheck2Content .indicator {
+      margin-top: 110px;
+    }
+    #selfcheck3Content .indicator {
+      margin-top: 110px;
+    }
+    #selfcheck4Content .indicator {
+      margin-top: 110px;
+    }
+    .title {
+      margin-bottom: 50px;
+    }
+    .btn-container {
+      margin-top: 130px;
+    }
+    .btn-above-bar {
+      margin-top: 36px;
+    }
+}
+@media all and (min-width: 1025px) {
+    #selfcheck1Content .indicator {
+      margin-top: 110px;
+    }
+    #selfcheck2Content .indicator {
+      margin-top: 110px;
+    }
+    #selfcheck3Content .indicator {
+      margin-top: 110px;
+    }
+    #selfcheck4Content .indicator {
+      margin-top: 110px;
+    }
+    .title {
+      margin-bottom: 50px;
+    }
+    .btn-container {
+      margin-top: 130px;
+    }
+    .btn-above-bar {
+      margin-top: 36px;
+    }
+}

@@ -7,7 +7,7 @@ User = get_user_model()
 class LoginForm(forms.Form):
     username = forms.CharField(
         widget=forms.TextInput(
-            attrs={ #f
+            attrs={
                 'class': 'form-control',
             }
         )
@@ -47,10 +47,19 @@ class SignupForm(forms.Form):
     email = forms.EmailField(
         widget=forms.EmailInput(
             attrs={
-                'class': 'required',
+                'class': 'form-control',
             }
         )
     )
+
+    # birth_date = forms.DateField(
+    #     help_text='Required. YYYY-MM-DD',
+    #     widget=forms.DateInput(
+    #         attrs={
+    #             'class': 'form-control',
+    #         }
+    #     )
+    # )
 
     # username필드의 검증에 username이 이미 사용중인지 여부 검사
     def clean_username(self):

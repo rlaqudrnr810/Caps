@@ -1,16 +1,23 @@
 from django.shortcuts import render, redirect
-
-from .forms import LoginForm
 from django.contrib.auth import (
     authenticate,
     login as django_login,
     logout as django_logout,
 )
 from .forms import LoginForm, SignupForm
+from .models import NoticeBoard
+from django.views.decorators.csrf import csrf_exempt
+from django.utils import timezone
 
 # Create your views here.
 def index(request):
     return render(request, 'main/index.html')
+
+def mypage(request):
+    return render(request, 'main/mypage.html')
+
+def result(request):
+    return render(request, 'main/result.html')
 
 def about(request):
     return render(request, 'main/about.html')
@@ -68,5 +75,164 @@ def logout(request):
     django_logout(request)
     return redirect('main:home')
 
-###########################################
+#########################################################################################
 
+# Notice board section #
+rowsPerPage = 5
+def notice(request):
+    #OK
+    #url = '/listSpecificPageWork?current_page=1'
+    # return HttpResponseRedirec(url)
+    boardList = NoticeBoard.objects.order_by('id')[0:5]
+    current_page =1
+    totalCnt = NoticeBoard.objects.all().count()
+
+    pagingHelperIns = pagingHelper()    #객체 생성
+    totalPageList = pagingHelperIns.getTotalPageList(totalCnt,rowsPerPage)
+    print ('totalPageList',totalPageList)
+    context = {
+        'boardList':boardList,
+        'totalCnt':totalCnt,
+        'current_page':current_page,
+        'totalPageList':totalPageList,
+    }
+    return render(request,'main/listSpecificPage.html',context)
+    # render_to_response() 함수 첫번 째 매개변수에 템플릿 파일명을 적어준다.
+    #두번째 매개변수에는 넘겨줄 데이터를 적어준다.
+class pagingHelper:
+    def getTotalPageList(self, total_cnt,rowsPerPage):
+        if((total_cnt % rowsPerPage)==0):
+            self.total_pages=int(total_cnt/rowsPerPage)
+            print ('getTotalPageList #1')
+        else:
+            self.total_pages=int((total_cnt/rowsPerPage)+1)
+            print ('getTotalPageList #2')
+
+        self.totalPageList=[]
+        for j in range(self.total_pages):
+            self.totalPageList.append(j+1)
+        return self.totalPageList
+
+    def __init__(self):
+        self.total_pages=0
+        self.totalPageList=0
+
+@csrf_exempt #post로 값을 전송시 CSRF 보안 목적으로 추가
+def DoWriteBoard(request):
+    br = NoticeBoard (subject = request.POST['subject'],
+                      name = request.POST['name'],
+                      memo = request.POST['memo'],
+                      created_date = timezone.now(),
+                      hits = 0
+                     )
+    br.save()
+
+    # 저장을 했으니, 다시 조회해서 보여준다.
+    url = '/listSpecificPageWork?current_page=1'
+    return redirect(url)
+
+def listSpecificPageWork(request):
+    current_page = request.GET['current_page']
+    totalCnt = NoticeBoard.objects.all().count()
+
+    print ('current_page=', current_page)
+
+    # 페이지를 가지고 범위 데이터를 조회한다 => raw SQL 사용함
+    boardList = NoticeBoard.objects.raw('SELECT * FROM MAIN_NOTICEBOARD')
+    # Raw query must include the primary key
+
+    #boardList = NoticeBoard.objects.raw('SELECT Z.* FROM(SELECT X.*, ( count(X.SUBJECT) / %s ) as page FROM ( SELECT ID,SUBJECT,NAME, CREATED_DATE, MEMO,HITS \
+    #                                   FROM MAIN_NOTICEBOARD  ORDER BY ID DESC ) as X )as Z WHERE page = %s', [rowsPerPage, current_page])
+    #'SELECT Z.* FROM(SELECT X.*, ceil( rownum / %s ) as page FROM ( SELECT ID,SUBJECT,NAME, CREATED_DATE, MAIL,MEMO,HITS FROM SAMPLE_BOARD_DJANGOBOARD  ORDER BY ID DESC ) X ) Z WHERE page = %s', [rowsPerPage, current_page])
+
+    print ('boardList=',boardList, 'count()=', totalCnt)
+
+    # 전체 페이지를 구해서 전달...
+    pagingHelperIns = pagingHelper();
+    totalPageList = pagingHelperIns.getTotalPageList( totalCnt, rowsPerPage)
+
+    print ('totalPageList', totalPageList)
+    context = {
+        'boardList':boardList,
+        'totalCnt':totalCnt,
+        'current_page':current_page,
+        'totalPageList':totalPageList,
+    }
+    return render(request,'main/listSpecificPage.html',context)
+
+def show_write_form(request):
+    return render(request, 'main/writeBoard.html')
+
+
+def viewWork(request):
+    pk = request.GET['memo_id']
+    boardData = NoticeBoard.objects.get(id=pk)
+
+
+# 조회수를 늘린다.    
+    NoticeBoard.objects.filter(id=pk).update(hits = boardData.hits + 1)
+
+
+    return render(request,'main/viewMemo.html', {'memo_id': request.GET['memo_id'],
+                                            'current_page':request.GET['current_page'],
+                                            'searchStr': request.GET['searchStr'],
+                                            'boardData': boardData } )
+
+
+def listSpecificPageWork_to_update(request): # edit
+    memo_id = request.GET['memo_id']
+    current_page = request.GET['current_page']
+    boardData = NoticeBoard.objects.get(id=memo_id)
+    return render(request,'main/viewForUpdate.html', {'memo_id': request.GET['memo_id'],
+                                                'current_page':request.GET['current_page'],
+                                                'searchStr': request.GET['searchStr'],
+                                                'boardData': boardData } )    
+@csrf_exempt
+def updateBoard(request):
+    memo_id = request.POST['memo_id']
+    current_page = request.POST['current_page']
+
+    # Update DataBase
+    NoticeBoard.objects.filter(id=memo_id).update(
+                                                  subject= request.POST['subject'],
+                                                  memo= request.POST['memo']
+                                                  )
+
+    # Display Page => POST 요청은 redirection으로 처리하자
+    url = '/listSpecificPageWork?current_page=' + str(current_page)
+    return redirect(url)
+
+def DeleteSpecificRow(request):
+    memo_id = request.GET['memo_id']
+    current_page = request.GET['current_page']
+
+    p = NoticeBoard.objects.get(id=memo_id)
+    p.delete()
+    
+    # 마지막 메모를 삭제하는 경우, 페이지를 하나 줄임.
+    totalCnt = NoticeBoard.objects.all().count()
+    pagingHelperIns = pagingHelper();
+
+    totalPageList = pagingHelperIns.getTotalPageList( totalCnt, rowsPerPage)
+    print ('totalPages', totalPageList)
+
+    if( int(current_page) in totalPageList):
+        print ('current_page No Change')
+        current_page=current_page
+    else:
+        current_page= int(current_page)-1
+        print ('current_page--')
+
+    url = '/listSpecificPageWork?current_page=' + str(current_page)
+    return redirect(url)
+#########################################################################################
+
+#search
+def searchWork(request):
+    current_chk = request.GET['current_chk']
+    print ('current_chk=', current_chk)
+
+    context = {
+        'current_chk':current_chk,
+    }
+    return render(request,'main/searchWork.html',context)

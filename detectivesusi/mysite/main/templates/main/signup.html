@@ -1,7 +1,6 @@
 {% extends 'main/layout.html' %}
 {% block content %}
 <div class="container">
-
  <!-- Page Heading/Breadcrumbs -->
     <h1 class="mt-4 mb-3">Sign up
     </h1>
@@ -19,9 +18,13 @@
         <div class="container">
             <div class="col-md-4">
               <div class="p-8">
-
+                <div class="check-container">
 <div class="signup">
    <form align ="left" action="" method="post">
+    <div class="check-container">
+
+
+
       {% csrf_token %}
       {% for field in signup_form %}
          <div class="form-group{% if field.errors %} has-error{% endif %}">

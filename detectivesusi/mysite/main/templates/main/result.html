@@ -1,0 +1,26 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% block content %}
+  <!-- Page Content -->
+  <div class="container">
+
+    <!-- Page Heading/Breadcrumbs -->
+    <h1 class="mt-4 mb-3">Previous result</h1>
+
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="{% url 'main:home' %}">Home</a>
+      </li>
+      <li class="breadcrumb-item active">Previous result</li>
+    </ol>
+    result
+  </div>
+  <!-- /.container -->
+  {% if user.is_authenticated %}
+  {% else %}
+  <script type="text/javascript">
+    alert('로그인이 필요합니다! \n로그인 화면으로 이동합니다.')
+    window.location.href = '/login';
+  </script>
+{% endif %}
+{% endblock %}
