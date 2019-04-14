@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.contrib.auth import (
     authenticate,
@@ -6,6 +7,7 @@ from django.contrib.auth import (
 )
 from .forms import LoginForm, SignupForm
 from .models import NoticeBoard
+from .models import chk_value
 from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
 
@@ -141,9 +143,7 @@ def listSpecificPageWork(request):
     boardList = NoticeBoard.objects.raw('SELECT * FROM MAIN_NOTICEBOARD')
     # Raw query must include the primary key
 
-    #boardList = NoticeBoard.objects.raw('SELECT Z.* FROM(SELECT X.*, ( count(X.SUBJECT) / %s ) as page FROM ( SELECT ID,SUBJECT,NAME, CREATED_DATE, MEMO,HITS \
-    #                                   FROM MAIN_NOTICEBOARD  ORDER BY ID DESC ) as X )as Z WHERE page = %s', [rowsPerPage, current_page])
-    #'SELECT Z.* FROM(SELECT X.*, ceil( rownum / %s ) as page FROM ( SELECT ID,SUBJECT,NAME, CREATED_DATE, MAIL,MEMO,HITS FROM SAMPLE_BOARD_DJANGOBOARD  ORDER BY ID DESC ) X ) Z WHERE page = %s', [rowsPerPage, current_page])
+    # boardList = NoticeBoard.objects.raw('SELECT Z.* FROM(SELECT X.*, ceil( rownum / %s ) as page FROM ( SELECT ID,SUBJECT,NAME, CREATED_DATE, MEMO,HITS FROM MAIN_NOTICEBOARD  ORDER BY ID DESC ) X ) Z WHERE page = %s', [rowsPerPage, current_page])
 
     print ('boardList=',boardList, 'count()=', totalCnt)
 
@@ -230,9 +230,46 @@ def DeleteSpecificRow(request):
 #search
 def searchWork(request):
     current_chk = request.GET['current_chk']
-    print ('current_chk=', current_chk)
 
+    # search 에서 선택한 값들 db에 저장.
+    # username = None
+    # if request.user.is_authenticated:
+    #     username = request.user.username
+
+    # print ('current_chk=', current_chk)
+
+    #preferwhere_answer = request.GET['preferRegions[]'] 
+    #                 # preferwhere1=request.POST['preferRegions[]'],
+    #                 # preferwhere2=request.POST['memo'],
+    #                 # preferwhere3=request.POST['memo'],
+    #                 # prefertype1=request.POST['memo'],
+    #                 # prefertype2=request.POST['memo'],
+    #                 # prefertype3=request.POST['memo'],
+    #                 # prefertype4=request.POST['memo'],
+    #                 # prefertype5=request.POST['memo'],
+    #                 # prefertype6=request.POST['memo'],
+    #                 # prefertype7=request.POST['memo'],
+    #                  )
     context = {
         'current_chk':current_chk,
     }
+
     return render(request,'main/searchWork.html',context)
+
+
+@csrf_exempt
+def save_chk(request):
+    # current_chk = request.GET['current_chk']
+    username = None
+    if request.user.is_authenticated:
+        username = request.user.username
+
+    chk = chk_value (user = username,
+                    total_avgrate = request.POST['avgRate'],     #평균 내신
+                    main_avgrate = request.POST['avgRate2']      #주요 내신
+                )
+    chk.save()
+    
+    url = 'main/searchWork?current_chk=3'# + str(current_chk)
+    
+    return redirect(url)

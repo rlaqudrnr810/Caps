@@ -25,6 +25,10 @@ urlpatterns = [
     path('listSpecificPageWork_to_update/', views.listSpecificPageWork_to_update),
     path('updateBoard/', views.updateBoard),
     path('DeleteSpecificRow/', views.DeleteSpecificRow),
+
+    # save in search page
+    path('save_chk/', views.save_chk),
+    
    # path('listSpecificPageWork/$', views.listSpecificPageWork),
 	#path('^areas/(?P<area>.+)/$', views.areas),
 ]

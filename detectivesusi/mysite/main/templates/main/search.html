@@ -9,7 +9,7 @@
             alert('약관에 동의해야 분석 하실 수 있습니다.');
             $('#acceptTerm').focus();
             flag=false;
-            return;
+            return false;   // false 리턴하여 페이지이동 차단
         }
         if(flag==true)
             location.replace("/searchWork?current_chk=1");
@@ -61,7 +61,7 @@
                         </label>
                     </div>
                 </div>
-                <b><a class="title" href="#" onclick="acceptedCheck()">분석시작</a></b>
+                <b><a class="title" href="#" onclick="return acceptedCheck()">분석시작</a></b>
                 <p></p>
               </div>
           </div>

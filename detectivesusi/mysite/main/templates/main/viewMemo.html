@@ -40,14 +40,14 @@
       }
   </script>
 
-  <table cellspacing = 0 cellpadding = 5 border = 1 width=500>
-      <tr><td><b>조회수</b></td><td> {{ boardData.hits }} </td></tr>
-      <tr><td><b>이름 </b></td><td> {{ boardData.name }} </td></tr>
-      <tr><td><b>제목 </b></td><td> {{ boardData.subject }} </td></tr>
-      <tr><td><b>내용 </b></td><td width=350> {{ boardData.memo }} </td></tr>
+  <table cellspacing = 0 cellpadding = 5 border = 1 width=1100>
+      <tr><td width="30"><b>조회수</b></td><td> {{ boardData.hits }} </td></tr>
+      <tr><td width="30"><b>이름 </b></td><td> {{ boardData.name }} </td></tr>
+      <tr><td width="30"><b>제목 </b></td><td> {{ boardData.subject }} </td></tr>
+      <tr><td width="30"><b>내용 </b></td><td width=350> {{ boardData.memo }} </td></tr>
   </table>
 
-  <table  cellspacing = 0 cellpadding = 0 border = 0 width=500>
+  <table  cellspacing = 0 cellpadding = 0 border = 0 width=1100>
       <tr><td>
           <input type=button value="수정" OnClick="javascript:boardmodify()">
           <input type=button value="목록" OnClick="javascript:boardlist()">
