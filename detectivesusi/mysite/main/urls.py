@@ -11,7 +11,7 @@ urlpatterns = [
 	path('result/', views.result, name='result'),
     path('logout/', views.logout, name='logout'),
     path('signup/', views.signup, name='signup'),
-    #path('search/', views.search, name='search'),
+ 
     path('search/', views.search, name='search'),
     path('searchWork/', views.searchWork, name='search'),
     path('faq/', views.faq, name='faq'),
@@ -28,7 +28,10 @@ urlpatterns = [
 
     # save in search page
     path('save_chk/', views.save_chk),
-    
+    path('save_chk2/', views.save_chk2),
+    path('save_chk1/', views.save_chk1),
+    #path('searchWork?current_chk=4/', views.search_final),
+    #path('search_final/', views.search_final),
    # path('listSpecificPageWork/$', views.listSpecificPageWork),
 	#path('^areas/(?P<area>.+)/$', views.areas),
 ]

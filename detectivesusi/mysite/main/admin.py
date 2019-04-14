@@ -2,8 +2,19 @@ from django.contrib import admin
 from main.models import NoticeBoard
 from main.models import chk_value
 
-admin.site.register(NoticeBoard)	# admin site에 model class 가져오기
-admin.site.register(chk_value)	# admin site에 model class 가져오기
+class NoticeAdmin(admin.ModelAdmin):
+    list_display = ['subject', 'name']
+
+
+admin.site.register(NoticeBoard,NoticeAdmin)	# admin site에 model class 가져오기
+
+class chk_valueAdmin(admin.ModelAdmin):
+    list_display = ['user', 'id']
+
+admin.site.register(chk_value, chk_valueAdmin)
+
+
+
 # from django.contrib.auth.models import User 
 # from django.contrib.auth.admin import UserAdmin 
 # from project.app.models import UserProfile 

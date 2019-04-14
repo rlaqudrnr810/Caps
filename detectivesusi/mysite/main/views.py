@@ -127,7 +127,7 @@ def DoWriteBoard(request):
                       created_date = timezone.now(),
                       hits = 0
                      )
-    br.save()
+    br.save()   
 
     # 저장을 했으니, 다시 조회해서 보여준다.
     url = '/listSpecificPageWork?current_page=1'
@@ -250,26 +250,89 @@ def searchWork(request):
     #                 # prefertype6=request.POST['memo'],
     #                 # prefertype7=request.POST['memo'],
     #                  )
+
+    user = request.user
+    datas = chk_value.objects.filter(user=user)
     context = {
         'current_chk':current_chk,
+        'chk_value':datas
     }
-
     return render(request,'main/searchWork.html',context)
 
+# 회원 가입시 테이블 하나를 미리 생성 해둔 뒤 update 방식으로 해야할듯.(중복 테이블 계속 생김.)
+# 중복된 테이블 있는지 보는것도 괜찮을듯.
 
+# 내신성적받기
 @csrf_exempt
 def save_chk(request):
+    user = request.user
     # current_chk = request.GET['current_chk']
-    username = None
-    if request.user.is_authenticated:
-        username = request.user.username
+    # user = User.objects.get(id=username)
+    # username = None
+    # if request.user.is_authenticated:
+    #     username = request.user.username
 
-    chk = chk_value (user = username,
-                    total_avgrate = request.POST['avgRate'],     #평균 내신
-                    main_avgrate = request.POST['avgRate2']      #주요 내신
-                )
-    chk.save()
+    if 'absent' in request.POST:
+        absent = request.POST['absent']
+    else:
+        absent = False
     
-    url = 'main/searchWork?current_chk=3'# + str(current_chk)
+    awardcnt= int(request.POST['awardsCnt'])+int(request.POST['awardsCnt2'])+int(request.POST['awardsCnt3'])+int(request.POST['awardsCnt4'])+int(request.POST['awardsCnt5'])
+    chk_value.objects.filter(user=user).update(
+                    total_avgrate = request.POST['avgRate'],     #평균 내신
+                    main_avgrate = request.POST['avgRate2'],      #주요 내신
+                    executive_cnt = request.POST['executiveCnt'],
+                    absent = absent,
+                    award_cnt = awardcnt
+                )
+    
+    url = '../searchWork/?current_chk=3'# + str(current_chk)
     
     return redirect(url)
+
+# 선호지역 받기
+@csrf_exempt
+def save_chk1(request):
+    if 'preferRegions0' in request.POST:
+        preferRegions0 = request.POST['preferRegions0']
+    else:
+        preferRegions0 = False
+    chk = chk_value (user = request.user,
+                     preferwhere1 = request.POST['preferRegions0'],
+                     preferwhere2 = request.POST['preferRegions1'],
+                     preferwhere3 = request.POST['preferRegions2'],
+                     prefertype1 = request.POST['college0'],
+                     prefertype2 = request.POST['college1'],
+                     prefertype3 = request.POST['college2'],
+                     prefertype4 = request.POST['college3'],
+                     prefertype5 = request.POST['college4'],
+                     prefertype6 = request.POST['college5'],
+            )
+    chk.save()
+    
+    url = '../searchWork/?current_chk=2'# + str(current_chk)
+    
+    return redirect(url)
+
+#동아리활동
+@csrf_exempt
+def save_chk2(request):
+    user = request.user
+    circle_cnt= int(request.POST['circlesCnt'])+int(request.POST['circlesCnt2'])+int(request.POST['circlesCnt3'])+int(request.POST['circlesCnt4'])+int(request.POST['circlesCnt5'])+int(request.POST['circlesCnt6'])+int(request.POST['circlesCnt7'])+int(request.POST['circlesCnt8'])
+    vol_cnt=int(request.POST['volunteerTime'])+int(request.POST['volunteerTime2'])
+    reading_cnt=int(request.POST['readingCnt'])+int(request.POST['readingCnt2'])+int(request.POST['readingCnt3'])+int(request.POST['readingCnt4'])+int(request.POST['readingCnt5'])+int(request.POST['readingCnt6'])+int(request.POST['readingCnt7'])
+    # Update DataBase
+    chk_value.objects.filter(user=user).update(
+                                                circle_cnt= circle_cnt,
+                                                volunteer= vol_cnt,
+                                                reading=reading_cnt
+                                            )
+
+    url = '../searchWork/?current_chk=4'# + str(current_chk)
+    return redirect(url)
+
+# def search_final(request):
+#     user = request.user
+#     datas = chk_value.objects.filter(user=user)
+
+#     return render(request, '', {'chk_value':datas})
