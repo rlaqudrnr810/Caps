@@ -15,6 +15,9 @@ from django.utils import timezone
 def index(request):
     return render(request, 'main/index.html')
 
+def search_result(request):
+    return render(request, 'main/search_result.html')    
+
 def mypage(request):
     return render(request, 'main/mypage.html')
 

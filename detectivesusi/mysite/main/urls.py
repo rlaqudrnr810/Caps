@@ -14,6 +14,7 @@ urlpatterns = [
  
     path('search/', views.search, name='search'),
     path('searchWork/', views.searchWork, name='search'),
+    path('search_result/', views.search_result),
     path('faq/', views.faq, name='faq'),
 
     # board

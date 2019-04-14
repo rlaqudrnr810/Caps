@@ -347,6 +347,7 @@
                                     ※ 전교과 평균 등급 계산법<br/>
                                     - 1학년 1학기 ~ 3학년 1학기(총 5학기)의 모든 교과목 대상<br/>
                                     - [각 과목별 단위수]와 [석차 등급]을 곱하여 이를 모두 더한 후, [총 단위수의 합]으로 나눔<br/>
+                                
 </div>
                                 <div class="bar"></div>
 
@@ -799,7 +800,7 @@
 
 {% if current_chk|add:0 == 4 %}
 <!-- 앞에서 얻은 값들 체크해서 저장해야?? -->
-{% if chk_value %}
+{% if chk_value%}
 {% for s in chk_value %}
 <div>
         <div class="container">
@@ -899,22 +900,23 @@
 
                             </table>
                             <tr>
-                                <td>
+                            <td>
                                 <a class="btn btn-secondary btn-block" onclick="return lastchk()">최종 제출하기</a>
                             </td>
                             </tr>
                         </form>
-                        {% endfor %}
-{% else %}
-    <tr><td colspan="5"> not file </td></tr>
-{% endif %}
-                        </table>
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+{% endfor %}
+{% else %}
+    <tr><td colspan="5"> not file </td></tr>
+{% endif %}
+
+
 {% endif %}
 <!-- js 부분 -->
 <script language="javascript">
@@ -1007,7 +1009,7 @@
             $('.chk2').focus();
             return false;   // false
         }
-        location.href='/final_result/';
+        location.href='/search_result/';
 }
 
 // page3
@@ -1028,7 +1030,7 @@
                     <!-- <a class="btn btn-secondary btn-block {% if current_chk|add:0 == 4 %}disabled{% endif %}" href = "{% if current_chk|add:0 == 1 %}/searchWork?current_chk=2{% endif %}{% if current_chk|add:0 == 2 %}/searchWork?current_chk=3{% endif %}{% if current_chk|add:0 == 3 %}/searchWork?current_chk=4{% endif %}" onclick="return {% if current_chk|add:0 == 1 %}preferChk(){% endif %}{% if current_chk|add:0 == 2 %}ratechk(){% endif %}">임시저장(next)</a> -->
                 </td>
             </tr>
-</table>
+        </table>
 <!-- 
         <a class="btn btn-secondary btn-block" href = "{% if current_chk|add:0 == 1 %}/searchWork?current_chk=2{% endif %}{% if current_chk|add:0 == 2 %}/searchWork?current_chk=3{% endif %}{% if current_chk|add:0 == 3 %}/searchWork?current_chk=4{% endif %}" onclick="return ratechk()">임시저장(next)</a> -->
 <!--              <li class="page-item {% if current_chk|add:0 == 1 %}disabled{% endif %}"><a class="page-link" href="/searchWork?current_chk=1">1</a></li>
