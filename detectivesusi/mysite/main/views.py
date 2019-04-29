@@ -15,14 +15,31 @@ from django.utils import timezone
 def index(request):
     return render(request, 'main/index.html')
 
+#progress var
 def search_result(request):
-    return render(request, 'main/search_result.html')    
+    #현재유저 정보 user 에 저장
+    user = request.user
+    postset = chk_value.objects.filter(user=user).order_by('-pk')[0]
+    
+    # 계산항목 !!
+    # preferwhere1, preferwhere2, preferwhere3 => univ where
+    # prefertype1, prefertype2, prefertype3, prefertype4, prefertype5, prefertype6 => prefertype
+    # total_avgrate, main_avgrate, executive_cnt, absent, award_cnt, circle_cnt, volunteer, reading
+
+    #url = 'main/search_result/?progress='+str(x)
+    return render(request, 'main/search_result.html')
 
 def mypage(request):
     return render(request, 'main/mypage.html')
 
+# prev. result
 def result(request):
-    return render(request, 'main/result.html')
+    user = request.user
+    datas = chk_value.objects.filter(user=user)
+    context = {
+        'chk_value':datas
+    }
+    return render(request,'main/result.html',context)
 
 def about(request):
     return render(request, 'main/about.html')
@@ -234,38 +251,42 @@ def DeleteSpecificRow(request):
 def searchWork(request):
     current_chk = request.GET['current_chk']
 
-    # search 에서 선택한 값들 db에 저장.
-    # username = None
-    # if request.user.is_authenticated:
-    #     username = request.user.username
-
-    # print ('current_chk=', current_chk)
-
-    #preferwhere_answer = request.GET['preferRegions[]'] 
-    #                 # preferwhere1=request.POST['preferRegions[]'],
-    #                 # preferwhere2=request.POST['memo'],
-    #                 # preferwhere3=request.POST['memo'],
-    #                 # prefertype1=request.POST['memo'],
-    #                 # prefertype2=request.POST['memo'],
-    #                 # prefertype3=request.POST['memo'],
-    #                 # prefertype4=request.POST['memo'],
-    #                 # prefertype5=request.POST['memo'],
-    #                 # prefertype6=request.POST['memo'],
-    #                 # prefertype7=request.POST['memo'],
-    #                  )
-
     user = request.user
-    datas = chk_value.objects.filter(user=user)
+    datas = chk_value.objects.filter(user=user).order_by('-pk')
     context = {
         'current_chk':current_chk,
         'chk_value':datas
     }
     return render(request,'main/searchWork.html',context)
 
+# 선호지역 받기1
+@csrf_exempt
+def save_chk1(request):
+    if 'preferRegions0' in request.POST:
+        preferRegions0 = request.POST['preferRegions0']
+    else:
+        preferRegions0 = False
+    chk = chk_value (user = request.user,
+                     preferwhere1 = request.POST['preferRegions0'],
+                     preferwhere2 = request.POST['preferRegions1'],
+                     preferwhere3 = request.POST['preferRegions2'],
+                     prefertype1 = request.POST['college0'],
+                     prefertype2 = request.POST['college1'],
+                     prefertype3 = request.POST['college2'],
+                     prefertype4 = request.POST['college3'],
+                     prefertype5 = request.POST['college4'],
+                     prefertype6 = request.POST['college5'],
+            )
+    chk.save()
+    
+    url = '../searchWork/?current_chk=2'# + str(current_chk)
+    
+    return redirect(url)
+
 # 회원 가입시 테이블 하나를 미리 생성 해둔 뒤 update 방식으로 해야할듯.(중복 테이블 계속 생김.)
 # 중복된 테이블 있는지 보는것도 괜찮을듯.
 
-# 내신성적받기
+# 내신성적받기2
 @csrf_exempt
 def save_chk(request):
     user = request.user
@@ -293,31 +314,7 @@ def save_chk(request):
     
     return redirect(url)
 
-# 선호지역 받기
-@csrf_exempt
-def save_chk1(request):
-    if 'preferRegions0' in request.POST:
-        preferRegions0 = request.POST['preferRegions0']
-    else:
-        preferRegions0 = False
-    chk = chk_value (user = request.user,
-                     preferwhere1 = request.POST['preferRegions0'],
-                     preferwhere2 = request.POST['preferRegions1'],
-                     preferwhere3 = request.POST['preferRegions2'],
-                     prefertype1 = request.POST['college0'],
-                     prefertype2 = request.POST['college1'],
-                     prefertype3 = request.POST['college2'],
-                     prefertype4 = request.POST['college3'],
-                     prefertype5 = request.POST['college4'],
-                     prefertype6 = request.POST['college5'],
-            )
-    chk.save()
-    
-    url = '../searchWork/?current_chk=2'# + str(current_chk)
-    
-    return redirect(url)
-
-#동아리활동
+#동아리활동3
 @csrf_exempt
 def save_chk2(request):
     user = request.user

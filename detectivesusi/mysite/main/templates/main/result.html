@@ -1,6 +1,7 @@
 {% extends "main/layout.html" %}
 {% load static %}
 {% block content %}
+<link rel="stylesheet" href="{% static 'css/search.css' %}">
   <!-- Page Content -->
   <div class="container">
 
@@ -13,10 +14,93 @@
       </li>
       <li class="breadcrumb-item active">Previous result</li>
     </ol>
-    result
   </div>
   <!-- /.container -->
   {% if user.is_authenticated %}
+
+{% for s in chk_value %}
+<div>
+        <div class="container">
+            <div class="content">
+                <div id="selfcheckresult">
+                    <table class="result-table">
+                        <colgroup>
+                            <col width="35%"/>
+                            <col width="65%"/>
+                        </colgroup>
+                        <tr>
+                            <th>USER ID</th>
+                            <td>
+                                <span>{{s.user.username}}</span>
+                            </td>
+                            
+                        </tr>
+                        <tr>
+                            <th>지역/특수목적대학</th>
+                            <td>
+                                <span>{% if s.preferwhere1|add:0 != -1 %} {{s.preferwhere1}} <br>{% endif %}{% if s.preferwhere2|add:0 != -1 %} {{s.preferwhere2}}<br> {% endif %}{% if s.preferwhere3|add:0 != -1 %} {{s.preferwhere3}}{% endif %}</span>
+                            </td>
+                            
+                        </tr>
+                        <tr>
+                            <th>선호계열</th>
+                            <td>
+                                <span>{% if s.prefertype1|add:0 != -1 %} {{s.prefertype1}}<br> {% endif %}{% if s.prefertype2|add:0 != -1 %} {{s.prefertype2}}<br> {% endif %}{% if s.prefertype3|add:0 != -1 %} {{s.prefertype3}}<br> {% endif %}{% if s.prefertype4|add:0 != -1 %} {{s.prefertype4}}<br> {% endif %}{% if s.prefertype5|add:0 != -1 %} {{s.prefertype5}}<br> {% endif %}{% if s.prefertype6|add:0 != -1 %} {{s.prefertype6}}<br> {% endif %}{% if s.prefertype7|add:0 != -1 %} {{s.prefertype7}}{% endif %}</span>
+                            </td>
+                            
+                        </tr>
+                        <tr>
+                            <th>전교과 평균등급</th>
+                            <td><span>{{s.total_avgrate}}</span> 등급</td>
+                            
+                        </tr>
+                        <tr>
+                            <th>주요교과 평균등급</th>
+                            <td><span>{{s.main_avgrate}}</span> 등급</td>
+                        </tr>
+                        <tr>
+                            <th>무단 결석</th>
+                            <td><span>{{s.absent}}</span> 회</td>
+                        </tr>
+                        <tr>
+                            <th>수상 경력</th>
+                            <td>
+                                <span>{{s.award_cnt}}</span> 회
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>임원활동</th>
+                            <td>
+                                학급: <span>{{s.executive_cnt}}</span> 회
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>자율 동아리</th>
+                            <td>
+                                <span>{{s.circle_cnt}}</span> 회
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>봉사활동</th>
+                            <td><span>{{s.volunteer}}</span> 시간</td>
+                        </tr>
+                        <tr>
+                            <th>독서활동</th>
+                            <td><span>{{s.reading}}</span> 권</td>
+                        </tr>
+                    </table>
+                  </div>
+                  </div>
+                </div>
+              </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+{% endfor %}
+
   {% else %}
   <script type="text/javascript">
     alert('로그인이 필요합니다! \n로그인 화면으로 이동합니다.')

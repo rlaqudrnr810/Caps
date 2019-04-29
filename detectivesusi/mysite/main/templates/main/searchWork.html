@@ -33,6 +33,11 @@
 </table>
 
 {% if current_chk|add:0 == 1 %}
+{% if chk_value %}
+<script>
+    alert("기존에 양식을 가져오시겠습니까?");
+</script>
+{% endif %}
                  <div class="selfCheckForm">
                     <form method="post" name=chk1form action="/save_chk1/">
                         <div id="selfcheck2">
@@ -284,12 +289,692 @@
 {% endif %}
 
 {% if current_chk|add:0 == 2 %}
+<link rel="stylesheet" href="{% static 'css/isu.css' %}">
+<div class="con_box mgt50">
+                    <form name="stdptScr" id="stdptScr" method="post">
    <div class="selfCheckForm">
                     <form method="post" name=avgform action="/save_chk/">  <!-- action edit # -> searchwork -->
                         <div id="selfcheck3">
                             <div class="form-group">
+                                <div id="stdView">
+<script>
+var stdScoreType = '';
+function gotoScoreDetail(tp){           
+        gfn_Submission_Call("/kcue/ast/eip/com/getStdptView.do", 'type='+tp+"&userId=20-1043555541", function(data){
+            if(data != null){
+                $("#scoreDetailView").html(data);
+            }
+        },'html');
+}
+$(document).ready(function(){
+    if('' == stdScoreType){
+        var item = sessionStorage.getItem("stdptExno");
+        if(typeof item !== 'string') item = ('' != '') ? '' : '31';
+        
+        sessionStorage.setItem("stdptExno", item);
+        gotoScoreDetail(item);
+    }
+});
+</script>
+
+<p class="search_box_text  mgt25"><span class="f_pit"> *</span> 1학년 1학기는 필수 입력이며, 학기 별 이수과목 모두를 작성해주시기 바랍니다.</p>
+<!-- 학생부성적 -->
+<div>                                   
+    <table class="list_tbl02">
+    <caption>학생부성적</caption>
+        <colgroup>                                  
+            <col style="width:10%">
+            <col style="width:10%"> 
+            <col style="width:10%"> 
+            <col style="width:10%">
+            <col style="width:10%">     
+            <col style="width:10%">     
+            <col style="width:20%">     
+            <col style="width:20%">
+        </colgroup>
+        <thead>
+            <tr>
+                <th colspan="2" scope="col"><center>1학년</center></th>
+                <th colspan="2" scope="col"><center>2학년</center></th>
+                <th colspan="2" scope="col"><center>3학년</center></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <p class="p_text">1학기<span class="f_pit"> *</span></p> 
+                    <p><a href="javascript:gotoScoreDetail('11')" class="btn_compare_off" title="보기">보기</a></p>                                     
+                </td>
+                <td>
+                    <p class="p_text">2학기 </p>
+                    <p><a href="javascript:gotoScoreDetail('12')" class="btn_compare_off" title="보기">보기</a></p>                                     
+                </td><td>
+                    <p class="p_text">1학기</p> 
+                    <p><a href="javascript:gotoScoreDetail('21')" class="btn_compare_off" title="보기">보기</a></p>                                     
+                </td>
+                <td>
+                    <p class="p_text">2학기</p> 
+                    <p><a href="javascript:gotoScoreDetail('22')" class="btn_compare_off" title="보기">보기</a></p>                                     
+                </td>
+                <td>
+                    <p class="p_text">1학기</p> 
+                    <p><a href="javascript:gotoScoreDetail('31')" class="btn_ing" title="보기">입력</a></p>                                     
+                </td>
+                <td>
+                    <p class="p_text">2학기</p> 
+                    <p><a href="javascript:gotoScoreDetail('32')" class="btn_ing" title="보기">입력</a></p>                                     
+                </td>                               
+            </tr>                                       
+        </tbody>
+    </table>
+</div>
+<!-- //학생부성적 -->
+<div id="scoreDetailView" class="table_box4 mgt25">
+
+
+
+
+
+<style type="text/css">
+#sgcTblBd input[type="text"]{text-align: center;}
+@charset "utf-8";
+/* CSS reset */
+html, body, div, span, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+abbr, address, cite, code,
+del, dfn, em, img, ins, kbd, q, samp,
+small, strong, sub, sup, var,
+b, i, label,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section, summary,
+time, mark, audio, video
+ {
+    margin:0;
+    padding:0;
+    border:0;
+    outline:0;
+    vertical-align:middle;
+    align-content: middle;
+    background:transparent;
+    font-family:"맑은 고딕", Malgun Gothic, NanumGothic, dotum, sans-serif;
+}
+</style>
+<script>
+$(document).ready(function() {
+    });
+
+/***********************************************************************
+함수명 : fn_check_num
+설 명 : 정수 및 소수점을 포함한 숫자 체크
+인 자 : str_val : 체크할 값
+        type : 정수/소수점 체크 구분(1,2)
+사용법 : fn_check_num(str_val, type)
+작성자 : 이형준
+------ ------ -------------------
+2015.10.08 이형준 최초생성
+***********************************************************************/
+function fn_check_num(str_val, type){
+    var check_num = /^\d*$/;
+    var check_dot_num = /^\d*(\.?\d*)$/;
+    
+    var bNum ;
+    
+    if(type == 1) bNum= check_num.test(str_val);
+    else bNum= check_dot_num.test(str_val);
+    
+    if(bNum) {
+        return false;
+    }
+    return true;
+}
+
+/***********************************************************************
+함수명 : isNum(inputValue)
+설 명 : 숫자만 입력 하도록 체크
+인 자 : 
+사용법 : isNum(inputValue)
+작성자 : 홍인성
+------ ------ -------------------
+2015.11.04 홍인성 최초생성
+***********************************************************************/
+function isNum(inputValue, min, max){
+    var checkCode = inputValue.value.charCodeAt(inputValue.value.length-1);
+    var str;
+    
+    if(inputValue.value.length > 0 && !(checkCode >=48 && checkCode <=57)){
+        alert("숫자만 입력가능합니다.");
+        
+        var thisLength = inputValue.value.length;
+        for(var i=0; i<thisLength; i++){
+            checkCode_for = inputValue.value.charCodeAt(inputValue.value.length-1);
+            if(!(checkCode_for >= 48 && checkCode_for <=57)){
+                str = inputValue.value.substring(0, inputValue.value.length-1);
+                inputValue.value = str;
+            }
+        }
+        inputValue.focus();
+        return false;
+    }else if(inputValue.value.length = 0 || checkCode >= 48 && checkCode <=57){
+        if(typeof min === 'number' && typeof max === 'number'){
+            var v = Number(inputValue.value);
+            if(v < min || v > max) {
+                alert(min + ' ~ ' + max + ' 사이의 값만 사용 가능합니다.');
+                str = inputValue.value.substring(0, (max-1).toString().length);
+                inputValue.value = str;
+                return false;
+            }
+        }
+        inputValue.focus();
+    }
+}
+
+/***********************************************************************
+함수명 : isNum2(inputValue)
+설 명 : 숫자만 입력 하도록 체크(단, 과목평균과 표준편차는 소수점 입력 가능)
+인 자 : 
+사용법 : isNum2(inputValue)
+작성자 : 홍인성
+------ ------ -------------------
+2015.11.04 홍인성 최초생성
+***********************************************************************/
+function isNum2(inputValue, min, max){
+    var checkCode = inputValue.value.charCodeAt(inputValue.value.length-1);
+    var str;
+    
+    if(inputValue.value.length > 0 && !(checkCode >=48 && checkCode <=57 || checkCode == 46)){
+        alert("숫자만 입력가능합니다.");
+        
+        var thisLength = inputValue.value.length;
+        for(var i=0; i<thisLength; i++){
+            checkCode_for = inputValue.value.charCodeAt(inputValue.value.length-1);
+            if(!(checkCode_for >= 48 && checkCode_for <=57 || checkCode == 46)){
+                str = inputValue.value.substring(0, inputValue.value.length-1);
+                inputValue.value = str;
+            }
+        }
+        inputValue.focus();
+    }else if(inputValue.value.length = 0 || checkCode >= 48 && checkCode <=57 || checkCode == 46){
+        if(typeof min === 'number' && typeof max === 'number'){
+            var v = Number(inputValue.value);
+            if(v < min || v > max) {
+                alert(min + ' ~ ' + max + ' 사이의 값만 사용 가능합니다.');
+                str = inputValue.value.substring(0, (max-1).toString().length);
+                inputValue.value = str;
+            }
+        }
+        inputValue.focus();
+    }
+}
+
+/***********************************************************************
+함수명 : isNum(inputValue)
+설 명 : 숫자만 입력 하도록 체크
+인 자 : 
+사용법 : isNum(inputValue)
+작성자 : 홍인성
+------ ------ -------------------
+2015.11.04 홍인성 최초생성
+***********************************************************************/
+function isNum3(inputValue, min, max){
+    
+    if($(inputValue).val() == ""){
+        alert("숫자만 입력가능합니다.");
+        return false;
+    }
+    
+    var checkCode = $(inputValue).val().charCodeAt($(inputValue).val().length-1);
+    var str;
+    
+    if($(inputValue).val().length > 0 && !(checkCode >=48 && checkCode <=57)){
+        alert("숫자만 입력가능합니다.");
+        
+        var thisLength = $(inputValue).val().length;
+        for(var i=0; i<thisLength; i++){
+            checkCode_for = $(inputValue).val().charCodeAt($(inputValue).val().length-1);
+            if(!(checkCode_for >= 48 && checkCode_for <=57)){
+                str = $(inputValue).val().substring(0, $(inputValue).val().length-1);
+                $(inputValue).val(str);
+            }
+        }
+        $(inputValue).focus();
+        return false;
+    }else if($(inputValue).val().length = 0 || checkCode >= 48 && checkCode <=57){
+        if(typeof min === 'number' && typeof max === 'number'){
+            var v = Number($(inputValue).val());
+            if(v < min || v > max) {
+                alert(min + ' ~ ' + max + ' 사이의 값만 사용 가능합니다.');
+                str = $(inputValue).val().substring(0, (max-1).toString().length);
+                $(inputValue).val(str);
+                return false;
+            }
+        }
+        $(inputValue).focus();
+    }
+    
+    return true;
+}
+
+function btn_upd_onclick(rid)
+{
+    var courseSn = $("#course-"+rid).val();
+    var sbjectSn = $("#sbject-"+rid).val();
+    
+    var unit = $("#unit-"+rid).val();
+    var grde = $("#grde-"+rid).val();
+    var org = $("#org-"+rid).val();
+    var avg = $("#avg-"+rid).val();
+    var std = $("#std-"+rid).val();
+    var cnt = $("#cnt-"+rid).val();
+    var cmpl = $("#cmpl-"+rid).val();
+        
+    $("#changeFlag").val("1");
+    var strRow = getEditRow(rid,courseSn,sbjectSn,unit,grde,org,avg,std,cnt,cmpl)
+     
+    $("#row-"+rid).html(strRow);
+    
+    gfn_Submission_Call("/kcue/ast/eip/cun/mng/sgc/courseList.do", $("#stdptSesScr").serialize(), function(data){
+        if(data != null){
+            var dataResultList = data.resultList;
+            if (data.resultVO.resultCode == "SUCCESS"){
+                var courseList = $("#course-"+rid);
+                courseList.empty();
+                
+                if(dataResultList != ""){
+                    courseList.append("<option value=''>교과선택</option>");
+                    for(var i =0; i < dataResultList.length; i++){
+                        var strRow = "";
+                        if(gfn_nvl(dataResultList[i].course_sn) == courseSn){
+                            strRow += "<option value='"+gfn_nvl(dataResultList[i].course_sn)+"' selected>"+gfn_nvl(dataResultList[i].course_nm)+"</option>";
+                        } else {
+                            strRow += "<option value='"+gfn_nvl(dataResultList[i].course_sn)+"'>"+gfn_nvl(dataResultList[i].course_nm)+"</option>"; 
+                        }
+                        
+                        courseList.append(strRow);
+                    }
+                }
+            }else{
+                alert(data.resultVO.resultMessage);
+            }
+        }
+    }
+    , "json");
+        
+    $("#changeFlag").val("1");
+    gfn_Submission_Call("/kcue/ast/eip/cun/mng/sgc/sbjectList.do?linkParamDefaultField="+courseSn, $("#stdptSesScr").serialize(), function(data){
+        if(data != null){
+            var dataResultList = data.resultList;
+            if (data.resultVO.resultCode == "SUCCESS"){
+                
+                var sbjectList = $("#sbject-"+rid);             
+                sbjectList.empty();
+                if(dataResultList != ""){
+                    sbjectList.append("<option value=''>과목선택</option>");
+                    for(var i =0; i < dataResultList.length; i++){
+                        var strRow = "";
+                        if(gfn_nvl(dataResultList[i].sbject_sn) == sbjectSn){
+                            strRow += "<option value='"+gfn_nvl(dataResultList[i].sbject_sn)+"' selected >"+gfn_nvl(dataResultList[i].sbject_nm)+"</option>";   
+                        } else {
+                            strRow += "<option value='"+gfn_nvl(dataResultList[i].sbject_sn)+"'>"+gfn_nvl(dataResultList[i].sbject_nm)+"</option>";
+                        }   
+                        sbjectList.append(strRow);
+                    }
+                }
+            }else{
+                alert(data.resultVO.resultMessage);
+            }
+        }
+    }
+    , "json");
+}
+
+function btn_delete_onclick(row){
+    if(confirm("삭제하시겠습니까?")) {
+        $("#changeFlag").val("1");
+        $("#row-"+row).remove();
+    }
+}
+
+function btn_save_onclick(){
+    if($("#changeFlag").val() != 1){
+        return;
+    }
+    var pattern = /^\d+(?:[.]?[\d]?[\d])?$/;
+    var rsize = $("#sgcTblBd tr").length;
+    var ids = [];
+    $("#sgcTblBd tr").each(function(idx, e){
+        var idspl = $(e).attr('id').split('-');
+        ids.push(idspl[1]);
+    });
+    $("#sgrd_keys").val(ids.join(','));
+    
+    for(var r=0; r<rsize; r++){
+        var i=ids[r];
+        var course = $("#course-"+i);
+        var sbject = $("#sbject-"+i);
+        
+        var unit = $("#unit-"+i);
+        var grde = $("#grde-"+i);
+        var org = $("#org-"+i);
+        var avg = $("#avg-"+i);
+        var std = $("#std-"+i);
+        var cnt = $("#cnt-"+i);
+        var cmpl = $("#cmpl-"+i);
+        
+        if(course.val() == "") {
+            alert("교과를 선택해 주십시오.");
+            course.focus();
+            return;
+        }
+                
+        if(sbject.val() == "") {
+            alert("과목을 선택해 주십시오.");
+            sbject.focus();
+            return;
+        }  
+        
+        if(fn_check_num(unit.val(), 1) && unit.val() != "" && typeof unit.val() != "undefined") {
+            alert("단위수는 숫자만 입력해 주십시오.");
+            unit.focus();
+            check_valid = 1;
+            return;
+        }
+
+        if(!isNum3(unit,0,99)) {
+            unit.focus();
+            check_valid = 1;
+            return;
+        }
+
+        if(cmpl.val() == "" || cmpl.val() == "-"){
+            if(!isNum3(grde,1,9)){
+                grde.focus();
+                check_valid = 1;
+                return;
+            }
+        }
+        
+        if(fn_check_num(grde.val(), 1) && grde.val() != "" && typeof grde.val() != "undefined") {
+            alert("석차등급은 숫자만 입력해 주십시오.");
+            grde.focus();
+            return;
+        }
+        if(fn_check_num(org.val(), 1) && org.val() != "" && typeof org.val() != "undefined") {
+            alert("원점수는 숫자만 입력해 주십시오.");
+            org.focus();
+            return;
+        }
+        if(fn_check_num(avg.val(), 2) && avg.val() != "" && typeof avg.val() != "undefined") {
+            alert("과목평균은 숫자만 입력해 주십시오.");
+            avg.focus();
+            return;
+        }
+        if((pattern.test(avg.val()) == false || !(Number(avg.val()) >= 0 && Number(avg.val()) <= 100)) && typeof avg.val() != "undefined" && avg.val() != "") { 
+            alert("올바른 과목평균을 입력해 주십시오.");
+            avg.focus();
+            return;
+        }
+        if(fn_check_num(std.val(), 2) && std.val() != "" && typeof std.val() != "undefined") {
+            alert("표준편차는 숫자만 입력해 주십시오.");
+            std.focus();
+            return;
+        }
+        if((pattern.test(std.val()) == false || !(Number(std.val()) >= 0 && Number(std.val()) <= 100)) && typeof std.val() != "undefined" && std.val() != "") {
+            alert("올바른 표준편차를 입력해 주십시오.");
+            std.focus();
+            return;
+        }
+        if(fn_check_num(cnt.val(), 1) && cnt.val() != "" && typeof cnt.val() != "undefined") {
+            alert("수강자수는 숫자만 입력해 주십시오.");
+            cnt.focus();
+            return;
+        }
+    }
+    
+    $("#sgrd_rcount").val(rsize);
+    $.blockUI({ onUnblock: $.unblockUI });
+    
+    gfn_Submission_Call("/kcue/ast/eip/com/mergeStdptCourseScr.do", $("#stdptSesScr").serialize(), function(data){
+        if(data != null){
+            if (data.resultVO.resultCode == "SUCCESS"){
+                alert("저장되었습니다.");
+                $("#changeFlag").val("0");
+                
+                gfn_setComSession('usrRef','Y','N', function(){
+                    reloadStptView();
+                });
+            }else{
+                alert(data.resultVO.resultMessage);
+            }
+        }
+        $.unblockUI();
+    }
+    , "json");
+}
+
+function sel_course_onchange(courseId, courseSn)
+{
+    $("#changeFlag").val("1");
+    gfn_Submission_Call("/kcue/ast/eip/cun/mng/sgc/sbjectList.do?linkParamDefaultField="+courseSn, $("#stdptSesScr").serialize(), function(data){
+        if(data != null){
+            var dataResultList = data.resultList;
+            if (data.resultVO.resultCode == "SUCCESS"){
+                var sbjectList = $("#sbject-" + courseId);              
+                sbjectList.empty();
+                
+                if(dataResultList != ""){
+                    sbjectList.append("<option value=''>과목선택</option>");
+                    for(var i =0; i < dataResultList.length; i++){
+                        var strRow = "";
+                        strRow += "<option value='"+gfn_nvl(dataResultList[i].sbject_sn)+"''>"+gfn_nvl(dataResultList[i].sbject_nm)+"</option>";
+                        sbjectList.append(strRow);
+                    }
+                }
+            }else{
+                alert(data.resultVO.resultMessage);
+            }
+        }
+    }
+    , "json");
+}
+
+function getEditRow(rid,courseSn,sbjectSn,unit,grde,org,avg,std,cnt,cmpl){
+    console.log('typeof', typeof cmpl);
+    return  '<td>'+rid+'</td>'
+     + '<td id="course-c-'+rid+'">'
+     + '<label class="tts" for="course-'+rid+'">추가할 교과 선택</label>'
+     // + '<select class="w80" id="course-'+rid+'" name="course-'+rid+'" onchange="sel_course_onchange('+rid+', this.value);" '+(courseSn != '' ? 'value="'+courseSn+'"': '')+'>'
+     // + '<option>교과선택</option>'
+     // + '</select>'
+     // + '</td>'
+     +'<select id="cmpl-'+rid+'" name="cmpl-'+rid+'" class="w60">'
+     + ((typeof cmpl === 'string') ?
+         '<option value="-"'+((cmpl == '-')?' selected':'')+'>선택</option>'
+         + '<option value="C0001"'+((cmpl == 'C0001')?' selected':'')+'>국어</option>'
+         + '<option value="C0002"'+((cmpl == 'C0002')?' selected':'')+'>수학</option>'
+         + '<option value="C0003"'+((cmpl == 'C0003')?' selected':'')+'>영어</option>'
+         + '<option value="C0004"'+((cmpl == 'C0004')?' selected':'')+'>사회</option>'
+         + '<option value="C0005"'+((cmpl == 'C0005')?' selected':'')+'>과학</option>'
+         + '<option value="C0006"'+((cmpl == 'C0006')?' selected':'')+'>예체능</option>'
+         : 
+         + '<option value="-">선택</option>'
+         + '<option value="C0001">국어</option>'
+         + '<option value="C0002">수학</option>'
+         + '<option value="C0003">영어</option>'
+         + '<option value="C0004">사회</option>'
+         + '<option value="C0005">과학</option>'
+         + '<option value="C0006">예체능</option>'
+     )
+     + '</select>'
+     + '</td>'
+     + '<td id="sbject-c-'+rid+'">'
+     + '<label class="tts" for="sbject-'+rid+'">추가 할 과목선택</label>'
+     + '<select class="w80" id="sbject-'+rid+'" name="sbject-'+rid+'" '+(sbjectSn != '' ? 'value="'+sbjectSn+'"': '')+'>'
+     + '<option>과목선택</option>'
+              + '<option value="C0001">국어I</option>'
+         + '<option value="C0002">적분과 통계</option>'
+         + '<option value="C0003">기초회화</option>'
+         + '<option value="C0004">화학II</option>'
+     + '</select>'
+     + '</td>'
+     + '<td id="unit-c-'+rid+'">'
+     + '<label class="tts" for="unit-'+rid+'">단위수</label>' 
+     + '<input type="text"  id="unit-'+rid+'" name="unit-'+rid+'" class="w44" value="'+unit+'" onkeyup="isNum(this,0,99)"/>'
+     + '</td>'
+     + '<td id="grde-c-'+rid+'">'
+     + '<label class="tts" for="grde-'+rid+'">석차등급</label>' 
+     + '<input type="text" id="grde-'+rid+'" name="grde-'+rid+'" class="w44"  value="'+grde+'" onkeyup="isNum(this,1,9)"/>'
+     + '</td>'
+     // + '<td id="org-c-'+rid+'">'
+     // + '<label class="tts" for="org-'+rid+'">원점수</label>' 
+     // + '<input type="text" id="org-'+rid+'" name="org-'+rid+'" class="w44"  value="'+org+'" onkeyup="isNum(this,0,100)"/>'
+     // + '</td>'
+     // + '<td id="avg-c-'+rid+'">'
+     // + '<label class="tts" for="avg-'+rid+'">과목평균</label>' 
+     // + '<input type="text" id="avg-'+rid+'" name="avg-'+rid+'" class="w44"  value="'+avg+'" onkeyup="isNum2(this,0,100)"/>'
+     // + '</td>'
+     // + '<td id="std-c-'+rid+'">'
+     // + '<label class="tts" for="std-'+rid+'">표준편차</label>' 
+     // + '<input type="text" id="std-'+rid+'" name="std-'+rid+'" class="w44"  value="'+std+'" onkeyup="isNum2(this,0,100)"/>'
+     // + '</td>'
+     // + '<td id="cnt-c-'+rid+'">'
+     // + '<label class="tts" for="cnt-'+rid+'">수강자수</label>' 
+     // + '<input type="text" id="cnt-'+rid+'" name="cnt-'+rid+'" class="w44"  value="'+cnt+'" onkeyup="isNum(this)"/>'
+     // + '</td>'
+     // + '<td id="cmpl-c-'+rid+'">'
+     // + '<label class="tts" for="cmpl-'+rid+'">성취도</label>'
+     // + '<select id="cmpl-'+rid+'" name="cmpl-'+rid+'" class="w60">'
+     // + ((typeof cmpl === 'string') ?
+     //     '<option value="-"'+((cmpl == '-')?' selected':'')+'>선택</option>'
+     //     + '<option value="A"'+((cmpl == 'A')?' selected':'')+'>A</option>'
+     //     + '<option value="B"'+((cmpl == 'B')?' selected':'')+'>B</option>'
+     //     + '<option value="C"'+((cmpl == 'C')?' selected':'')+'>C</option>'
+     //     + '<option value="D"'+((cmpl == 'D')?' selected':'')+'>D</option>'
+     //     + '<option value="E"'+((cmpl == 'E')?' selected':'')+'>E</option>'
+     //     + '<option value="P"'+((cmpl == 'F')?' selected':'')+'>P</option>'
+     //     : 
+     //     + '<option value="-">선택</option>'
+     //     + '<option value="A">A</option>'
+     //     + '<option value="B">B</option>'
+     //     + '<option value="C">C</option>'
+     //     + '<option value="D">D</option>'
+     //     + '<option value="E">E</option>'
+     //     + '<option value="P">P</option>'
+     // )
+     // + '</select>'
+     // + '</td>'
+     + '<td>'
+     + '<button type="button" class="btnc_click05_1" onclick="btn_delete_onclick(\''+rid+'\');">삭제</button>'
+     + '</td>';
+}
+
+function btn_adit_onclick() {
+    
+    var rid = 1;
+    
+    if($("#sgcTblBd tr").get().length > 0){
+        rid = Number($("#sgcTblBd tr:last").attr("id").replace("row-","")) + 1;
+    }
+    
+    var strRow='<tr id="row-'+rid+'">'
+             + getEditRow(rid,'','','','','','','','','-')
+             + '</tr>';
+    $("#sgcTblBd").append(strRow);
+    
+    $("#changeFlag").val("1");
+    gfn_Submission_Call("/kcue/ast/eip/cun/mng/sgc/courseList.do", $("#stdptSesScr").serialize(), function(data){
+        if(data != null){
+            console.log(data);
+            var dataResultList = data.resultList;
+            if (data.resultVO.resultCode == "SUCCESS"){
+                var courseList = $("#course-"+rid);
+                courseList.empty();
+                $("#course-"+rid).focus();
+                
+                if(dataResultList != ""){
+                    courseList.append("<option value=''>교과선택</option>");
+                    for(var i =0; i < dataResultList.length; i++){
+                        var strRow = "";
+                        strRow += "<option value='"+gfn_nvl(dataResultList[i].course_sn)+"''>"+gfn_nvl(dataResultList[i].course_nm)+"</option>";
+                        courseList.append(strRow);
+                        $("#course-"+rid).focus();
+                    }
+                }
+            }else{
+                alert(data.resultVO.resultMessage);
+            }
+        }
+    }
+    , "json");
+}
+
+function fncFileDown(file_id,file_sn){
+    location.href = "/common/downloadFile.do?fileId="+file_id+"&fileSn="+file_sn+"&filePath=eip.fileStorePath"
+}
+</script>
+<h4>
+    3학년 1학기
+</h4>
+<!-- 학생부성적리스트 -->
+<form name="stdptSesScr" id="stdptSesScr" method="post">
+<input type="hidden" name="changeFlag" id="changeFlag" value="0">
+<input type="hidden" name="uid" id="sgrd_uid" value="20-1043555541">
+<input type="hidden" name="sgrd_se" id="sgrd_se" value="1">
+<input type="hidden" name="tp" id="sgrd_tp" value="31">
+<input type="hidden" name="rcount" id="sgrd_rcount" value="0">
+<input type="hidden" name="keys" id="sgrd_keys" value="">
+<table class="list_tbl02">
+    <caption>학생부성적 테이블</caption>
+    <colgroup>
+        <col style="width:6%">
+        <col style="width:17%">
+        <col style="width:17%">
+        <col style="width:7%">
+        <col style="width:7%">
+        <col style="width:7%">
+        <col style="width:7%">
+        <col style="width:7%">
+        <col style="width:7%">
+        <col style="width:10%">
+        <col style="width:*%">
+    </colgroup>
+    <thead>
+        <tr>
+            <th scope="col"><center>번호</center></th>
+            <th scope="col"><center>교과</center></th>
+            <th scope="col"><center>과목</center></th>
+            <th scope="col"><center>단위수<span class="f_pit"> *</span></center></th>
+            <th scope="col"><center>등급<span class="f_pit"> *</span></center></th>
+            <!-- <th scope="col">원점<br>수</th>
+            <th scope="col">과목<br>평균</th>
+            <th scope="col">표준<br>편차</th>
+            <th scope="col">수강<br>자수</th>
+            <th scope="col">성취도</th> -->
+            <th scope="col">관리</th>
+        </tr>
+    </thead>
+    <tbody id="sgcTblBd">
+            
+    </tbody>
+</table>
+<button type="button" class="btnc_click06" onclick="btn_adit_onclick()">추가하기 +</button>
+<span class="line_hr"></span>
+<div class="mgt35">
+    <ul class="con_list pd0">
+    모든 내용은 저장을 누르셔야 반영됩니다.
+    </ul></div>
+    <div class="align_c">
+<button type="button" class="btnc_click02 w70" onclick="btn_save_onclick();">저장</button>
+</div>
+
+</form></div>
+
+</div>
+
                                 <!-- 전교과 평균 등급 -->
-                                <div class="form-desc">
+                               <!--  <div class="form-desc">
                                     <div class="form-label">
                                         <span>
                                           <strong>3. 교과 평균 등급</strong>
@@ -311,7 +996,7 @@
                                             <div class="form-group">
                                                 <input type="text" id="avgRate" name="avgRate"
                                                        class="form-control number"
-                                                       value="1.3"
+                                                       value="0"
                                                        placeholder="소수점 3자리까지만 입력">
                                             </div>
                                         </td>
@@ -327,7 +1012,7 @@
                                             <div class="form-group">
                                                 <input type="text" id="avgRate2" name="avgRate2"
                                                        class="form-control number"
-                                                       value="1.3"
+                                                       value="0"
                                                        placeholder="소수점 3자리까지만 입력">
                                             </div>
                                         </td>
@@ -347,8 +1032,7 @@
                                     ※ 전교과 평균 등급 계산법<br/>
                                     - 1학년 1학기 ~ 3학년 1학기(총 5학기)의 모든 교과목 대상<br/>
                                     - [각 과목별 단위수]와 [석차 등급]을 곱하여 이를 모두 더한 후, [총 단위수의 합]으로 나눔<br/>
-                                
-</div>
+                                </div> -->
                                 <div class="bar"></div>
 
                                 <!-- 무단 결석일수 -->
@@ -797,11 +1481,14 @@
                                
                     </div>
 {% endif %}
+<!-- 앞에서 얻은 값들 체크해서 저장해야?? -->
+
 
 {% if current_chk|add:0 == 4 %}
-<!-- 앞에서 얻은 값들 체크해서 저장해야?? -->
-{% if chk_value%}
-{% for s in chk_value %}
+
+{% if chk_value %}
+{% for s in chk_value|slice:":1" %}
+
 <div>
         <div class="container">
             <div class="content">
@@ -825,14 +1512,14 @@
                         <tr>
                             <th>지역/특수목적대학</th>
                             <td>
-                                <span>{{s.preferwhere1}}<br/>{{s.preferwhere2}}</span>
+                                <span>{% if s.preferwhere1|add:0 != -1 %} {{s.preferwhere1}} <br>{% endif %}{% if s.preferwhere2|add:0 != -1 %} {{s.preferwhere2}}<br> {% endif %}{% if s.preferwhere3|add:0 != -1 %} {{s.preferwhere3}}{% endif %}</span>
                             </td>
                             
                         </tr>
                         <tr>
                             <th>선호계열</th>
                             <td>
-                                <span>{{s.prefertype1}}<br/>{{s.prefertype2}}<br/></span>
+                                <span>{% if s.prefertype1|add:0 != -1 %} {{s.prefertype1}}<br> {% endif %}{% if s.prefertype2|add:0 != -1 %} {{s.prefertype2}}<br> {% endif %}{% if s.prefertype3|add:0 != -1 %} {{s.prefertype3}}<br> {% endif %}{% if s.prefertype4|add:0 != -1 %} {{s.prefertype4}}<br> {% endif %}{% if s.prefertype5|add:0 != -1 %} {{s.prefertype5}}<br> {% endif %}{% if s.prefertype6|add:0 != -1 %} {{s.prefertype6}}<br> {% endif %}{% if s.prefertype7|add:0 != -1 %} {{s.prefertype7}}{% endif %}</span>
                             </td>
                             
                         </tr>
@@ -1031,12 +1718,6 @@
                 </td>
             </tr>
         </table>
-<!-- 
-        <a class="btn btn-secondary btn-block" href = "{% if current_chk|add:0 == 1 %}/searchWork?current_chk=2{% endif %}{% if current_chk|add:0 == 2 %}/searchWork?current_chk=3{% endif %}{% if current_chk|add:0 == 3 %}/searchWork?current_chk=4{% endif %}" onclick="return ratechk()">임시저장(next)</a> -->
-<!--              <li class="page-item {% if current_chk|add:0 == 1 %}disabled{% endif %}"><a class="page-link" href="/searchWork?current_chk=1">1</a></li>
-             <li class="page-item {% if current_chk|add:0 == 2 %}disabled{% endif %}"><a class="page-link" href="/searchWork?current_chk=2">2</a></li>
-             <li class="page-item {% if current_chk|add:0 == 3 %}disabled{% endif %}"><a class="page-link" href="/searchWork?current_chk=3">3</a></li>
-             <li class="page-item {% if current_chk|add:0 == 4 %}disabled{% endif %}"><a class="page-link" href="/searchWork?current_chk=4">4</a></li> -->
     </ul>
 
   </div>
