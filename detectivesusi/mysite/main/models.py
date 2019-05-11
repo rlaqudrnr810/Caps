@@ -1,6 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import User 		#django user model
 
+# user model extension
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    nickname = models.TextField(max_length=10,default='SOME STRING')
+####
+
 class NoticeBoard(models.Model):
 															#글번호 자동생성(pk)
 	subject = models.CharField(max_length=50,blank=True)	#제목

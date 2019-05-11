@@ -81,5 +81,7 @@ class SignupForm(forms.Form):
         if self.is_valid():
             return User.objects.create_user(
                 username=self.cleaned_data['username'],
-                password=self.cleaned_data['password2']
+                password=self.cleaned_data['password2'],
+                email=self.cleaned_data['email']
             )
+

@@ -11,6 +11,8 @@ from .models import chk_value
 from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
 
+from .models import Profile
+
 # Create your views here.
 def index(request):
     return render(request, 'main/index.html')
@@ -20,13 +22,14 @@ def search_result(request):
     #현재유저 정보 user 에 저장
     user = request.user
     postset = chk_value.objects.filter(user=user).order_by('-pk')[0]
-    
+
     # 계산항목 !!
     # preferwhere1, preferwhere2, preferwhere3 => univ where
     # prefertype1, prefertype2, prefertype3, prefertype4, prefertype5, prefertype6 => prefertype
     # total_avgrate, main_avgrate, executive_cnt, absent, award_cnt, circle_cnt, volunteer, reading
 
-    #url = 'main/search_result/?progress='+str(x)
+    result_set = 3
+    #url = 'main/search_result/?progress='+str(x)n
     return render(request, 'main/search_result.html')
 
 def mypage(request):
@@ -83,8 +86,15 @@ def signup(request):
            # 유효성 검증에 통과한 경우 (username의 중복과 password1, 2의 일치 여부)
         if signup_form.is_valid():
         	  # SignupForm의 인스턴스 메서드인 signup() 실행, 유저 생성
-            signup_form.signup()
-            return redirect('main:home')
+            user=signup_form.signup()
+
+            nickname = request.POST["nickname"]
+            profile = Profile(user=user, nickname=nickname)
+            profile.save()
+            django_login(request, user)
+            #auth.login(request,user) #로그인 유지
+            #return redirect('main:home')
+            return render(request,'main/index.html',{'some_flag':True})
     else:
         signup_form = SignupForm()
 
