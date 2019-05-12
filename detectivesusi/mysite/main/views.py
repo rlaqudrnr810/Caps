@@ -32,9 +32,33 @@ def search_result(request):
     #url = 'main/search_result/?progress='+str(x)n
     return render(request, 'main/search_result.html')
 
+#mypage (성적입력)
 def mypage(request):
-    return render(request, 'main/mypage.html')
+    igrade = request.GET['igrade']
+    context = {
+        'igrade':igrade,
+    }
+    return render(request,'main/mypage.html',context)
 
+@csrf_exempt
+def igrade1(request):
+    igrade=request.GET['igrade']
+    idate = input_data (
+                     user = request.user,
+                     grade= igrade, 
+                     subject1 = request.POST['cmpl-1'],
+                     subject2 = request.POST['preferRegions1'],
+                     complete_unit = request.POST['preferRegions2'],
+                     rate = request.POST['college0'],
+            )
+    idate.save()
+    
+    url = '../mypage/?igrade=11'
+    
+    return redirect(url)
+
+
+#################
 # prev. result
 def result(request):
     user = request.user
@@ -79,6 +103,14 @@ def login(request):
         'login_form': login_form,
     }
     return render(request, 'main/login.html', context)
+
+# # id check
+# def signup_idcheck(request):
+#     if request.method == 'POST':
+#         input_id = request.POST['username']
+#         if User.objects.filter(username=input_id).exists():
+
+#         return render()
 
 def signup(request):
     if request.method == 'POST':
@@ -344,5 +376,4 @@ def save_chk2(request):
 # def search_final(request):
 #     user = request.user
 #     datas = chk_value.objects.filter(user=user)
-
 #     return render(request, '', {'chk_value':datas})

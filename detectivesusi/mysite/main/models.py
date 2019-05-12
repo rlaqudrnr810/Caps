@@ -4,9 +4,15 @@ from django.contrib.auth.models import User 		#django user model
 # user model extension
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    nickname = models.TextField(max_length=10,default='SOME STRING')
+    nickname = models.CharField(max_length=10,default='SOME STRING')# 이름
+    sex = models.CharField(max_length=10,default='SOME STRING')		# 성별
+    age = models.CharField(max_length=10,default='SOME STRING')		# 나이
+    phonenum = models.CharField(max_length=10,default='SOME STRING')# 핸드폰번호
+    area = models.CharField(max_length=10,default='SOME STRING')	# 사는지역
+    h_type = models.CharField(max_length=10,default='SOME STRING')	# 고등학교 유형
 ####
 
+# notice board
 class NoticeBoard(models.Model):
 															#글번호 자동생성(pk)
 	subject = models.CharField(max_length=50,blank=True)	#제목
@@ -15,7 +21,7 @@ class NoticeBoard(models.Model):
 	memo = models.TextField(max_length=1000, blank=True)	#내용
 	hits = models.IntegerField(null=True,blank=True)		#조회수
 
-
+# search page 데이터 입력
 class chk_value(models.Model):
 	id = models.AutoField(primary_key=True)
 	user = models.ForeignKey(User,on_delete=models.CASCADE)		#user
@@ -36,3 +42,12 @@ class chk_value(models.Model):
 	circle_cnt = models.IntegerField(null=True,blank=True)		#동아리활동
 	volunteer = models.IntegerField(null=True,blank=True)		#봉사시간
 	reading = models.IntegerField(null=True,blank=True)			#독후감
+
+# mypage 학년 별 데이터 입력
+class input_data(models.Model):
+	user = models.ForeignKey(User,on_delete=models.CASCADE)	# user
+	grade = models.IntegerField(null=True,blank=True)		# 학년,학기 11,12,21,22,31,32
+	subject1 = models.CharField(null=True,blank=True,max_length=50)	# 교과
+	subject2 = models.CharField(null=True,blank=True,max_length=50) # 과목
+	complete_unit = models.IntegerField(null=True,blank=True)		# 이수단위
+	rate = models.FloatField(null=True,blank=True)		# 취득한 등급

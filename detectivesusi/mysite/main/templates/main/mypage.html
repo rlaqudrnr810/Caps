@@ -2,7 +2,6 @@
 {% load static %}
 {% block content %}
 
-
   <!-- Page Content -->
   <div class="container">
 
@@ -15,8 +14,6 @@
       </li>
       <li class="breadcrumb-item active">Mypage</li>
     </ol>
-    Mypage
-  </div>
   <!-- /.container -->
   {% if user.is_authenticated %}
   <script>
@@ -37,8 +34,11 @@ $(document).ready(function(){
         gotoScoreDetail(item);
     }
 });
+function gotograde(tp){
+      location.replace("/mypage?igrade="+tp);
+}
 </script>
-
+<link rel="stylesheet" href="{% static 'css/isu.css' %}">
 <p class="search_box_text  mgt25"><span class="f_pit"> *</span> 1학년 1학기는 필수 입력이며, 학기 별 이수과목 모두를 작성해주시기 바랍니다.</p>
 <!-- 학생부성적 -->
 <div>                                   
@@ -65,26 +65,26 @@ $(document).ready(function(){
             <tr>
                 <td>
                     <p class="p_text">1학기<span class="f_pit"> *</span></p> 
-                    <p><a href="javascript:gotoScoreDetail('11')" class="btn_compare_off" title="보기">보기</a></p>                                     
+                    <p><a href="javascript:gotograde('11')" class="btn_compare_off" title="보기">입력</a></p>                                     
                 </td>
                 <td>
                     <p class="p_text">2학기 </p>
-                    <p><a href="javascript:gotoScoreDetail('12')" class="btn_compare_off" title="보기">보기</a></p>                                     
+                    <p><a href="javascript:gotograde('12')" class="btn_compare_off" title="보기">입력</a></p>                                     
                 </td><td>
                     <p class="p_text">1학기</p> 
-                    <p><a href="javascript:gotoScoreDetail('21')" class="btn_compare_off" title="보기">보기</a></p>                                     
+                    <p><a href="javascript:gotograde('21')" class="btn_compare_off" title="보기">입력</a></p>                                     
                 </td>
                 <td>
                     <p class="p_text">2학기</p> 
-                    <p><a href="javascript:gotoScoreDetail('22')" class="btn_compare_off" title="보기">보기</a></p>                                     
+                    <p><a href="javascript:gotograde('22')" class="btn_compare_off" title="보기">입력</a></p>                                     
                 </td>
                 <td>
                     <p class="p_text">1학기</p> 
-                    <p><a href="javascript:gotoScoreDetail('31')" class="btn_ing" title="보기">입력</a></p>                                     
+                    <p><a href="javascript:gotograde('31')" class="btn_compare_off" title="보기">입력</a></p>                                     
                 </td>
                 <td>
-                    <p class="p_text">2학기</p> 
-                    <p><a href="javascript:gotoScoreDetail('32')" class="btn_ing" title="보기">입력</a></p>                                     
+                    <p class="p_text">2학기</p> <!-- btn_compare_off -->
+                    <p><a href="javascript:gotograde('32')" class="btn_ing" title="보기">입력</a></p>                                     
                 </td>                               
             </tr>                                       
         </tbody>
@@ -534,12 +534,13 @@ function getEditRow(rid,courseSn,sbjectSn,unit,grde,org,avg,std,cnt,cmpl){
      + '<td id="sbject-c-'+rid+'">'
      + '<label class="tts" for="sbject-'+rid+'">추가 할 과목선택</label>'
      + '<select class="w80" id="sbject-'+rid+'" name="sbject-'+rid+'" '+(sbjectSn != '' ? 'value="'+sbjectSn+'"': '')+'>'
-     + '<option>과목선택</option>'
-              + '<option value="C0001">국어I</option>'
+         + '<option>과목선택</option>'
+         + '<option value="C0001">국어I</option>'
          + '<option value="C0002">적분과 통계</option>'
          + '<option value="C0003">기초회화</option>'
          + '<option value="C0004">화학II</option>'
      + '</select>'
+
      + '</td>'
      + '<td id="unit-c-'+rid+'">'
      + '<label class="tts" for="unit-'+rid+'">단위수</label>' 
@@ -595,9 +596,37 @@ function btn_adit_onclick() {
 }
 
 </script>
+
+{% if igrade|add:0 == 11 %}
+<h4>
+    1학년 1학기
+</h4>
+{% endif %}
+{% if igrade|add:0 == 12 %}
+<h4>
+    1학년 2학기
+</h4>
+{% endif %}
+{% if igrade|add:0 == 21 %}
+<h4>
+    2학년 1학기
+</h4>
+{% endif %}
+{% if igrade|add:0 == 22 %}
+<h4>
+    2학년 2학기
+</h4>
+{% endif %}
+{% if igrade|add:0 == 31 %}
 <h4>
     3학년 1학기
 </h4>
+{% endif %}
+{% if igrade|add:0 == 32 %}
+<h4>
+    3학년 1학기
+</h4>
+{% endif %}
 <!-- 학생부성적리스트 -->
 <form name="stdptSesScr" id="stdptSesScr" method="post">
 <input type="hidden" name="changeFlag" id="changeFlag" value="0">
@@ -633,28 +662,27 @@ function btn_adit_onclick() {
             <th scope="col">표준<br>편차</th>
             <th scope="col">수강<br>자수</th>
             <th scope="col">성취도</th> -->
-            <th scope="col">관리</th>
+            <th scope="col"><center>관리</center></th>
         </tr>
     </thead>
     <tbody id="sgcTblBd">
             
     </tbody>
-</table>
-<button type="button" class="btnc_click06" onclick="btn_adit_onclick()">추가하기 +</button>
+</table><center>
+<button type="button" class="btnc_click06" onclick="btn_adit_onclick()">추가하기 +</button></center>
 <span class="line_hr"></span>
 <div class="mgt35">
     <ul class="con_list pd0">
-    모든 내용은 저장을 누르셔야 반영됩니다.
+    <center>모든 내용은 저장을 누르셔야 반영됩니다.</center>
     </ul></div>
     <div class="align_c">
 <button type="button" class="btnc_click02 w70" onclick="btn_save_onclick();">저장</button>
 </div>
 
-</form></div>
-
+</form>
 </div>
 
-
+</div>
 
 
   <form method="post">
