@@ -59,3 +59,6 @@ class c_admission(models.Model):
 	year = models.IntegerField(null=True,blank=True)				# 연도
 	cut_off = models.FloatField(null=True,blank=True)				# 주요과목 내신
 	ad_info = models.CharField(null=True,blank=True,max_length=50)	# 입학 정보
+
+class test(models.Model):
+	test=models.CharField(null=True,blank=True,max_length=50)	# test
