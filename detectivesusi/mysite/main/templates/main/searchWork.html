@@ -410,10 +410,12 @@ $("select").each(function(cSelect) {
                         <div class="form-desc">
                                     <div class="form-label">
                                         <span>
-                                          <strong>3. 교과 평균 등급</strong>
+                                          <strong>3. 교과 평균 등급　　</strong>
+                                             <a href="../mypage/?igrade=11" class="btn_compare_off">성적수정하기</a>
                                         </span>
                                     </div>
                                 </div>
+
                                 <table class="input-table">
                                     <colgroup>
                                         <col width="60%"/>
@@ -427,9 +429,9 @@ $("select").each(function(cSelect) {
                                         </td>
                                         <td>
                                             <div class="form-group">
-                                                <input type="text" id="avgRate" name="avgRate"
+                                                <input type="text" id="avgRate" name="avgRate" disabled
                                                        class="form-control number"
-                                                       value="0"
+                                                       value="0" 
                                                        placeholder="소수점 3자리까지만 입력">
                                             </div>
                                         </td>
@@ -437,7 +439,8 @@ $("select").each(function(cSelect) {
                                             등급
                                         </td>
                                     </tr>
-                                    <tr>
+
+                                   <!--  <tr>
                                         <td>
                                             (옵션) 주요교과 평균
                                         </td>
@@ -452,7 +455,7 @@ $("select").each(function(cSelect) {
                                         <td>
                                             등급
                                         </td>
-                                    </tr>
+                                    </tr> -->
                                     </tbody>
                                 </table>
                                 <div align=left>
@@ -461,10 +464,10 @@ $("select").each(function(cSelect) {
                                     - 인문계열: 사회 관련 전 과목<br/>
                                     - 자연계열: 과학 관련 전 과목<br/><br/>
 
-                                    ※ [1.00 ~ 9.00] 등급까지만 입력 가능<br/>
+<!--                                     ※ [1.00 ~ 9.00] 등급까지만 입력 가능<br/>
                                     ※ 전교과 평균 등급 계산법<br/>
                                     - 1학년 1학기 ~ 3학년 1학기(총 5학기)의 모든 교과목 대상<br/>
-                                    - [각 과목별 단위수]와 [석차 등급]을 곱하여 이를 모두 더한 후, [총 단위수의 합]으로 나눔<br/>
+                                    - [각 과목별 단위수]와 [석차 등급]을 곱하여 이를 모두 더한 후, [총 단위수의 합]으로 나눔<br/> -->
                                 </div>
                                 <div class="bar"></div>
 

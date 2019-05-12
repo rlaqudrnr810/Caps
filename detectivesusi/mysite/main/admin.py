@@ -2,6 +2,8 @@ from django.contrib import admin
 from main.models import NoticeBoard
 from main.models import chk_value
 from main.models import Profile
+from main.models import input_data
+from main.models import c_admission
 
 class NoticeAdmin(admin.ModelAdmin):
     list_display = ['subject', 'name']
@@ -20,6 +22,13 @@ class ProfileAdmin(admin.ModelAdmin):
 
 admin.site.register(Profile, ProfileAdmin)
 
+class input_dataAdmin(admin.ModelAdmin):
+    list_display = ['user', 'grade','subject1','subject2','complete_unit','rate']
+admin.site.register(input_data, input_dataAdmin)
+
+class c_admissionAdmin(admin.ModelAdmin):
+    list_display = ['c_name', 'd_name']
+admin.site.register(c_admission, c_admissionAdmin)
 
 # from django.contrib.auth.models import User 
 # from django.contrib.auth.admin import UserAdmin 

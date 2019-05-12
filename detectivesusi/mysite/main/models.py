@@ -51,3 +51,11 @@ class input_data(models.Model):
 	subject2 = models.CharField(null=True,blank=True,max_length=50) # 과목
 	complete_unit = models.IntegerField(null=True,blank=True)		# 이수단위
 	rate = models.FloatField(null=True,blank=True)		# 취득한 등급
+
+class c_admission(models.Model):
+	c_name = models.CharField(null=True,blank=True,max_length=50)	# 대학교 이름
+	d_name = models.CharField(null=True,blank=True,max_length=50)	# 학과 이름
+	admission = models.CharField(null=True,blank=True,max_length=50)# 전형명
+	year = models.IntegerField(null=True,blank=True)				# 연도
+	cut_off = models.FloatField(null=True,blank=True)				# 주요과목 내신
+	ad_info = models.CharField(null=True,blank=True,max_length=50)	# 입학 정보
