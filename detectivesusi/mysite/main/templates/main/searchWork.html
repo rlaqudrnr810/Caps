@@ -131,6 +131,7 @@ $("#college5").change(function() {
     $.cookie('remember_select9', $('#college5 option:selected').val(), { expires: 90, path: '/'});
 });
 
+//SELECT 옵션 들 중복 방지
 $("select").each(function(cSelect) {
     $(this).data('stored-value', $(this).val());
   });
@@ -141,10 +142,10 @@ $("select").each(function(cSelect) {
     $(this).data('stored-value', cSelected);
 
     var otherSelects = $("select").not(this);
-
     otherSelects.find('option[value=' + cPrevious + ']').removeAttr('disabled');
     otherSelects.find('option[value=' + cSelected + ']').attr('disabled', 'disabled');
   });
+
 });
 </script>
 {% endif %}
