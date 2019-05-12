@@ -35,4 +35,7 @@ urlpatterns = [
     #path('search_final/', views.search_final),
    # path('listSpecificPageWork/$', views.listSpecificPageWork),
 	#path('^areas/(?P<area>.+)/$', views.areas),
+    path('prev_result_del/',views.del_result),
+    path('show_result/',views.show_result),
 ]
+    

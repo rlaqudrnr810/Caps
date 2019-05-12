@@ -10,6 +10,7 @@ class Profile(models.Model):
     phonenum = models.CharField(max_length=10,default='SOME STRING')# 핸드폰번호
     area = models.CharField(max_length=10,default='SOME STRING')	# 사는지역
     h_type = models.CharField(max_length=10,default='SOME STRING')	# 고등학교 유형
+
 ####
 
 # notice board
@@ -42,6 +43,10 @@ class chk_value(models.Model):
 	circle_cnt = models.IntegerField(null=True,blank=True)		#동아리활동
 	volunteer = models.IntegerField(null=True,blank=True)		#봉사시간
 	reading = models.IntegerField(null=True,blank=True)			#독후감
+	created_date = models.DateTimeField(null=True, blank=True)	#생성일
+	def __str__(self):
+	   return self.user.username+str(self.id)	# object -> c_name 출력
+
 
 # mypage 학년 별 데이터 입력
 class input_data(models.Model):
@@ -59,6 +64,30 @@ class c_admission(models.Model):
 	year = models.IntegerField(null=True,blank=True)				# 연도
 	cut_off = models.FloatField(null=True,blank=True)				# 주요과목 내신
 	ad_info = models.CharField(null=True,blank=True,max_length=50)	# 입학 정보
+	def __str__(self):
+	   return self.c_name	# object -> c_name 출력
 
-class test(models.Model):
-	test=models.CharField(null=True,blank=True,max_length=50)	# test
+# class test(models.Model):
+# 	test=models.CharField(null=True,blank=True,max_length=50)	# test
+
+class c_info(models.Model):
+	c_name = models.ForeignKey(c_admission,on_delete=models.CASCADE)	# 대학교
+	area = models.CharField(null=True,blank=True,max_length=50)			# 대학교 지역
+
+class p_case(models.Model):
+	c_name = models.ForeignKey(c_admission,on_delete=models.CASCADE)	# 대학교
+	# d_name = models.ForeignKey(c_admission,on_delete=models.CASCADE)	# 학과
+	# admission = models.ForeignKey(c_admission,on_delete=models.CASCADE)	# 전형
+	# year = models.ForeignKey(c_admission,on_delete=models.CASCADE)		# 연도
+	p_num = models.IntegerField(null=True,blank=True)		# ?
+	volunteer = models.IntegerField(null=True,blank=True)	# 봉사 횟수
+	rate = models.FloatField(null=True,blank=True)			# 등급
+	president=models.IntegerField(null=True,blank=True)		# 임원
+	absence=models.IntegerField(null=True,blank=True)		# 무단결석
+	award=models.IntegerField(null=True,blank=True)			# 수상
+	club=models.IntegerField(null=True,blank=True)			# 동아리 횟수
+	book_report =models.IntegerField(null=True,blank=True)	# 책
+
+class search_history(models.Model):
+	ch_val=models.ForeignKey(chk_value,on_delete=models.CASCADE)
+	c_name=models.ForeignKey(c_admission,on_delete=models.CASCADE)

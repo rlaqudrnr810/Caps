@@ -12,7 +12,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
 
 from .models import Profile
-
+from .models import search_history
+from .models import c_admission
 # Create your views here.
 def index(request):
     return render(request, 'main/index.html')
@@ -22,13 +23,18 @@ def search_result(request):
     #현재유저 정보 user 에 저장
     user = request.user
     postset = chk_value.objects.filter(user=user).order_by('-pk')[0]
-
+    # 검색 결과 insert
+    college=c_admission.objects.get(c_name="중앙대")
+    search_his = search_history (ch_val=postset,
+                     c_name=college,
+            )
+    search_his.save()
     # 계산항목 !!
     # preferwhere1, preferwhere2, preferwhere3 => univ where
     # prefertype1, prefertype2, prefertype3, prefertype4, prefertype5, prefertype6 => prefertype
     # total_avgrate, main_avgrate, executive_cnt, absent, award_cnt, circle_cnt, volunteer, reading
 
-    result_set = 3
+
     #url = 'main/search_result/?progress='+str(x)n
     return render(request, 'main/search_result.html')
 
@@ -62,7 +68,8 @@ def igrade1(request):
 # prev. result
 def result(request):
     user = request.user
-    datas = chk_value.objects.filter(user=user)
+    datas = chk_value.objects.filter(user=user).order_by('-created_date')   # date 최신것 부터 목록뽑기
+    #datas = chk_value.objects.filter(user=user)
     context = {
         'chk_value':datas
     }
@@ -318,6 +325,7 @@ def save_chk1(request):
                      prefertype4 = request.POST['college3'],
                      prefertype5 = request.POST['college4'],
                      prefertype6 = request.POST['college5'],
+                     created_date = timezone.now(),
             )
     chk.save()
     
@@ -337,6 +345,11 @@ def save_chk(request):
     # username = None
     # if request.user.is_authenticated:
     #     username = request.user.username
+    
+    # if 'avgRate' in request.POST:
+    #     avgRate = request.POST['avgRate']
+    # else:
+    #     avgRate = False
 
     if 'absent' in request.POST:
         absent = request.POST['absent']
@@ -377,3 +390,22 @@ def save_chk2(request):
 #     user = request.user
 #     datas = chk_value.objects.filter(user=user)
 #     return render(request, '', {'chk_value':datas})
+
+
+def del_result(request):
+    rid = request.GET['id']
+    user=request.user
+    p = chk_value.objects.get(id=rid)
+    p.delete()
+    url = '/result'
+    return redirect(url)
+
+def show_result(request):
+    rid = request.GET['id']
+    user=request.user
+    p = chk_value.objects.get(id=rid)
+    data = search_history.objects.filter(ch_val=p)
+    context = {
+        's_history':data
+    }
+    return render(request,'main/show_prev.html',context)

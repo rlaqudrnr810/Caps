@@ -4,6 +4,9 @@ from main.models import chk_value
 from main.models import Profile
 from main.models import input_data
 from main.models import c_admission
+from main.models import c_info
+from main.models import p_case
+from main.models import search_history
 
 class NoticeAdmin(admin.ModelAdmin):
     list_display = ['subject', 'name']
@@ -30,6 +33,17 @@ class c_admissionAdmin(admin.ModelAdmin):
     list_display = ['c_name', 'd_name']
 admin.site.register(c_admission, c_admissionAdmin)
 
+class c_infoAdmin(admin.ModelAdmin):
+    list_display = ['c_name', 'area']
+admin.site.register(c_info, c_infoAdmin)
+
+class p_caseAdmin(admin.ModelAdmin):
+    list_display = ['c_name', 'id']
+admin.site.register(p_case, p_caseAdmin)
+
+class search_historyAdmin(admin.ModelAdmin):
+    list_display = ['ch_val', 'c_name']
+admin.site.register(search_history, search_historyAdmin)
 # from django.contrib.auth.models import User 
 # from django.contrib.auth.admin import UserAdmin 
 # from project.app.models import UserProfile 

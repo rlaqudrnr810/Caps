@@ -1,0 +1,89 @@
+{% load static %}
+<style type="text/css">
+	#footer {
+
+    position:absolute;
+
+    bottom:0;
+
+    width:100%;
+
+    height:70px;   
+
+    background:#ccc;
+
+}
+</style>
+    <!-- Bootstrap CSS 로드-->
+    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="{% static 'css/modern-business.css' %}" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="{% static 'css/style.css' %}"> -->
+      <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<div class="container">
+ <!-- Page Heading/Breadcrumbs -->
+{% if s_history %}
+{% for s in s_history %}
+<h5>result created date :{{s.ch_val.created_date}}</h5>
+<div class="mb-4" id="accordion" role="tablist" aria-multiselectable="true">
+      <div class="card">
+        <div class="card-header" role="tab" id="headingOne">
+          <h5 class="mb-0">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+            충족</a>
+          </h5>
+        </div>
+
+        <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="card-body">
+            
+                                    <span><b>연세대 화학과 (종합전형)</b></span><br>
+                                      <strong>종합/교과 :</strong> <span>종합</span> <br>
+                                      <strong>지역 :</strong> <span>서울/인천/경기</span> <br>
+                                      <strong>대학 :</strong> <span>연세대</span> <br>
+                                      <strong>학과 :</strong> <span>화학과</span> <br>
+                                      <strong>모집인원 :</strong> <span>5</span>명 <br>
+                                      <strong>전형명 :</strong> <span>활동우수형</span> <br>
+                                      <strong>전형방법 :</strong> <span>①서류평가100 ②서류평가70+ 면접30 ㉦, ㉩</span> <br>
+                                      <strong>수능 최저학력기준 :</strong> <span>국어, 수학(가), 과학탐구(2개 과목) 등 4개 과목 중 2개 과목 등급 합 4 이내, 영어 2등급 및 한국사 4등급 이내</span> <br>
+                                      <strong>2018학년도 수시 경쟁률 :</strong> <span>15.17</span>:1 <br>
+                                      <strong>2018학년도 추측 수능 원점수 :</strong> <span>370</span>점
+                                  </span>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header" role="tab" id="headingTwo">
+          <h5 class="mb-0">
+            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">미달
+            </a>
+          </h5>
+        </div>
+        <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="card-body">
+           <span><b>건국대 수의예과 (종합전형)</b></span><br>
+                                      <strong>종합/교과 :</strong> <span>종합</span> <br>
+                                      <strong>지역 :</strong> <span>서울/인천/경기</span> <br>
+                                      <strong>대학 :</strong> <span>건국대</span> <br>
+                                      <strong>학과 :</strong> <span>수의예과</span> <br>
+                                      <strong>모집인원 :</strong> <span>11</span>명 <br>
+                                      <strong>전형명 :</strong> <span>KU자기추천</span> <br>
+                                      <strong>전형방법 :</strong> <span>①서류평가100(3배수) ②1단계40+면접60 ㉦</span> <br>
+                                      <strong>수능 최저학력기준 :</strong> <span>X</span> <br>
+                                      <strong>2018학년도 수시 경쟁률 :</strong> <span>38.29</span>:1 <br>
+                                      <strong>2018학년도 수능 원점수 :</strong> <span>364</span>점
+                                    </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</CENTER>
+</div>
+{% endfor %}
+{% else %}
+결과가 없습니다. 다시 시도해주세요
+{% endif %}

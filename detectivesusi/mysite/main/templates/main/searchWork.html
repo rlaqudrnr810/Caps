@@ -429,9 +429,9 @@ $("select").each(function(cSelect) {
                                         </td>
                                         <td>
                                             <div class="form-group">
-                                                <input type="text" id="avgRate" name="avgRate" disabled
+                                                <input type="text" id="avgRate" name="avgRate"
                                                        class="form-control number"
-                                                       value="0" 
+                                                       value="1" 
                                                        placeholder="소수점 3자리까지만 입력">
                                             </div>
                                         </td>
@@ -440,7 +440,7 @@ $("select").each(function(cSelect) {
                                         </td>
                                     </tr>
 
-                                   <!--  <tr>
+                                    <tr>
                                         <td>
                                             (옵션) 주요교과 평균
                                         </td>
@@ -448,14 +448,14 @@ $("select").each(function(cSelect) {
                                             <div class="form-group">
                                                 <input type="text" id="avgRate2" name="avgRate2"
                                                        class="form-control number"
-                                                       value="0"
+                                                       value="1"
                                                        placeholder="소수점 3자리까지만 입력">
                                             </div>
                                         </td>
                                         <td>
                                             등급
                                         </td>
-                                    </tr> -->
+                                    </tr>
                                     </tbody>
                                 </table>
                                 <div align=left>
@@ -1234,7 +1234,6 @@ $(document).ready(function() {
 
 // last page
     function lastchk(){
-        alert('ㅇㅇ');
         if (!$('.chk2').is(':checked')) {
             alert('약관에 동의해주세요.');
             $('.chk2').focus();
@@ -1242,7 +1241,7 @@ $(document).ready(function() {
         }
          jQuery(function($){    //쿠키삭제 부분
            //$.removeCookie('readingCnt7', { path: '/' });
-           alert('쿠키삭제');
+           alert('쿠키삭제!');
         });
         location.href='/search_result/';    
 }
