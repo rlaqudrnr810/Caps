@@ -6,11 +6,8 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     nickname = models.CharField(max_length=10,default='SOME STRING')# 이름
     sex = models.CharField(max_length=10,default='SOME STRING')		# 성별
-    age = models.CharField(max_length=10,default='SOME STRING')		# 나이
-    phonenum = models.CharField(max_length=10,default='SOME STRING')# 핸드폰번호
-    area = models.CharField(max_length=10,default='SOME STRING')	# 사는지역
     h_type = models.CharField(max_length=10,default='SOME STRING')	# 고등학교 유형
-
+    type = models.CharField(max_length=10,default='SOME STRING')	# 문/이과 계열
 ####
 
 # notice board

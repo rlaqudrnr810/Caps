@@ -37,5 +37,10 @@ urlpatterns = [
 	#path('^areas/(?P<area>.+)/$', views.areas),
     path('prev_result_del/',views.del_result),
     path('show_result/',views.show_result),
+
+    # 점수 등록
+    path('mypage/igradeWork/',views.igrade1),
+    # 점수 삭제
+    path('igrade_del/',views.igrade_del),
 ]
     

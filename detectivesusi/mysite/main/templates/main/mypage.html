@@ -1,11 +1,12 @@
 {% extends "main/layout.html" %}
 {% load static %}
 {% block content %}
-
+<link rel="stylesheet" href="{% static 'css/isu.css' %}">
   <!-- Page Content -->
   <div class="container">
 
     <!-- Page Heading/Breadcrumbs -->
+    <h1>　</h1>
     <h1 class="mt-4 mb-3">Mypage</h1>
 
     <ol class="breadcrumb">
@@ -37,8 +38,10 @@ $(document).ready(function(){
 function gotograde(tp){
       location.replace("/mypage?igrade="+tp);
 }
+function showgrade(tp){
+      location.replace("/mypage?igrade="+tp);
+}
 </script>
-<link rel="stylesheet" href="{% static 'css/isu.css' %}">
 <p class="search_box_text  mgt25"><span class="f_pit"> *</span> 1학년 1학기는 필수 입력이며, 학기 별 이수과목 모두를 작성해주시기 바랍니다.</p>
 <!-- 학생부성적 -->
 <div>                                   
@@ -65,26 +68,33 @@ function gotograde(tp){
             <tr>
                 <td>
                     <p class="p_text">1학기<span class="f_pit"> *</span></p> 
-                    <p><a href="javascript:gotograde('11')" class="btn_compare_off" title="보기">입력</a></p>                                     
+                    <p><a href="javascript:showgrade('11')" class="btn_compare_off" title="보기">보기</a>
+                    <a href="javascript:gotograde('11')" class="btn_ing" title="입력">입력</a></p>
+
                 </td>
                 <td>
                     <p class="p_text">2학기 </p>
-                    <p><a href="javascript:gotograde('12')" class="btn_compare_off" title="보기">입력</a></p>                                     
+                    <p><a href="javascript:showgrade('12')" class="btn_compare_off" title="보기">보기</a>
+                    <a href="javascript:gotograde('12')" class="btn_ing" title="입력">입력</a></p>
                 </td><td>
                     <p class="p_text">1학기</p> 
-                    <p><a href="javascript:gotograde('21')" class="btn_compare_off" title="보기">입력</a></p>                                     
+                    <p><a href="javascript:showgrade('21')" class="btn_compare_off" title="보기">보기</a>
+                    <a href="javascript:gotograde('21')" class="btn_ing" title="입력">입력</a></p>
                 </td>
                 <td>
                     <p class="p_text">2학기</p> 
-                    <p><a href="javascript:gotograde('22')" class="btn_compare_off" title="보기">입력</a></p>                                     
+                    <p><a href="javascript:showgrade('22')" class="btn_compare_off" title="보기">보기</a>
+                    <a href="javascript:gotograde('22')" class="btn_ing" title="입력">입력</a></p>
                 </td>
                 <td>
                     <p class="p_text">1학기</p> 
-                    <p><a href="javascript:gotograde('31')" class="btn_compare_off" title="보기">입력</a></p>                                     
+                    <p><a href="javascript:showgrade('31')" class="btn_compare_off" title="보기">보기</a>
+                    <a href="javascript:gotograde('31')" class="btn_ing" title="입력">입력</a></p>
                 </td>
                 <td>
                     <p class="p_text">2학기</p> <!-- btn_compare_off -->
-                    <p><a href="javascript:gotograde('32')" class="btn_ing" title="보기">입력</a></p>                                     
+                    <p><a href="javascript:showgrade('32')" class="btn_compare_off" title="보기">보기</a>
+                    <a href="javascript:gotograde('32')" class="btn_ing" title="보기">입력</a></p>
                 </td>                               
             </tr>                                       
         </tbody>
@@ -359,7 +369,16 @@ function btn_delete_onclick(row){
     }
 }
 
+function btn_delete2_onclick(row){
+    if(confirm("삭제하시겠습니까?")) {
+        $("#saved_row-"+row).remove();
+        location.href='/igrade_del/?igrade={{igrade}}&id='+row;
+    }
+
+}
+
 function btn_save_onclick(){
+  var form = document.stdptSesScr;
     if($("#changeFlag").val() != 1){
         return;
     }
@@ -379,11 +398,6 @@ function btn_save_onclick(){
         
         var unit = $("#unit-"+i);
         var grde = $("#grde-"+i);
-        var org = $("#org-"+i);
-        var avg = $("#avg-"+i);
-        var std = $("#std-"+i);
-        var cnt = $("#cnt-"+i);
-        var cmpl = $("#cmpl-"+i);
         
         if(course.val() == "") {
             alert("교과를 선택해 주십시오.");
@@ -403,77 +417,18 @@ function btn_save_onclick(){
             check_valid = 1;
             return;
         }
-
-        if(!isNum3(unit,0,99)) {
-            unit.focus();
-            check_valid = 1;
-            return;
-        }
-
-        if(cmpl.val() == "" || cmpl.val() == "-"){
-            if(!isNum3(grde,1,9)){
-                grde.focus();
-                check_valid = 1;
-                return;
-            }
-        }
         
         if(fn_check_num(grde.val(), 1) && grde.val() != "" && typeof grde.val() != "undefined") {
             alert("석차등급은 숫자만 입력해 주십시오.");
             grde.focus();
             return;
         }
-        if(fn_check_num(org.val(), 1) && org.val() != "" && typeof org.val() != "undefined") {
-            alert("원점수는 숫자만 입력해 주십시오.");
-            org.focus();
-            return;
-        }
-        if(fn_check_num(avg.val(), 2) && avg.val() != "" && typeof avg.val() != "undefined") {
-            alert("과목평균은 숫자만 입력해 주십시오.");
-            avg.focus();
-            return;
-        }
-        if((pattern.test(avg.val()) == false || !(Number(avg.val()) >= 0 && Number(avg.val()) <= 100)) && typeof avg.val() != "undefined" && avg.val() != "") { 
-            alert("올바른 과목평균을 입력해 주십시오.");
-            avg.focus();
-            return;
-        }
-        if(fn_check_num(std.val(), 2) && std.val() != "" && typeof std.val() != "undefined") {
-            alert("표준편차는 숫자만 입력해 주십시오.");
-            std.focus();
-            return;
-        }
-        if((pattern.test(std.val()) == false || !(Number(std.val()) >= 0 && Number(std.val()) <= 100)) && typeof std.val() != "undefined" && std.val() != "") {
-            alert("올바른 표준편차를 입력해 주십시오.");
-            std.focus();
-            return;
-        }
-        if(fn_check_num(cnt.val(), 1) && cnt.val() != "" && typeof cnt.val() != "undefined") {
-            alert("수강자수는 숫자만 입력해 주십시오.");
-            cnt.focus();
-            return;
-        }
     }
-    
+    //alert('d');
     $("#sgrd_rcount").val(rsize);
-    $.blockUI({ onUnblock: $.unblockUI });
-    
-    gfn_Submission_Call("/kcue/ast/eip/com/mergeStdptCourseScr.do", $("#stdptSesScr").serialize(), function(data){
-        if(data != null){
-            if (data.resultVO.resultCode == "SUCCESS"){
-                alert("저장되었습니다.");
-                $("#changeFlag").val("0");
-                
-                gfn_setComSession('usrRef','Y','N', function(){
-                    reloadStptView();
-                });
-            }else{
-                alert(data.resultVO.resultMessage);
-            }
-        }
-        $.unblockUI();
-    }
-    , "json");
+    //$.blockUI({ onUnblock: $.unblockUI });
+    //alert('d2');
+    form.submit();
 }
 
 function sel_course_onchange(courseId, courseSn)
@@ -514,20 +469,20 @@ function getEditRow(rid,courseSn,sbjectSn,unit,grde,org,avg,std,cnt,cmpl){
      +'<select id="cmpl-'+rid+'" name="cmpl-'+rid+'" class="w60">'
      + ((typeof cmpl === 'string') ?
          '<option value="-"'+((cmpl == '-')?' selected':'')+'>선택</option>'
-         + '<option value="C0001"'+((cmpl == 'C0001')?' selected':'')+'>국어</option>'
-         + '<option value="C0002"'+((cmpl == 'C0002')?' selected':'')+'>수학</option>'
-         + '<option value="C0003"'+((cmpl == 'C0003')?' selected':'')+'>영어</option>'
-         + '<option value="C0004"'+((cmpl == 'C0004')?' selected':'')+'>사회</option>'
-         + '<option value="C0005"'+((cmpl == 'C0005')?' selected':'')+'>과학</option>'
-         + '<option value="C0006"'+((cmpl == 'C0006')?' selected':'')+'>예체능</option>'
+         + '<option value="국어"'+((cmpl == '국어')?' selected':'')+'>국어</option>'
+         + '<option value="수학"'+((cmpl == '수학')?' selected':'')+'>수학</option>'
+         + '<option value="영어"'+((cmpl == '영어')?' selected':'')+'>영어</option>'
+         + '<option value="사회"'+((cmpl == '사회')?' selected':'')+'>사회</option>'
+         + '<option value="과학"'+((cmpl == '과학')?' selected':'')+'>과학</option>'
+         + '<option value="예체능"'+((cmpl == '예체능')?' selected':'')+'>예체능</option>'
          : 
          + '<option value="-">선택</option>'
-         + '<option value="C0001">국어</option>'
-         + '<option value="C0002">수학</option>'
-         + '<option value="C0003">영어</option>'
-         + '<option value="C0004">사회</option>'
-         + '<option value="C0005">과학</option>'
-         + '<option value="C0006">예체능</option>'
+         + '<option value="국어">국어</option>'
+         + '<option value="수학">수학</option>'
+         + '<option value="영어">영어</option>'
+         + '<option value="사회">사회</option>'
+         + '<option value="과학">과학</option>'
+         + '<option value="예체능">예체능</option>'
      )
      + '</select>'
      + '</td>'
@@ -535,10 +490,10 @@ function getEditRow(rid,courseSn,sbjectSn,unit,grde,org,avg,std,cnt,cmpl){
      + '<label class="tts" for="sbject-'+rid+'">추가 할 과목선택</label>'
      + '<select class="w80" id="sbject-'+rid+'" name="sbject-'+rid+'" '+(sbjectSn != '' ? 'value="'+sbjectSn+'"': '')+'>'
          + '<option>과목선택</option>'
-         + '<option value="C0001">국어I</option>'
-         + '<option value="C0002">적분과 통계</option>'
-         + '<option value="C0003">기초회화</option>'
-         + '<option value="C0004">화학II</option>'
+         + '<option value="국어I">국어I</option>'
+         + '<option value="적분과통계">적분과 통계</option>'
+         + '<option value="기초회화">기초회화</option>'
+         + '<option value="화학II">화학II</option>'
      + '</select>'
 
      + '</td>'
@@ -627,8 +582,55 @@ function btn_adit_onclick() {
     3학년 1학기
 </h4>
 {% endif %}
+{% if input_rs %}
+<!-- <script>
+  alert('데이터있음');
+</script> -->
+<table class="list_tbl02">
+    <caption>학생부성적 테이블</caption>
+    <colgroup>
+        <col style="width:10%">
+        <col style="width:10%">
+        <col style="width:10%">
+        <col style="width:10%">
+        <col style="width:10%">
+        <col style="width:10%">
+        <col style="width:7%">
+        <col style="width:7%">
+        <col style="width:7%">
+        <col style="width:10%">
+        <col style="width:*%">
+    </colgroup>
+    <thead>
+        <tr>
+            <!-- <th scope="col"><center>번호</center></th> -->
+            <th scope="col"><center>교과</center></th>
+            <th scope="col"><center>과목</center></th>
+            <th scope="col"><center>단위수<span class="f_pit"> *</span></center></th>
+            <th scope="col"><center>등급<span class="f_pit"> *</span></center></th>
+            <th scope="col"><center>관리</center></th>
+        </tr>
+    </thead>
+{% for s in input_rs %}
+    <tr id="saved_row-{{s.id}}">
+      <!-- <td>{{s.id}}</td> -->
+      <td id="{{s.id}}"><input type="hidden" id="{{s.id}}" name="{{s.id}}" value="C0001">{{s.subject1}}</td>
+      <td id="{{s.id}}"><input type="hidden" id="{{s.id}}" name="{{s.id}}" value="S0586">{{s.subject2}}</td>
+      <td id="{{s.id}}"><input type="hidden" id="{{s.id}}" name="{{s.id}}" value="2">{{s.complete_unit}}</td>
+      <td id="{{s.id}}"><input type="hidden" id="{{s.id}}" name="{{s.id}}" value="3">{{s.rate}}</td>
+      <td><button type="button" class="btnc_click05_{{s.id}}" onclick="btn_delete2_onclick({{s.id}});">삭제</button></td>
+    </tr>
+{% endfor %}
+</table><center>
+
+
+{% else %}
+<!-- <script>
+  alert('없음');
+</script> -->
+{% endif %}
 <!-- 학생부성적리스트 -->
-<form name="stdptSesScr" id="stdptSesScr" method="post">
+<form name="stdptSesScr" id="stdptSesScr" method="post" action="igradeWork/?igrade={{igrade}}">
 <input type="hidden" name="changeFlag" id="changeFlag" value="0">
 <input type="hidden" name="uid" id="sgrd_uid" value="20-1043555541">
 <input type="hidden" name="sgrd_se" id="sgrd_se" value="1">
@@ -657,16 +659,10 @@ function btn_adit_onclick() {
             <th scope="col"><center>과목</center></th>
             <th scope="col"><center>단위수<span class="f_pit"> *</span></center></th>
             <th scope="col"><center>등급<span class="f_pit"> *</span></center></th>
-            <!-- <th scope="col">원점<br>수</th>
-            <th scope="col">과목<br>평균</th>
-            <th scope="col">표준<br>편차</th>
-            <th scope="col">수강<br>자수</th>
-            <th scope="col">성취도</th> -->
             <th scope="col"><center>관리</center></th>
         </tr>
     </thead>
     <tbody id="sgcTblBd">
-            
     </tbody>
 </table><center>
 <button type="button" class="btnc_click06" onclick="btn_adit_onclick()">추가하기 +</button></center>
@@ -676,8 +672,8 @@ function btn_adit_onclick() {
     <center>모든 내용은 저장을 누르셔야 반영됩니다.</center>
     </ul></div>
     <div class="align_c">
-<button type="button" class="btnc_click02 w70" onclick="btn_save_onclick();">저장</button>
-</div>
+      <button type="button" class="btnc_click02 w70" onclick="btn_save_onclick();">저장</button>
+    </div>
 
 </form>
 </div>

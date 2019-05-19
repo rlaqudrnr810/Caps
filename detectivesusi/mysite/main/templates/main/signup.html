@@ -1,5 +1,17 @@
 {% extends 'main/layout.html' %}
 {% block content %}
+
+<script>
+  function idcheck(){
+    if(document.getElementById('username').value){
+      alert(document.getElementById('username').value);
+    }
+    else {
+      alert('ID를 작성해주세요.');
+    }
+  }
+</script>
+
 <div class="container">
  <!-- Page Heading/Breadcrumbs -->
     <h1 class="mt-4 mb-3">Sign up
@@ -24,12 +36,12 @@
     <div class="check-container">
 
       {% csrf_token %}
-      <div class="form-group">
-
+         <div class="form-group">
             <label for="id_username"><b>ID : </b></label>
-            <input type="text" name="username" class="form-control" required id="id_username"placeholder="ID">
-<!--              -->
+            <input type="text" id="username" name="username" class="form-control" required id="id_username" placeholder="ID">
+            <button type="button" id="chk" onclick="idcheck()" >중복확인</button>
          </div>
+
       
          <div class="form-group">
             <label for="id_password1"><b>비밀번호 :</b></label>
@@ -42,11 +54,36 @@
             <input type="password" name="password2" class="form-control" required id="id_password2"placeholder="비밀번호 확인">
 <!--              -->
          </div>
-      
+            <div class="form-group">
+      <b>이름 :</b> 
+      <input type="text" class="form-control" name="nickname" id="nickname"  placeholder="이름">
+      </div>
          <div class="form-group">
             <label for="id_email"><b>이메일 :</b></label>
             <input type="email" name="email" class="form-control" required id="id_email" placeholder="이메일">
 <!--              -->
+         </div>
+
+        <div class="form-group">
+            <label for="type"><b>문/이과 :</b></label>
+            <input type="radio" name="type" value="문과">문과
+            <input type="radio" name="type" value="이과">이과
+         </div>
+
+         <div class="form-group">
+            <label for="sex"><b>성별 :</b></label>
+            <input type="radio" name="sex" value="남">남
+            <input type="radio" name="sex" value="여">여
+         </div>
+
+         <div class="form-group">
+          <label for="h_type"><b>고등학교 유형 :</b></label>
+             <select style="width:100%" id="h_type" name="h_type" class="form-control">
+                <option>고등학교 유형을 선택해주세요</option>
+                <option value="일반인문계">일반인문계고등학교</option>
+                <option value="실업계">실업계고등학교</option>
+                <option value="특성화">특성화고등학교</option>
+             </select>
          </div>
 <!--       {% for field in signup_form %}
          <div class="form-group{% if field.errors %} has-error{% endif %}">
@@ -59,10 +96,6 @@
             {% endif %}
          </div>
       {% endfor %} -->
-      <div class="form-group">
-      <b>이름 :</b> 
-      <input type="text" class="form-control" name="nickname" id="nickname"  placeholder="이름">
-      </div>
       
       {% if signup_form.non_field_errors %}
          {% for error in login_form.non_field_errors %}

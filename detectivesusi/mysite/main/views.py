@@ -1,4 +1,6 @@
 from django.contrib.auth.models import User
+from django.db.models import Sum
+from django.db.models import Avg
 from django.shortcuts import render, redirect
 from django.contrib.auth import (
     authenticate,
@@ -14,6 +16,8 @@ from django.utils import timezone
 from .models import Profile
 from .models import search_history
 from .models import c_admission
+from .models import input_data
+
 # Create your views here.
 def index(request):
     return render(request, 'main/index.html')
@@ -40,30 +44,53 @@ def search_result(request):
 
 #mypage (성적입력)
 def mypage(request):
+    user=request.user
     igrade = request.GET['igrade']
+    input_rs = input_data.objects.filter(user=user).filter(grade=igrade)
     context = {
         'igrade':igrade,
+        'input_rs':input_rs,
     }
     return render(request,'main/mypage.html',context)
 
 @csrf_exempt
 def igrade1(request):
+    # if 'grde-c-1' in  request.POST:
+    #     grde_c_1 = request.POST['grde-c-1']
+    # else:
+    #     grde_c_1 = False
+    if 'rcount' in  request.POST:
+        rcount = request.POST['rcount']
+    else:
+        rcount = False
+    
     igrade=request.GET['igrade']
-    idate = input_data (
+    
+    # 성적 추가하기
+    for j in range(1,int(rcount)+1):
+        idate = input_data (
                      user = request.user,
                      grade= igrade, 
-                     subject1 = request.POST['cmpl-1'],
-                     subject2 = request.POST['preferRegions1'],
-                     complete_unit = request.POST['preferRegions2'],
-                     rate = request.POST['college0'],
+                     subject1 = request.POST['cmpl-'+str(j)],
+                     subject2 = request.POST['sbject-'+str(j)],
+                     complete_unit = request.POST['unit-'+str(j)],
+                     rate = request.POST.get('grde-'+str(j),False),
             )
-    idate.save()
+        idate.save()
     
-    url = '../mypage/?igrade=11'
+    url = '../?igrade='+igrade
     
     return redirect(url)
 
-
+# 성적 삭제하기.
+def igrade_del(request):
+    igrade = request.GET['igrade']
+    rid=request.GET['id']
+    user=request.user
+    p=input_data.objects.get(id=rid)
+    p.delete()
+    url='../mypage/?igrade='+igrade
+    return redirect(url)
 #################
 # prev. result
 def result(request):
@@ -128,7 +155,10 @@ def signup(request):
             user=signup_form.signup()
 
             nickname = request.POST["nickname"]
-            profile = Profile(user=user, nickname=nickname)
+            type = request.POST["type"]
+            sex=request.POST["sex"]
+            h_type=request.POST["h_type"]
+            profile = Profile(user=user, nickname=nickname,type=type,sex=sex,h_type=h_type)
             profile.save()
             django_login(request, user)
             #auth.login(request,user) #로그인 유지
@@ -232,7 +262,6 @@ def listSpecificPageWork(request):
 def show_write_form(request):
     return render(request, 'main/writeBoard.html')
 
-
 def viewWork(request):
     pk = request.GET['memo_id']
     boardData = NoticeBoard.objects.get(id=pk)
@@ -302,10 +331,31 @@ def searchWork(request):
 
     user = request.user
     datas = chk_value.objects.filter(user=user).order_by('-pk')
+
+    # 전 교과 성적 구하기.
+    # 이수단위 반영 -> 이수단위 * 등급 / 이수단위 합
+    isu = input_data.objects.filter(user=user)
+    isu_sum = input_data.objects.filter(user=user).aggregate(Sum('complete_unit'))
+    isu_mul_rate=0
+    total_isu=0
+    for s in isu:
+        isu_mul_rate+=s.complete_unit*s.rate
+    if(isu_sum['complete_unit__sum']):
+        total_isu = isu_mul_rate/isu_sum['complete_unit__sum']
+    avgs = input_data.objects.filter(user=user).aggregate(Avg('rate'))
+
+    # 주요 과목 평균 구하기.
+    data2 = 3
+
     context = {
         'current_chk':current_chk,
-        'chk_value':datas
+        'chk_value':datas,
+        'avg_rate':total_isu,
+        #'avg_rate':avgs['rate__avg'],   # rate 평균 . dic 형태이기에 저런 식으로 써줘야 함. 
+        'p_avg_rate':data2
     }
+
+    #return render(request,'main/searchWork/?current_chk=2',context)
     return render(request,'main/searchWork.html',context)
 
 # 선호지역 받기1
@@ -328,7 +378,7 @@ def save_chk1(request):
                      created_date = timezone.now(),
             )
     chk.save()
-    
+
     url = '../searchWork/?current_chk=2'# + str(current_chk)
     
     return redirect(url)
@@ -355,9 +405,13 @@ def save_chk(request):
         absent = request.POST['absent']
     else:
         absent = False
-    
+
+    # 최신 레코드 가져오기(수정중인)
+    cid = chk_value.objects.filter(user=user).last()
+
     awardcnt= int(request.POST['awardsCnt'])+int(request.POST['awardsCnt2'])+int(request.POST['awardsCnt3'])+int(request.POST['awardsCnt4'])+int(request.POST['awardsCnt5'])
-    chk_value.objects.filter(user=user).update(
+    
+    chk_value.objects.filter(user=user).filter(id=cid.id).update(
                     total_avgrate = request.POST['avgRate'],     #평균 내신
                     main_avgrate = request.POST['avgRate2'],      #주요 내신
                     executive_cnt = request.POST['executiveCnt'],
@@ -376,8 +430,11 @@ def save_chk2(request):
     circle_cnt= int(request.POST['circlesCnt'])+int(request.POST['circlesCnt2'])+int(request.POST['circlesCnt3'])+int(request.POST['circlesCnt4'])+int(request.POST['circlesCnt5'])+int(request.POST['circlesCnt6'])+int(request.POST['circlesCnt7'])+int(request.POST['circlesCnt8'])
     vol_cnt=int(request.POST['volunteerTime'])+int(request.POST['volunteerTime2'])
     reading_cnt=int(request.POST['readingCnt'])+int(request.POST['readingCnt2'])+int(request.POST['readingCnt3'])+int(request.POST['readingCnt4'])+int(request.POST['readingCnt5'])+int(request.POST['readingCnt6'])+int(request.POST['readingCnt7'])
+   
     # Update DataBase
-    chk_value.objects.filter(user=user).update(
+    # 최신 레코드 가져오기(수정중인)
+    cid = chk_value.objects.filter(user=user).last()
+    chk_value.objects.filter(user=user).filter(id=cid.id).update(
                                                 circle_cnt= circle_cnt,
                                                 volunteer= vol_cnt,
                                                 reading=reading_cnt
@@ -391,9 +448,8 @@ def save_chk2(request):
 #     datas = chk_value.objects.filter(user=user)
 #     return render(request, '', {'chk_value':datas})
 
-
 def del_result(request):
-    rid = request.GET['id']
+    rid = request.GET.get('id',False)
     user=request.user
     p = chk_value.objects.get(id=rid)
     p.delete()
