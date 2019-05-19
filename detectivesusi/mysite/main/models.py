@@ -62,7 +62,9 @@ class c_admission(models.Model):
 	d_name = models.CharField(null=True,blank=True,max_length=50)	# 학과 이름
 	admission = models.CharField(null=True,blank=True,max_length=50)# 전형명
 	year = models.IntegerField(null=True,blank=True)				# 연도
-	cut_off = models.FloatField(null=True,blank=True)				# 주요과목 내신
+	h_cut_off = models.FloatField(null=True,blank=True)				# 
+	cut_off = models.FloatField(null=True,blank=True)				# 
+	l_cut_off = models.FloatField(null=True,blank=True)				# 
 	ad_info = models.CharField(null=True,blank=True,max_length=50)	# 입학 정보
 	def __str__(self):
 	   return self.c_name	# object -> c_name 출력
@@ -76,9 +78,9 @@ class c_info(models.Model):
 
 class p_case(models.Model):
 	c_name = models.ForeignKey(c_admission,on_delete=models.CASCADE)	# 대학교
-	# d_name = models.ForeignKey(c_admission,on_delete=models.CASCADE)	# 학과
-	# admission = models.ForeignKey(c_admission,on_delete=models.CASCADE)	# 전형
-	# year = models.ForeignKey(c_admission,on_delete=models.CASCADE)		# 연도
+	#d_name = models.ForeignKey(c_admission,on_delete=models.CASCADE)	# 학과
+	#admission = models.ForeignKey(c_admission,on_delete=models.CASCADE)	# 전형
+	#year = models.ForeignKey(c_admission,on_delete=models.CASCADE)		# 연도
 	p_num = models.IntegerField(null=True,blank=True)		# ?
 	volunteer = models.IntegerField(null=True,blank=True)	# 봉사 횟수
 	rate = models.FloatField(null=True,blank=True)			# 등급
