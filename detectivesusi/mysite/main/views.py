@@ -1,3 +1,5 @@
+import time
+from django.contrib import messages
 from django.contrib.auth.models import User
 from django.db.models import Sum
 from django.db.models import Avg
@@ -13,40 +15,81 @@ from .models import chk_value
 from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
 
+from django.db.models import Q
 from .models import Profile
 from .models import search_history
 from .models import c_admission
 from .models import input_data
+from .models import p_case
 
 # Create your views here.
 def index(request):
     return render(request, 'main/index.html')
 
-#progress var
+# progress var
 def search_result(request):
     #현재유저 정보 user 에 저장
+ # 검색 결과 insert
+    # __gt = 값 : 값보다 큰 값 필터됨 .
+    # __lt = 값 : 값보다 작은 값 필터됨.
+    # Entry.objects.get(조건) : 하나의 데이터 얻어옴
+    # model1.objects.filter(name__contains=’com’) com 포함한 문자열 필터
+    # Blog 모델의 이름이 Beatles Blog인 데이터과 관계있는 Entry 객체 반환
+    # >>> Entry.objects.filter(blog__name='Beatles Blog')
+    # h_cut_off : 가장 좋은 성적
+    # cut_off : 평균 성적
+    # l_cut_off : 가장 낮은 성적
+
     user = request.user
     postset = chk_value.objects.filter(user=user).order_by('-pk')[0]
-    
-    # 검색 결과 insert
-    outputList = c_admission.objects.raw('SELECT * FROM main_c_admission')
-    
 
-    for s in outputList:
-    #college = c_admission.objects.get(c_name)
-        search_his = search_history (ch_val=postset,
-                                    c_name=s,
-                                    )
-        search_his.save()
+    # 소신 대학리스트 뽑기      합격자 가장 좋은 내신 =  본인내신-0.2 ~ 본인내신-0.5
+    if search_history.objects.filter(ch_val=postset).count()==0:    #0임 
+        unsafe_outputList = c_admission.objects.filter(cut_off__lt=postset.total_avgrate+0.2, h_cut_off__gt=postset.total_avgrate+0.5)
+        unsafe_outputList= c_admission.objects.filter(Q(d_name__contains=postset.prefertype1)|Q(d_name__contains=postset.prefertype2)|Q(d_name__contains=postset.prefertype3)|Q(d_name__contains=postset.prefertype4)|Q(d_name__contains=postset.prefertype5)|Q(d_name__contains=postset.prefertype6))
 
+        for s in unsafe_outputList:    # 소신 대학 리스트
+            search_his = search_history (ch_val=postset,
+                                        c_name=s,
+                                        r_type="소신"
+                                        )
+            search_his.save()
+
+
+        # 적정 대학리스트 뽑기
+        outputList = c_admission.objects.filter(l_cut_off__lt=postset.total_avgrate-0.3,  h_cut_off__gt=postset.total_avgrate+0.2)
+        outputList= c_admission.objects.filter(Q(d_name__contains=postset.prefertype1)|Q(d_name__contains=postset.prefertype2)|Q(d_name__contains=postset.prefertype3)|Q(d_name__contains=postset.prefertype4)|Q(d_name__contains=postset.prefertype5)|Q(d_name__contains=postset.prefertype6))
+        for s in outputList:    # 적정 대학 리스트
+            search_his = search_history (ch_val=postset,
+                                        c_name=s,
+                                        r_type="적정"
+                                        )
+            search_his.save()
+        
+        # 안정 대학 리스트 뽑기
+        safe_outputList = c_admission.objects.filter(cut_off__lte=postset.total_avgrate, h_cut_off__gte=postset.total_avgrate)
+        safe_outputList= c_admission.objects.filter(Q(d_name__contains=postset.prefertype1)|Q(d_name__contains=postset.prefertype2)|Q(d_name__contains=postset.prefertype3)|Q(d_name__contains=postset.prefertype4)|Q(d_name__contains=postset.prefertype5)|Q(d_name__contains=postset.prefertype6))
+
+        for s in safe_outputList:    # 안정 대학 리스트
+            search_his = search_history (ch_val=postset,
+                                        c_name=s,
+                                        r_type="안정"
+                                        )
+            search_his.save()
+        #time.sleep(3)
+        context = {
+                'uso_list':unsafe_outputList,
+                'o_list':outputList,
+                'so_list':safe_outputList,
+                }
+        #messages.success(request,"분석 완료 이동합니다.")
+        return render(request, 'main/search_result.html',context)
+    else:   # 에러
+        return render(request, 'main/index.html')
     # 계산항목 !!
     # where d_name like %chk_val.prefertype1% || # preferwhere1, preferwhere2, preferwhere3 => univ where
     # prefertype1, prefertype2, prefertype3, prefertype4, prefertype5, prefertype6 => prefertype
     # total_avgrate, main_avgrate, executive_cnt, absent, award_cnt, circle_cnt, volunteer, reading
-
-
-    #url = 'main/search_result/?progress='+str(x)n
-    return render(request, 'main/search_result.html')
 
 #mypage (성적입력)
 def mypage(request):
@@ -87,6 +130,15 @@ def igrade1(request):
     url = '../?igrade='+igrade
     
     return redirect(url)
+
+def hap(request):
+    id = request.GET['id']
+    col=c_admission.objects.get(id=id)
+    p = p_case.objects.filter(c_name=col)
+    context={
+            'p' : p,
+    }
+    return render(request, 'main/hap.html',context)
 
 # 성적 삭제하기.
 def igrade_del(request):
@@ -473,3 +525,17 @@ def show_result(request):
         's_history':data
     }
     return render(request,'main/show_prev.html',context)
+
+
+# 404 error page handle
+def handler404(request, *args, **argv):
+    response = render(request, "main/404.html", {})
+    response.status_code = 404
+    return response
+
+ 
+
+def handler500(request, *args, **argv):
+    response = render(request, "main/500.html", {})
+    response.status_code = 500
+    return response

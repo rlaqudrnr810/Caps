@@ -56,7 +56,7 @@ class input_data(models.Model):
 
 class c_admission(models.Model):
 	c_name = models.CharField(null=True,blank=True,max_length=50)	# 대학교 이름
-	d_type = models.CharField(null=True,blank=True,max_length=50,default='')	# 학부 계열
+#	d_type = models.CharField(null=True,blank=True,max_length=50,default='')	# 학부 계열
 	d_name = models.CharField(null=True,blank=True,max_length=50)	# 학과 이름
 	admission = models.CharField(null=True,blank=True,max_length=50)# 전형명
 	year = models.IntegerField(null=True,blank=True)				# 연도
@@ -68,8 +68,8 @@ class c_admission(models.Model):
 	def __str__(self):
 	   return self.c_name	# object -> c_name 출력
 
-	class Meta:
-		unique_together = ("c_name", "d_type","d_name","admission","year")
+#	class Meta:
+#		unique_together = ("c_name", "d_type","d_name","admission","year")
 
 class c_info(models.Model):
 	c_name = models.ForeignKey(c_admission,on_delete=models.CASCADE)	# 대학교
@@ -88,7 +88,9 @@ class p_case(models.Model):
 	award=models.IntegerField(null=True,blank=True)			# 수상
 	club=models.IntegerField(null=True,blank=True)			# 동아리 횟수
 	book_report =models.IntegerField(null=True,blank=True)	# 책
+	content = models.CharField(null=True,blank=True,max_length=300)	# 기타내용
 
 class search_history(models.Model):
 	ch_val=models.ForeignKey(chk_value,on_delete=models.CASCADE)
 	c_name=models.ForeignKey(c_admission,on_delete=models.CASCADE)
+	r_type = models.CharField(null=True,blank=True,max_length=50)	# r_type : 소신 , 적정, 안정

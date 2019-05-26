@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views	# 현재 폴더 views import
+from django.conf.urls import handler404, handler500
 
 app_name='main'
 urlpatterns = [
@@ -42,5 +43,10 @@ urlpatterns = [
     path('mypage/igradeWork/',views.igrade1),
     # 점수 삭제
     path('igrade_del/',views.igrade_del),
+
+    path('hap/',views.hap),
+
 ]
     
+# handler404 = 'main.views.handler404'
+# handler500 = 'main.views.hander500'

@@ -1,6 +1,11 @@
 {% extends "main/layout.html" %}
 {% block content %}
 {% load static %}
+{% if messages %}
+<script>
+  alert('분석완료!');
+  </script>
+{% endif%}
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <div class="container">
  <!-- Page Heading/Breadcrumbs -->
@@ -32,136 +37,105 @@
       <div class="accordion" id="myAccordion">
          <div class="card">
            <button style="width:100%" type="button" class="btn btn-warning" data-toggle="collapse" data-target="#collapsible-1" data-parent="#myAccordion">소신</button>
-
+           {% if uso_list %}
+           {% for s in uso_list %}
           <div id="collapsible-1" class="collapse show">
          
           <div class="accordion" id="myAccordion-1">
             <div class="panel">
               <div class="card">
-                <center><button style="width:100%" type="button" class="btn btn-light" data-toggle="collapse" data-target="#collapsible-1s1" data-parent="#myAccordion-1">연세대 화학공학과</button></center>
-                <div id="collapsible-1s1" class="collapse">
-                 <span><b>연세대 화학공학과 (종합전형)</b></span><br>
-                  <strong>종합/교과 :</strong> <span>종합</span> <br>
+                <center><button style="width:100%" type="button" class="btn btn-light" data-toggle="collapse" data-target="#collapsible-1s{{s.id}}" data-parent="#myAccordion-1">{{s.c_name}} {{s.d_name}}</button></center>
+                <div id="collapsible-1s{{s.id}}" class="collapse">
                   <strong>지역 :</strong> <span>서울/인천/경기</span> <br>
-                  <strong>대학 :</strong> <span>연세대</span> <br>
-                  <strong>학과 :</strong> <span>화학공학과</span> <br>
-                  <strong>모집인원 :</strong> <span>5</span>명 <br>
-                  <strong>전형명 :</strong> <span>활동우수형</span> <br>
-                  <strong>전형방법 :</strong> <span>①서류평가100 ②서류평가70+ 면접30</span> <br>
-                  <strong>수능 최저학력기준 :</strong> <span>국어, 수학(가), 과학탐구(2개 과목) 등 4개 과목 중 2개 과목 등급 합 4 이내, 영어 2등급 및 한국사 4등급 이내</span> <br>
-                  <span class="badge badge-pill badge-info">2018년도 합격자 수기 보기</span>
+                  <strong>대학 :</strong> <span>{{s.c_name}}</span> <br>
+                  <strong>학과 :</strong> <span>{{s.d_name}}</span> <br>
+                  <strong>전형명 :</strong> <span>{{s.admission}}</span> <br>
+                  <strong>전형방법 :</strong> <span>{{s.ad_info}}</span> <br>
+                  <span class="badge badge-pill badge-info" href='./hap/?id={{s.id}}'>합격자 수기 보기</span>
                   <span class="badge badge-pill badge-info">2018년도 모집요강 보기</span><br/>
                 </div>
              </div>
             </div>
-            <div class="panel">
-                           <div class="card">
-              <center><button style="width:100%" type="button" class="btn btn-light" data-toggle="collapse" data-target="#collapsible-1s2" data-parent="#myAccordion-1">서울대 생명과학과</button></center>
-             
-              <div id="collapsible-1s2" class="collapse">
-                <span>
-                                      <strong>종합/교과 :</strong> <span>종합</span> <br>
-                                      <strong>지역 :</strong> <span>서울/인천/경기</span> <br>
-                                      <strong>대학 :</strong> <span>서울대</span> <br>
-                                      <strong>학과 :</strong> <span>생명과학과</span> <br>
-                                      <strong>모집인원 :</strong> <span>10</span>명 <br>
-                                      <strong>전형명 :</strong> <span>지역균형선발</span> <br>
-                                      <strong>전형방법 :</strong> <span>서류평가 및 면접100 ※고교 추천 인원: 2명</span> <br>
-                                      <strong>수능 최저학력기준 :</strong> <span>국어, 수학, 영어, 탐구 중 3개 영역 이상 2등급 이내</span> <br>
-                                  </span>
-                  
-              </div>
-            </div>
-           </div>
-
         </div>
         
       </div>
+                  {% endfor%}
+            {% endif %}
+                  
     </div>
       
     </div>
   </div>
-
     <div class="panel">
           <div class="card">
             <div class="card-body">
               
         <button style="width:100%" type="button" class="btn btn-info " data-toggle="collapse" data-target="#collapsible-2" data-parent="#myAccordion">적정</button>
+                   {% if o_list %}
+           {% for s in o_list %}
         <div id="collapsible-2" class="collapse show">
-         
           <div class="accordion" id="myAccordion-2">
             <div class="panel">
                   <div class="card">
-                    
-              <center><button style="width:100%" type="button" class="btn btn-light" data-toggle="collapse" data-target="#collapsible-2s1" data-parent="#myAccordion-2">성균관대 수학교육과</button></center>
-              <div id="collapsible-2s1" class="collapse">
-<span>
-                                      <strong>종합/교과 :</strong> <span>종합</span> <br>
-                                      <strong>지역 :</strong> <span>서울/인천/경기</span> <br>
-                                      <strong>대학 :</strong> <span>성균관대</span> <br>
-                                      <strong>학과 :</strong> <span>수학교육</span> <br>
-                                      <strong>모집인원 :</strong> <span>20</span>명 <br>
-                                      <strong>전형명 :</strong> <span>글로벌인재</span> <br>
-                                      <strong>전형방법 :</strong> <span>①서류평가100(3~5배수내외) ②서류평가80+면접20</span> <br>
-                                      <strong>수능 최저학력기준 :</strong> <span>X</span> <br>
-                                  </span>
+              <center><button style="width:100%" type="button" class="btn btn-light" data-toggle="collapse" data-target="#collapsible-2s{{s.id}}" data-parent="#myAccordion-2">{{s.c_name}} {{s.d_name}}</button></center>
+              <div id="collapsible-2s{{s.id}}" class="collapse">
+                  <span>
+                  <strong>지역 :</strong> <span>서울/인천/경기</span> <br>
+                  <strong>대학 :</strong> <span>{{s.c_name}}</span> <br>
+                  <strong>학과 :</strong> <span>{{s.d_name}}</span> <br>
+                  <strong>전형명 :</strong> <span>{{s.admission}}</span> <br>
+                  <strong>전형방법 :</strong> <span>{{s.ad_info}}</span> <br>
+                  <span class="badge badge-pill badge-info">2018년도 합격자 수기 보기</span>
+                  <span class="badge badge-pill badge-info">2018년도 모집요강 보기</span><br/>
+                  </span>
               </div>
-            
-            </div>
-          </div>
-            <div class="panel">
-                  <div class="card">
-                    
-              <center><button style="width:100%" type="button" class="btn btn-light" data-toggle="collapse" data-target="#collapsible-2s2" data-parent="#myAccordion-2">한양대 화학공학과</button></center>
-              <div id="collapsible-2s2" class="collapse">
-
-              </div>
-            
             </div>
           </div>
         </div>
       </div>
-    
+                {% endfor%}
+            {% endif %}
 </div>
-        </div>
-    </div>
-    <br>
+</div>
+</div>
+
     <div class="panel">
       <div class="card">
       <div class="card-body">
         <button style="width:100%" type="button" class="btn btn-success" data-toggle="collapse" data-target="#collapsible-3" data-parent="#myAccordion">안정</button>
+        {% if so_list %}
+            {% for s in so_list %}
         <div id="collapsible-3" class="collapse show">
-            
           <div class="accordion" id="myAccordion-3">
             <div class="panel">
               <div class="card">
-              <center><button style="width:100%" type="button" class="btn btn-light" data-toggle="collapse" data-target="#collapsible-3s1" data-parent="#myAccordion-3">아주대 생명과학과</button></center>
-              <div id="collapsible-3s1" class="collapse">
-              
-              </div>
-            
-            </div>
-            <div class="panel">
-              <div class="card">
-                
-              <center><button style="width:100%" type="button" class="btn btn-light" data-toggle="collapse" data-target="#collapsible-3s2" data-parent="#myAccordion-3">이화여대 생명과학과</button></center>
-              <div id="collapsible-3s2" class="collapse">
+              <center><button style="width:100%" type="button" class="btn btn-light" data-toggle="collapse" data-target="#collapsible-3s{{s.id}}" data-parent="#myAccordion-3">{{s.c_name}} {{s.d_name}}</button></center>
+              <div id="collapsible-3s{{s.id}}" class="collapse">
+                  <span>
+                  <strong>지역 :</strong> <span>서울/인천/경기</span> <br>
+                  <strong>대학 :</strong> <span>{{s.c_name}}</span> <br>
+                  <strong>학과 :</strong> <span>{{s.d_name}}</span> <br>
+                  <strong>전형명 :</strong> <span>{{s.admission}}</span> <br>
+                  <strong>전형방법 :</strong> <span>{{s.ad_info}}</span> <br>
+                  <span class="badge badge-pill badge-info">2018년도 합격자 수기 보기</span>
+                  <span class="badge badge-pill badge-info">2018년도 모집요강 보기</span><br/>
+                  </span>
               </div>
             
             </div>
           </div>
-</div>
-</div>
-</div>
-</div>
+          </div>
         </div>
-    </div>
-</div>
-    
+                          {% endfor%}
+            {% endif %}
+      </div>
+    </div>  
+
   </div>
 </div>
+</div>
+    <br>
 <br>
-
  <!-- <div class="mb-4" id="accordion" role="tablist" aria-multiselectable="true">
       <div class="card">
         <div class="card-header" role="tab" id="headingOne">
@@ -216,6 +190,4 @@
       </div>
     </div>
   </div> -->
-
-</div>
     {% endblock %}

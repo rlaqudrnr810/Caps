@@ -1,0 +1,63 @@
+{% load static %}
+<html>
+<head>
+<style type="text/css">
+	#footer {
+
+    position:absolute;
+
+    bottom:0;
+
+    width:100%;
+
+    height:70px;   
+
+    background:#ccc;
+
+}
+</style>
+    <!-- Bootstrap CSS 로드-->
+    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="{% static 'css/modern-business.css' %}" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="{% static 'css/style.css' %}"> -->
+      <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div class="container">
+
+ <!-- Page Heading/Breadcrumbs -->
+{% if p %}
+{% for i in p|slice:":1" %}
+<div class="card">
+  <div class="card-header"><strong>연도 : </strong> <span>{{i.c_name.year}}년</span> <br>
+  <strong>대학 : </strong> <span>{{i.c_name}}</span> <br>
+  <strong>학과 : </strong> <span>{{i.c_name.d_name}}</span> <br>
+  <strong>전형명 : </strong> <span>{{i.c_name.admission}}</span> <br>
+  <strong>전형방법 :</strong> <span>{{i.c_name.ad_info}}</span> <br>
+</div>
+{% endfor %}
+{% for s in p %}
+<div class="card-body">
+  <span class="badge badge-success">{{forloop.counter}}번 수기</span><br>
+<strong>봉사시간 :</strong> <span>{{s.volunteer}}시간</span> <br>
+  <strong>내신 :</strong> <span>{{s.rate}}등급</span> <br>
+  <strong>임원활동 :</strong> <span>{{s.president}}번</span> <br>
+  <strong>무단결석 :</strong> <span>{{s.absence}}번</span> <br>
+  <strong>수상경력 :</strong> <span>{{s.award}}개</span> <br>
+  <strong>동아리활동 :</strong> <span>{{s.club}}번</span> <br>
+  <strong>독후감 :</strong> <span>{{s.book_report}}개</span> <br>
+  <span class="badge badge-pill badge-primary">내용</span><br><span> {{s.content}}</span>
+</div>
+<hr class="style1">
+{% endfor %}
+</div>
+{% else %}
+결과가 없습니다. 다시 시도해주세요
+{% endif %}
+</body>
+
+</html>

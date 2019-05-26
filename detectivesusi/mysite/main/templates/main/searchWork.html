@@ -1043,6 +1043,13 @@ $("select").each(function(cSelect) {
 
 
 {% endif %}
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
 <!-- js 부분 -->
 <script
   src="https://code.jquery.com/jquery-1.4.4.min.js"
