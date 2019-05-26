@@ -56,6 +56,7 @@ class input_data(models.Model):
 
 class c_admission(models.Model):
 	c_name = models.CharField(null=True,blank=True,max_length=50)	# 대학교 이름
+	d_type = models.CharField(null=True,blank=True,max_length=50)	# 학부 계열
 	d_name = models.CharField(null=True,blank=True,max_length=50)	# 학과 이름
 	admission = models.CharField(null=True,blank=True,max_length=50)# 전형명
 	year = models.IntegerField(null=True,blank=True)				# 연도
@@ -63,11 +64,12 @@ class c_admission(models.Model):
 	cut_off = models.FloatField(null=True,blank=True)				# 
 	l_cut_off = models.FloatField(null=True,blank=True)				# 
 	ad_info = models.CharField(null=True,blank=True,max_length=50)	# 입학 정보
+
 	def __str__(self):
 	   return self.c_name	# object -> c_name 출력
 
-# class test(models.Model):
-# 	test=models.CharField(null=True,blank=True,max_length=50)	# test
+	class Meta:
+		unique_together = ("c_name", "d_name","admission","year")
 
 class c_info(models.Model):
 	c_name = models.ForeignKey(c_admission,on_delete=models.CASCADE)	# 대학교

@@ -27,14 +27,20 @@ def search_result(request):
     #현재유저 정보 user 에 저장
     user = request.user
     postset = chk_value.objects.filter(user=user).order_by('-pk')[0]
+    
     # 검색 결과 insert
-    college=c_admission.objects.get(c_name="중앙대")
-    search_his = search_history (ch_val=postset,
-                     c_name=college,
-            )
-    search_his.save()
+    outputList = c_admission.objects.raw('SELECT * FROM main_c_admission')
+    
+
+    for s in outputList:
+    #college = c_admission.objects.get(c_name)
+        search_his = search_history (ch_val=postset,
+                                    c_name=s,
+                                    )
+        search_his.save()
+
     # 계산항목 !!
-    # preferwhere1, preferwhere2, preferwhere3 => univ where
+    # where d_name like %chk_val.prefertype1% || # preferwhere1, preferwhere2, preferwhere3 => univ where
     # prefertype1, prefertype2, prefertype3, prefertype4, prefertype5, prefertype6 => prefertype
     # total_avgrate, main_avgrate, executive_cnt, absent, award_cnt, circle_cnt, volunteer, reading
 
@@ -456,6 +462,8 @@ def del_result(request):
     url = '/result'
     return redirect(url)
 
+# show_result/?id= []  값 얻어와서 넘겨줌.
+# chk_value 에 해당 id 값의 데이터 가져오고, 그 chk_val에 해당하는 레코드를 search_history에서 가져옴.
 def show_result(request):
     rid = request.GET['id']
     user=request.user
