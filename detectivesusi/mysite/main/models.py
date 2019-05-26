@@ -56,7 +56,7 @@ class input_data(models.Model):
 
 class c_admission(models.Model):
 	c_name = models.CharField(null=True,blank=True,max_length=50)	# 대학교 이름
-	d_type = models.CharField(null=True,blank=True,max_length=50)	# 학부 계열
+	d_type = models.CharField(null=True,blank=True,max_length=50,default='')	# 학부 계열
 	d_name = models.CharField(null=True,blank=True,max_length=50)	# 학과 이름
 	admission = models.CharField(null=True,blank=True,max_length=50)# 전형명
 	year = models.IntegerField(null=True,blank=True)				# 연도
@@ -69,7 +69,7 @@ class c_admission(models.Model):
 	   return self.c_name	# object -> c_name 출력
 
 	class Meta:
-		unique_together = ("c_name", "d_name","admission","year")
+		unique_together = ("c_name", "d_type","d_name","admission","year")
 
 class c_info(models.Model):
 	c_name = models.ForeignKey(c_admission,on_delete=models.CASCADE)	# 대학교

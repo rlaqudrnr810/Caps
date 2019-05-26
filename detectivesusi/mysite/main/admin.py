@@ -30,7 +30,7 @@ class input_dataAdmin(admin.ModelAdmin):
 admin.site.register(input_data, input_dataAdmin)
 
 class c_admissionAdmin(admin.ModelAdmin):
-    list_display = ['c_name', 'd_name']
+    list_display = ['c_name', 'd_type','d_name','year']
 admin.site.register(c_admission, c_admissionAdmin)
 
 class c_infoAdmin(admin.ModelAdmin):
