@@ -4,8 +4,14 @@
 {% if messages %}
 <script>
   alert('분석완료!');
-  </script>
+</script>
 {% endif%}
+<script>
+  function btn_show(s_id){
+        alert('해당 결과를 출력합니다.');
+        window.open('../hap/?id='+s_id,'_target','width=500,height=700');
+    }
+  </script>
 <iframe id="fileDown" style='visibility:hidden' src="" width="1" height="1"></iframe>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <div class="container">
@@ -53,7 +59,7 @@
                   <strong>전형명 :</strong> <span>{{s.admission}}</span> <br>
                   <strong>전형방법 :</strong> <span>{{s.ad_info}}</span> <br>
                   <strong>3개년 수시 합격자 평균 :</strong> <span>{{s.cut_off}}</span> <br>
-                  <a href="../hap/?id={{s.id}}"><span class="badge badge-pill badge-info">합격자 수기 보기</span></a>
+                  <span class="badge badge-pill badge-info" onclick="btn_show({{s.id}})">합격자 수기 보기</span>
                   <a href="../media/2020/{{s.c_name}}.pdf"><span class="badge badge-pill badge-info">2020년도 모집요강 보기</span></a><br/>
                 </div>
              </div>
@@ -88,7 +94,7 @@
                   <strong>전형명 :</strong> <span>{{s.admission}}</span> <br>
                   <strong>전형방법 :</strong> <span>{{s.ad_info}}</span> <br>
                   <strong>3개년 수시 합격자 평균 :</strong> <span>{{s.cut_off}}</span> <br>
-                  <a href="../hap/?id={{s.id}}"><span class="badge badge-pill badge-info">합격자 수기 보기</span></a>
+                  <span class="badge badge-pill badge-info" onclick="btn_show({{s.id}})">합격자 수기 보기</span>
                   <a href="../media/2020/{{s.c_name}}.pdf"><span class="badge badge-pill badge-info">2020년도 모집요강 보기</span></a><br/>
                   </span>
               </div>
@@ -121,7 +127,7 @@
                   <strong>전형명 :</strong> <span>{{s.admission}}</span> <br>
                   <strong>전형방법 :</strong> <span>{{s.ad_info}}</span> <br>
                   <strong>3개년 수시 합격자 평균 :</strong> <span>{{s.cut_off}}</span> <br>
-                  <a href="../hap/?id={{s.id}}"><span class="badge badge-pill badge-info">합격자 수기 보기</span></a>
+                  <span class="badge badge-pill badge-info" onclick="btn_show({{s.id}})">합격자 수기 보기</span>
                   <a href="../media/2020/{{s.c_name}}.pdf"><span class="badge badge-pill badge-info">2020년도 모집요강 보기</span><br/></a>
                   </span>
               </div>

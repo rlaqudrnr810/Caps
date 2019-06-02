@@ -47,8 +47,15 @@ def search_result(request):
 
     # 소신 대학리스트 뽑기      합격자 가장 좋은 내신 =  본인내신-0.2 ~ 본인내신-0.5
     if search_history.objects.filter(ch_val=postset).count()==0:    #0임
-        unsafe_outputList = c_admission.objects.filter(l_cut_off__lt=2*postset.total_avgrate-F('cut_off'),l_cut_off__gt=postset.total_avgrate).filter(Q(d_name__contains=postset.prefertype1)|Q(d_name__contains=postset.prefertype2)|Q(d_name__contains=postset.prefertype3)|Q(d_name__contains=postset.prefertype4)|Q(d_name__contains=postset.prefertype5)|Q(d_name__contains=postset.prefertype6)).order_by('?')[:4]#, l_cut_off__lt=2*postset.total_avgrate-F('cut_off'))
+        if Profile.objects.get(user=user).h_type=="특성화": 
+            unsafe_outputList = c_admission.objects.filter(l_cut_off__lt=2*postset.total_avgrate-F('cut_off'),l_cut_off__gt=postset.total_avgrate).filter(Q(d_name__contains=postset.prefertype1)|Q(d_name__contains=postset.prefertype2)|Q(d_name__contains=postset.prefertype3)|Q(d_name__contains=postset.prefertype4)|Q(d_name__contains=postset.prefertype5)|Q(d_name__contains=postset.prefertype6))
+        else:   #특성화 고교 아닐 시 특성화 아닌 result set
+            unsafe_outputList = c_admission.objects.filter(l_cut_off__lt=2*postset.total_avgrate-F('cut_off'),l_cut_off__gt=postset.total_avgrate).filter(Q(d_name__contains=postset.prefertype1)|Q(d_name__contains=postset.prefertype2)|Q(d_name__contains=postset.prefertype3)|Q(d_name__contains=postset.prefertype4)|Q(d_name__contains=postset.prefertype5)|Q(d_name__contains=postset.prefertype6)).filter(~Q(admission__contains="특성화"))#, l_cut_off__lt=2*postset.total_avgrate-F('cut_off'))
         #unsafe_outputList= unsafe_outputList.filter(Q(d_name__contains=postset.prefertype1)|Q(d_name__contains=postset.prefertype2)|Q(d_name__contains=postset.prefertype3)|Q(d_name__contains=postset.prefertype4)|Q(d_name__contains=postset.prefertype5)|Q(d_name__contains=postset.prefertype6)).order_by('?')[:4]
+        if Profile.objects.get(user=user).sex=="남":
+            unsafe_outputList = unsafe_outputList.filter(~Q(admission__contains="여자")).order_by('?')[:4]
+        else:
+            unsafe_outputList = unsafe_outputList.order_by('?')[:4]
         for s in unsafe_outputList:    # 소신 대학 리스트
             search_his = search_history (ch_val=postset,
                                         c_name=s,
@@ -58,9 +65,17 @@ def search_result(request):
 
 
         # 적정 대학리스트 뽑기
-        outputList = c_admission.objects.filter(l_cut_off__gt=2*postset.total_avgrate-F('cut_off'),  h_cut_off__lt=2*postset.total_avgrate-F('cut_off')).filter(Q(d_name__contains=postset.prefertype1)|Q(d_name__contains=postset.prefertype2)|Q(d_name__contains=postset.prefertype3)|Q(d_name__contains=postset.prefertype4)|Q(d_name__contains=postset.prefertype5)|Q(d_name__contains=postset.prefertype6)).order_by('?')[:4]
+        if Profile.objects.get(user=user).h_type=="특성화": 
+            outputList = c_admission.objects.filter(l_cut_off__gt=2*postset.total_avgrate-F('cut_off'),  h_cut_off__lt=2*postset.total_avgrate-F('cut_off')).filter(Q(d_name__contains=postset.prefertype1)|Q(d_name__contains=postset.prefertype2)|Q(d_name__contains=postset.prefertype3)|Q(d_name__contains=postset.prefertype4)|Q(d_name__contains=postset.prefertype5)|Q(d_name__contains=postset.prefertype6))
+        else:
+            outputList = c_admission.objects.filter(l_cut_off__gt=2*postset.total_avgrate-F('cut_off'),  h_cut_off__lt=2*postset.total_avgrate-F('cut_off')).filter(Q(d_name__contains=postset.prefertype1)|Q(d_name__contains=postset.prefertype2)|Q(d_name__contains=postset.prefertype3)|Q(d_name__contains=postset.prefertype4)|Q(d_name__contains=postset.prefertype5)|Q(d_name__contains=postset.prefertype6)).filter(~Q(admission__contains="특성화"))
         #outputList= outputList.filter(Q(d_name__contains=postset.prefertype1)|Q(d_name__contains=postset.prefertype2)|Q(d_name__contains=postset.prefertype3)|Q(d_name__contains=postset.prefertype4)|Q(d_name__contains=postset.prefertype5)|Q(d_name__contains=postset.prefertype6)).order_by('?')[:4]
         #outputList= c_admission.objects.filter(Q(d_name__contains=postset.prefertype1)|Q(d_name__contains=postset.prefertype2)|Q(d_name__contains=postset.prefertype3)|Q(d_name__contains=postset.prefertype4)|Q(d_name__contains=postset.prefertype5)|Q(d_name__contains=postset.prefertype6)).order_by('?')[:4]
+        if Profile.objects.get(user=user).sex=="남":
+            outputList = outputList.filter(~Q(admission__contains="여자")).order_by('?')[:4]
+        else:
+            outputList = outputList.order_by('?')[:4]
+
         for s in outputList:    # 적정 대학 리스트
             search_his = search_history (ch_val=postset,
                                         c_name=s,
@@ -69,7 +84,15 @@ def search_result(request):
             search_his.save()
         
         # 안정 대학 리스트 뽑기
-        safe_outputList = c_admission.objects.filter(h_cut_off__gt=2*postset.total_avgrate-F('cut_off'),h_cut_off__lt=postset.total_avgrate).filter(Q(d_name__contains=postset.prefertype1)|Q(d_name__contains=postset.prefertype2)|Q(d_name__contains=postset.prefertype3)|Q(d_name__contains=postset.prefertype4)|Q(d_name__contains=postset.prefertype5)|Q(d_name__contains=postset.prefertype6)).order_by('?')[:4]
+        if Profile.objects.get(user=user).h_type=="특성화": 
+            safe_outputList = c_admission.objects.filter(h_cut_off__gt=2*postset.total_avgrate-F('cut_off'),h_cut_off__lt=postset.total_avgrate).filter(Q(d_name__contains=postset.prefertype1)|Q(d_name__contains=postset.prefertype2)|Q(d_name__contains=postset.prefertype3)|Q(d_name__contains=postset.prefertype4)|Q(d_name__contains=postset.prefertype5)|Q(d_name__contains=postset.prefertype6))
+        else:
+            safe_outputList = c_admission.objects.filter(h_cut_off__gt=2*postset.total_avgrate-F('cut_off'),h_cut_off__lt=postset.total_avgrate).filter(Q(d_name__contains=postset.prefertype1)|Q(d_name__contains=postset.prefertype2)|Q(d_name__contains=postset.prefertype3)|Q(d_name__contains=postset.prefertype4)|Q(d_name__contains=postset.prefertype5)|Q(d_name__contains=postset.prefertype6)).filter(~Q(admission__contains="특성화"))
+
+        if Profile.objects.get(user=user).sex=="남":
+            safe_outputList = safe_outputList.filter(~Q(admission__contains="여자")).order_by('?')[:4]
+        else:
+            safe_outputList = safe_outputList.order_by('?')[:4]
 
         for s in safe_outputList:    # 안정 대학 리스트
             search_his = search_history (ch_val=postset,
@@ -176,7 +199,8 @@ def search(request):
         context = {
             'input_datas': datass,
         }
-    return render(request, 'main/search.html',context)
+        return render(request, 'main/search.html',context)
+    return render(request, 'main/search.html')    
     #return render(request, 'main/search.html',context)
 
 def faq(request):
@@ -201,6 +225,7 @@ def login(request):
             login_form.add_error(None, '아이디 또는 비밀번호가 올바르지 않습니다')
     else:
         login_form = LoginForm()
+
     context = {
         'login_form': login_form,
     }
@@ -447,7 +472,7 @@ def save_chk1(request):
     else:
         preferRegions0 = False
     chk = chk_value (user = request.user,
-                     preferwhere1 = request.POST['preferRegions0'],
+                     preferwhere1 = request.POST.get('preferRegions0'),
                      preferwhere2 = request.POST['preferRegions1'],
                      preferwhere3 = request.POST['preferRegions2'],
                      prefertype1 = request.POST['college0'],
@@ -567,3 +592,15 @@ def handler500(request, *args, **argv):
     response = render(request, "main/500.html", {})
     response.status_code = 500
     return response
+
+@csrf_exempt
+def idcheck(request):
+    username = request.POST.get('h_username')
+    if User.objects.filter(username=username).exists():
+        messages.error(request,'중복된 아이디입니다!')
+    else:
+        messages.success(request, '등록 가능한 아이디입니다.')
+    context={
+        'id': username,
+    }
+    return render(request,'main/signup.html',context)

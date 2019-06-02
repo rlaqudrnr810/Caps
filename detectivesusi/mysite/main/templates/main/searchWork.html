@@ -124,24 +124,25 @@ $("#college5").change(function() {
 });
 
 //SELECT 옵션 들 중복 방지
-// $("select").each(function(cSelect) {
-//     $(this).data('stored-value', $(this).val());
-//   });
+$("select").each(function(cSelect) {
+    $(this).data('stored-value', $(this).val());
+  });
 
-//   $("select").change(function() {
-//     var cSelected = $(this).val();
-//     var cPrevious = $(this).data('stored-value');
-//     $(this).data('stored-value', cSelected);
+  $("select").change(function() {
+    var cSelected = $(this).val();
+    var cPrevious = $(this).data('stored-value');
+    $(this).data('stored-value', cSelected);
 
-//     var otherSelects = $("select").not(this);
-//     otherSelects.find('option[value=' + cPrevious + ']').removeAttr('disabled');
-//     otherSelects.find('option[value=' + cSelected + ']').attr('disabled', 'disabled');
-//   });
+    var otherSelects = $("select").not(this);
+    otherSelects.find('option[value=' + cPrevious + ']').removeAttr('disabled');
+    otherSelects.find('option[value=' + cSelected + ']').attr('disabled', 'disabled');
+  });
 
 });
+
 </script>
 {% endif %}
-                 <div class="selfCheckForm">
+                <div class="selfCheckForm">
                     <form method="post" name=chk1form action="/save_chk1/">
                         <div id="selfcheck2">
                             <div class="form-group">
@@ -149,7 +150,7 @@ $("#college5").change(function() {
                                     <div class="form-label">
                                     <span>
                                       <strong>1. 선호지역 선택</strong><br/>
-                                        ※ 1개 항목 선택 필수, 최대 3개 선택 가능<br/>
+                                        ※ 2개 항목 선택 필수, 최대 3개 선택 가능<br/>
                                         ※ 선택 항목은 우선 순위 없이 일괄 적용됩니다.<br/>
                                         ※ 전문 대학은 추천 대학에서 제외됩니다.<br/>
                                         ※ 현재는 서울/인천/경기 지역과 지방 거점 국립대 만 서비스됩니다. ※
@@ -157,19 +158,16 @@ $("#college5").change(function() {
                                     </div>
                                 </div>
                                 <select style="margin-bottom: 5px;"
-                                        class="form-control preferRegions" name="preferRegions0" id="preferRegions0"onFocus='this.initialSelect = this.selectedIndex;' onChange='this.selectedIndex = this.initialSelect;'>
+                                        class="form-control preferRegions" name="preferRegions0" id="preferRegions0"onFocus='this.initialSelect = this.selectedIndex;'>
+                                        <!--변경 방지 onChange='this.selectedIndex = this.initialSelect;' -->
                                     <option value="-1" >터치하면 리스트가 보입니다.</option>
                                     <option
                                             value="서울인천경기" selected="selected">서울/인천/경기</option>
                                     <option
                                             value="지방거점국립대">지방 거점 국립대</option>
-                                    <!-- <option
-                                            value="교육대학">교육대학</option>
-                                    <option
-                                            value="과학기술대학">과학기술대학</option> -->
                                 </select>
                                  <select style="margin-bottom: 5px;"
-                                        class="form-control preferRegions" name="preferRegions1" id="preferRegions1" onFocus='this.initialSelect = this.selectedIndex;' onChange='this.selectedIndex = this.initialSelect;'>
+                                        class="form-control preferRegions" name="preferRegions1" id="preferRegions1" onFocus='this.initialSelect = this.selectedIndex;'>
                                     <option value="-1" selected="selected" readonly>터치하면 리스트가 보입니다.</option>
                                     <option
                                             value="서울인천경기">서울/인천/경기</option>
@@ -177,7 +175,7 @@ $("#college5").change(function() {
                                             value="지방거점국립대" selected="selected">지방 거점 국립대</option>
                                 </select>
                                  <select style="margin-bottom: 5px;"
-                                        class="form-control preferRegions" name="preferRegions2" id="preferRegions2"onFocus='this.initialSelect = this.selectedIndex;' onChange='this.selectedIndex = this.initialSelect;'>
+                                        class="form-control preferRegions" name="preferRegions2" id="preferRegions2"onFocus='this.initialSelect = this.selectedIndex;'>
                                     <option value="-1" selected="selected">터치하면 리스트가 보입니다.</option>
                                     <option
                                             value="서울인천경기" >서울/인천/경기</option>
@@ -805,8 +803,8 @@ $("#college5").change(function() {
 
                                 <table class="input-table">
                                     <colgroup>
-                                        <col width="80"/>
-                                        <col width="90%"/>
+                                        <col width="66%"/>
+                                        <col width="50px"/>
                                         <col />
                                     </colgroup>
                                     <tbody>
@@ -824,11 +822,6 @@ $("#college5").change(function() {
                                             </div>
                                         </td>
                                         <td>회</td>
-                                    </tr>
-                                    <tr>
-                                        <th colspan="3" style="padding-top:15px;">
-                                            * 학급 임원으로서 학교 임원인 경우 중복 체크
-                                        </th>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -1444,7 +1437,7 @@ $(document).ready(function() {
         }
          jQuery(function($){    //쿠키삭제 부분
            //$.removeCookie('readingCnt7', { path: '/' });
-           alert('쿠키삭제!');
+//           alert('쿠키삭제!');
         });
         location.href='/search_result/';    
 }

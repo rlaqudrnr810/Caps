@@ -29,7 +29,7 @@ urlpatterns = [
     path('listSpecificPageWork_to_update/', views.listSpecificPageWork_to_update),
     path('updateBoard/', views.updateBoard),
     path('DeleteSpecificRow/', views.DeleteSpecificRow),
-
+    path('idcheck/', views.idcheck),
     # save in search page
     path('save_chk/', views.save_chk),
     path('save_chk2/', views.save_chk2),
