@@ -3,8 +3,15 @@
 
 <script>
   function idcheck(){
-    if(document.getElementById('username').value){
-      alert(document.getElementById('username').value);
+    tmp_id = document.getElementById('username').value;
+    if(tmp_id){
+      alert(tmp_id);
+      $('#h_username').val(tmp_id);
+      alert($('#h_username').val());
+      form = document.hidd;
+      form.submit();
+      alert('dd');
+
     }
     else {
       alert('ID를 작성해주세요.');
@@ -40,6 +47,7 @@
             <label for="id_username"><b>ID : </b></label>
             <input type="text" id="username" name="username" class="form-control" required id="id_username" placeholder="ID">
             <button type="button" id="chk" onclick="idcheck()" >중복확인</button>
+            <form method="post" name="hidd" id="hidd"><input type="hidden" name="h_username" value=""></form>
          </div>
 
       

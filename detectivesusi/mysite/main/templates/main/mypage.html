@@ -18,23 +18,25 @@
   <!-- /.container -->
   {% if user.is_authenticated %}
   <script>
+    /*카테고리 확인*/
+
 var stdScoreType = '';
-function gotoScoreDetail(tp){           
-        gfn_Submission_Call("/kcue/ast/eip/com/getStdptView.do", 'type='+tp+"&userId=20-1043555541", function(data){
-            if(data != null){
-                $("#scoreDetailView").html(data);
-            }
-        },'html');
-}
-$(document).ready(function(){
-    if('' == stdScoreType){
-        var item = sessionStorage.getItem("stdptExno");
-        if(typeof item !== 'string') item = ('' != '') ? '' : '31';
+// function gotoScoreDetail(tp){           
+//         gfn_Submission_Call("/kcue/ast/eip/com/getStdptView.do", 'type='+tp+"&userId=20-1043555541", function(data){
+//             if(data != null){
+//                 $("#scoreDetailView").html(data);
+//             }
+//         },'html');
+// }
+// $(document).ready(function(){
+//     if('' == stdScoreType){
+//         var item = sessionStorage.getItem("stdptExno");
+//         if(typeof item !== 'string') item = ('' != '') ? '' : '31';
         
-        sessionStorage.setItem("stdptExno", item);
-        gotoScoreDetail(item);
-    }
-});
+//         sessionStorage.setItem("stdptExno", item);
+//         gotoScoreDetail(item);
+//     }
+// });
 function gotograde(tp){
       location.replace("/mypage?igrade="+tp);
 }
@@ -103,10 +105,6 @@ function showgrade(tp){
 <!-- //학생부성적 -->
 <div id="scoreDetailView" class="table_box4 mgt25">
 
-
-
-
-
 <style type="text/css">
 #sgcTblBd input[type="text"]{text-align: center;}
 @charset "utf-8";
@@ -163,15 +161,7 @@ function fn_check_num(str_val, type){
     return true;
 }
 
-/***********************************************************************
-함수명 : isNum(inputValue)
-설 명 : 숫자만 입력 하도록 체크
-인 자 : 
-사용법 : isNum(inputValue)
-작성자 : 홍인성
------- ------ -------------------
-2015.11.04 홍인성 최초생성
-***********************************************************************/
+//숫자 입력
 function isNum(inputValue, min, max){
     var checkCode = inputValue.value.charCodeAt(inputValue.value.length-1);
     var str;
@@ -201,92 +191,6 @@ function isNum(inputValue, min, max){
         }
         inputValue.focus();
     }
-}
-
-/***********************************************************************
-함수명 : isNum2(inputValue)
-설 명 : 숫자만 입력 하도록 체크(단, 과목평균과 표준편차는 소수점 입력 가능)
-인 자 : 
-사용법 : isNum2(inputValue)
-작성자 : 홍인성
------- ------ -------------------
-2015.11.04 홍인성 최초생성
-***********************************************************************/
-function isNum2(inputValue, min, max){
-    var checkCode = inputValue.value.charCodeAt(inputValue.value.length-1);
-    var str;
-    
-    if(inputValue.value.length > 0 && !(checkCode >=48 && checkCode <=57 || checkCode == 46)){
-        alert("숫자만 입력가능합니다.");
-        
-        var thisLength = inputValue.value.length;
-        for(var i=0; i<thisLength; i++){
-            checkCode_for = inputValue.value.charCodeAt(inputValue.value.length-1);
-            if(!(checkCode_for >= 48 && checkCode_for <=57 || checkCode == 46)){
-                str = inputValue.value.substring(0, inputValue.value.length-1);
-                inputValue.value = str;
-            }
-        }
-        inputValue.focus();
-    }else if(inputValue.value.length = 0 || checkCode >= 48 && checkCode <=57 || checkCode == 46){
-        if(typeof min === 'number' && typeof max === 'number'){
-            var v = Number(inputValue.value);
-            if(v < min || v > max) {
-                alert(min + ' ~ ' + max + ' 사이의 값만 사용 가능합니다.');
-                str = inputValue.value.substring(0, (max-1).toString().length);
-                inputValue.value = str;
-            }
-        }
-        inputValue.focus();
-    }
-}
-
-/***********************************************************************
-함수명 : isNum(inputValue)
-설 명 : 숫자만 입력 하도록 체크
-인 자 : 
-사용법 : isNum(inputValue)
-작성자 : 홍인성
------- ------ -------------------
-2015.11.04 홍인성 최초생성
-***********************************************************************/
-function isNum3(inputValue, min, max){
-    
-    if($(inputValue).val() == ""){
-        alert("숫자만 입력가능합니다.");
-        return false;
-    }
-    
-    var checkCode = $(inputValue).val().charCodeAt($(inputValue).val().length-1);
-    var str;
-    
-    if($(inputValue).val().length > 0 && !(checkCode >=48 && checkCode <=57)){
-        alert("숫자만 입력가능합니다.");
-        
-        var thisLength = $(inputValue).val().length;
-        for(var i=0; i<thisLength; i++){
-            checkCode_for = $(inputValue).val().charCodeAt($(inputValue).val().length-1);
-            if(!(checkCode_for >= 48 && checkCode_for <=57)){
-                str = $(inputValue).val().substring(0, $(inputValue).val().length-1);
-                $(inputValue).val(str);
-            }
-        }
-        $(inputValue).focus();
-        return false;
-    }else if($(inputValue).val().length = 0 || checkCode >= 48 && checkCode <=57){
-        if(typeof min === 'number' && typeof max === 'number'){
-            var v = Number($(inputValue).val());
-            if(v < min || v > max) {
-                alert(min + ' ~ ' + max + ' 사이의 값만 사용 가능합니다.');
-                str = $(inputValue).val().substring(0, (max-1).toString().length);
-                $(inputValue).val(str);
-                return false;
-            }
-        }
-        $(inputValue).focus();
-    }
-    
-    return true;
 }
 
 function btn_upd_onclick(rid)
@@ -456,17 +360,48 @@ function sel_course_onchange(courseId, courseSn)
     }
     , "json");
 }
+/* 선택교과별 과목 선택 */
+function setcate(rid){
+    var g1 = ["과목선택","국어I","국어II","화법과 작문", "독서와 문법", "문학", "고전", "화법과 작문I", "화법과 작문II", "독서와 문법I","독서와 문법II", "문학I","문학II","국어","문학개론","문장론","고전문학","통합국어I","매체와 문학","희곡 창작","소설 창작","시 창작 입문"];
+    var g2 = ["과목선택","기초 수학", "수학I", "수학II","확률과 통계", "미적분I","미적분II","기하와 벡터","고급수학I","고급수학II","수학의활용","고급수학","인문통합수학","자연통합수학"];
+    var g3 = ["과목선택","기초 영어","실용영어I","실용영어II","실용영어 회화","실용 영어 독해와 작문","영어I","영어II","영어회화","심화영어","심화영어회화I","심화영어회화II","영어","영어문법","영어강독","영어작문"];
+    var g4 = ["과목선택","한국 지리","세계 지리","한국사","동아시아사","세계사","경제","법과 정치","사회·문화","국제 정치","국제 경제","국제 관계와 국제 기구","세계 문제","비교 문화","사회 과학 방법론","한국의 사회와 문화","국제법","지역 이해","인류의 미래 사회"];
+    var g5 = ["과목선택","과학","물리Ⅰ","물리Ⅱ","화학Ⅰ","화학Ⅱ","생명 과학Ⅰ","생명 과학Ⅱ","지구 과학Ⅰ","지구 과학Ⅱ","고급 물리","물리 실험","고급 화학","화학 실험","고급 생명 과학","생명 과학 실험"];
+    var g6 = ["과목선택","운동과 건강 생활","스포츠 문화","스포츠 과학","스포츠 개론","체육과 진로 탐구","육상 운동","체조 운동","수상 운동","개인 및 대인 운동","단체 운동","체력 운동"];
+    var changeItem;
+    if($("#cmpl-"+rid).val() == "국어"){
+      changeItem=g1;
+    }
+    else if($("#cmpl-"+rid).val() == "수학"){
+      changeItem=g2;
+    }
+    else if($("#cmpl-"+rid).val() == "영어"){
+      changeItem=g3;
+    }
+    else if($("#cmpl-"+rid).val() == "사회"){
+      changeItem=g4;
+    }
+    else if($("#cmpl-"+rid).val() == "과학"){
+      changeItem=g5;
+    }
+    else if($("#cmpl-"+rid).val() == "예체능"){
+      changeItem=g6;
+    }
+    $('#sbject-'+rid).empty();
+
+    for(var count = 0; count < changeItem.length; count++){                
+        var option = $("<option>"+changeItem[count]+"</option>");
+        $("#sbject-"+rid).append(option);
+    }
+}
+
 
 function getEditRow(rid,courseSn,sbjectSn,unit,grde,org,avg,std,cnt,cmpl){
     console.log('typeof', typeof cmpl);
     return  '<td>'+rid+'</td>'
      + '<td id="course-c-'+rid+'">'
      + '<label class="tts" for="course-'+rid+'">추가할 교과 선택</label>'
-     // + '<select class="w80" id="course-'+rid+'" name="course-'+rid+'" onchange="sel_course_onchange('+rid+', this.value);" '+(courseSn != '' ? 'value="'+courseSn+'"': '')+'>'
-     // + '<option>교과선택</option>'
-     // + '</select>'
-     // + '</td>'
-     +'<select id="cmpl-'+rid+'" name="cmpl-'+rid+'" class="w60">'
+     +'<select id="cmpl-'+rid+'" name="cmpl-'+rid+'" class="w60" onchange="setcate('+rid+')">'
      + ((typeof cmpl === 'string') ?
          '<option value="-"'+((cmpl == '-')?' selected':'')+'>선택</option>'
          + '<option value="국어"'+((cmpl == '국어')?' selected':'')+'>국어</option>'
@@ -490,12 +425,11 @@ function getEditRow(rid,courseSn,sbjectSn,unit,grde,org,avg,std,cnt,cmpl){
      + '<label class="tts" for="sbject-'+rid+'">추가 할 과목선택</label>'
      + '<select class="w80" id="sbject-'+rid+'" name="sbject-'+rid+'" '+(sbjectSn != '' ? 'value="'+sbjectSn+'"': '')+'>'
          + '<option>과목선택</option>'
-         + '<option value="국어I">국어I</option>'
-         + '<option value="적분과통계">적분과 통계</option>'
-         + '<option value="기초회화">기초회화</option>'
-         + '<option value="화학II">화학II</option>'
+         // + '<option value="국어I">국어I</option>'
+         // + '<option value="적분과통계">적분과 통계</option>'
+         // + '<option value="기초회화">기초회화</option>'
+         // + '<option value="화학II">화학II</option>'
      + '</select>'
-
      + '</td>'
      + '<td id="unit-c-'+rid+'">'
      + '<label class="tts" for="unit-'+rid+'">단위수</label>' 

@@ -67,6 +67,14 @@
 
   </div>
   <!-- /.container -->
+  {% if input_datas %}
+{% else %}
+  <script>
+    //내신 입력한 데이터 없으면 입력하라고 질문
+    alert('입력하신 데이터가 없습니다. \n내신 입력을 먼저 해주세요!!');
+    location.href="../mypage/?igrade=11";
+  </script>
+{% endif %}
   {% else %}
   <script type="text/javascript">
     alert('로그인이 필요합니다! \n로그인 화면으로 이동합니다.')

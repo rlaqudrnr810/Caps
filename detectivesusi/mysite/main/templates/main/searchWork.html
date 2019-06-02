@@ -3,14 +3,6 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'css/search.css' %}">
 {% if user.is_authenticated %} 
-<!-- post test -->
-<!-- <table width=700 border=1 cellspacing=0 cellpadding=5>
-  <form name=avgform method=post action="/save_chk/">
-  <tr><td><b>이름</b></td><td><input type=text name=avgRate size=50  maxlength=50></td></tr>
-  <tr><td><b>제목</b></td><td><input type=text name=avgRate2 size=50  maxlength=50></td></tr>
-  </form>
-  </table>
- -->
 
   <!-- Page Content -->
   <div class="container">
@@ -132,19 +124,19 @@ $("#college5").change(function() {
 });
 
 //SELECT 옵션 들 중복 방지
-$("select").each(function(cSelect) {
-    $(this).data('stored-value', $(this).val());
-  });
+// $("select").each(function(cSelect) {
+//     $(this).data('stored-value', $(this).val());
+//   });
 
-  $("select").change(function() {
-    var cSelected = $(this).val();
-    var cPrevious = $(this).data('stored-value');
-    $(this).data('stored-value', cSelected);
+//   $("select").change(function() {
+//     var cSelected = $(this).val();
+//     var cPrevious = $(this).data('stored-value');
+//     $(this).data('stored-value', cSelected);
 
-    var otherSelects = $("select").not(this);
-    otherSelects.find('option[value=' + cPrevious + ']').removeAttr('disabled');
-    otherSelects.find('option[value=' + cSelected + ']').attr('disabled', 'disabled');
-  });
+//     var otherSelects = $("select").not(this);
+//     otherSelects.find('option[value=' + cPrevious + ']').removeAttr('disabled');
+//     otherSelects.find('option[value=' + cSelected + ']').attr('disabled', 'disabled');
+//   });
 
 });
 </script>
@@ -159,87 +151,38 @@ $("select").each(function(cSelect) {
                                       <strong>1. 선호지역 선택</strong><br/>
                                         ※ 1개 항목 선택 필수, 최대 3개 선택 가능<br/>
                                         ※ 선택 항목은 우선 순위 없이 일괄 적용됩니다.<br/>
-                                        ※ 전문 대학은 추천 대학에서 제외됩니다.
+                                        ※ 전문 대학은 추천 대학에서 제외됩니다.<br/>
+                                        ※ 현재는 서울/인천/경기 지역과 지방 거점 국립대 만 서비스됩니다. ※
                                     </span>
                                     </div>
                                 </div>
                                 <select style="margin-bottom: 5px;"
-                                        class="form-control preferRegions" name="preferRegions0" id="preferRegions0">
-                                    <option value="-1">터치하면 리스트가 보입니다.</option>
+                                        class="form-control preferRegions" name="preferRegions0" id="preferRegions0"onFocus='this.initialSelect = this.selectedIndex;' onChange='this.selectedIndex = this.initialSelect;'>
+                                    <option value="-1" >터치하면 리스트가 보입니다.</option>
                                     <option
-                                            value="서울인천경기">서울/인천/경기</option>
+                                            value="서울인천경기" selected="selected">서울/인천/경기</option>
                                     <option
-                                            value="강원">강원</option>
-                                    <option
-                                            value="충북">충북</option>
-                                    <option
-                                            value="대전충남">대전/충남</option>
-                                    <option
-                                            value="대구경북">대구/경북</option>
-                                    <option
-                                            value="부산울산경남">부산/울산/경남</option>
-                                    <option
-                                            value="전북">전북</option>
-                                    <option
-                                            value="광주전남">광주/전남</option>
-                                    <option
-                                            value="제주">제주</option>
+                                            value="지방거점국립대">지방 거점 국립대</option>
                                     <!-- <option
                                             value="교육대학">교육대학</option>
                                     <option
                                             value="과학기술대학">과학기술대학</option> -->
                                 </select>
                                  <select style="margin-bottom: 5px;"
-                                        class="form-control preferRegions" name="preferRegions1" id="preferRegions1">
-                                    <option value="-1">터치하면 리스트가 보입니다.</option>
+                                        class="form-control preferRegions" name="preferRegions1" id="preferRegions1" onFocus='this.initialSelect = this.selectedIndex;' onChange='this.selectedIndex = this.initialSelect;'>
+                                    <option value="-1" selected="selected" readonly>터치하면 리스트가 보입니다.</option>
                                     <option
                                             value="서울인천경기">서울/인천/경기</option>
                                     <option
-                                            value="강원">강원</option>
-                                    <option
-                                            value="충북">충북</option>
-                                    <option
-                                            value="대전충남">대전/충남</option>
-                                    <option
-                                            value="대구경북">대구/경북</option>
-                                    <option
-                                            value="부산울산경남">부산/울산/경남</option>
-                                    <option
-                                            value="전북">전북</option>
-                                    <option
-                                            value="광주전남">광주/전남</option>
-                                    <option
-                                            value="제주">제주</option>
-<!--                                     <option
-                                            value="교육대학">교육대학</option>
-                                    <option
-                                            value="과학기술대학">과학기술대학</option> -->
+                                            value="지방거점국립대" selected="selected">지방 거점 국립대</option>
                                 </select>
                                  <select style="margin-bottom: 5px;"
-                                        class="form-control preferRegions" name="preferRegions2" id="preferRegions2">
-                                    <option value="-1">터치하면 리스트가 보입니다.</option>
+                                        class="form-control preferRegions" name="preferRegions2" id="preferRegions2"onFocus='this.initialSelect = this.selectedIndex;' onChange='this.selectedIndex = this.initialSelect;'>
+                                    <option value="-1" selected="selected">터치하면 리스트가 보입니다.</option>
                                     <option
-                                            value="서울인천경기">서울/인천/경기</option>
+                                            value="서울인천경기" >서울/인천/경기</option>
                                     <option
-                                            value="강원">강원</option>
-                                    <option
-                                            value="충북">충북</option>
-                                    <option
-                                            value="대전충남">대전/충남</option>
-                                    <option
-                                            value="대구경북">대구/경북</option>
-                                    <option
-                                            value="부산울산경남">부산/울산/경남</option>
-                                    <option
-                                            value="전북">전북</option>
-                                    <option
-                                            value="광주전남">광주/전남</option>
-                                    <option
-                                            value="제주">제주</option>
-                                  <!--   <option
-                                            value="교육대학">교육대학</option>
-                                    <option
-                                            value="과학기술대학">과학기술대학</option> -->
+                                            value="지방거점국립대">지방 거점 국립대</option>
                                 </select>
                             </div>
 
@@ -258,135 +201,393 @@ $("select").each(function(cSelect) {
                                 <select style="margin-bottom: 5px;"
                                         class="form-control preferColleges"
                                         name="college0" id="college0">
-                                    <option value="-1">터치하면 리스트가 보입니다.</option>
-                                    <!-- <option value="인문자율전공">인문자율전공</option> -->
-                                    <option value="언어문학">언어/문학</option>
-                                    <option value="인문학">인문학</option>
-                                    <option value="경영경제">경영/경제</option>
-                                    <option value="법률">법률</option>
-                                    <option value="사회과학">사회과학</option>
+                                  <option value="-1">터치하면 리스트가 보입니다.</option>
+                                    <option value="화학">화학</option>
+                                    <option value="수학">수학</option>
+                                    <option value="생명">생명공학</option>
+                                    <option value="물리">물리</option>
+                                    <option value="의류">의류</option>
+                                    <option value="건축">건축</option>
+                                    <option value="교육">교육</option>
                                     <option value="유아교육">유아교육</option>
-                                    <option value="초등교육">초등교육</option>
-                                    <option value="중등교육">중등교육</option>
-                                    <option value="특수교육">특수교육</option>
+                                    <option value="아동">아동</option>
+                                    <option value="컴퓨터">컴퓨터</option>
+                                    <option value="전자">전자</option>
+                                    <option value="전기">전기</option>
+                                    <option value="환경">환경</option>
+                                    <option value="에너지">에너지</option>
+                                    <option value="원자력">원자력</option>
+                                    <option value="신소재">신소재</option>
+                                    <option value="산업">산업공학</option>
+                                    <option value="자동차">자동차</option>
+                                    <option value="기계">기계</option>
+                                    <option value="도시">도시</option>
+                                    <option value="행정">행정</option>
+                                    <option value="문학과">언어계열</option>
+                                    <option value="통번역">번역학</option>
+                                    <option value="정치">정치/외교</option>
+                                    <option value="경영">경영</option>
+                                    <option value="경제">경제</option>
+                                    <option value="사회">사회</option>
+                                    <option value="미디어">미디어</option>
+                                    <option value="법">법</option>
+                                    <option value="문화">문화</option>
+                                    <option value="심리">심리</option>
+                                    <option value="환경">환경</option>
+                                    <option value="정보">정보</option>
+                                    <option value="로봇">로봇</option>
+                                    <option value="철학">철학</option>
+                                    <option value="한문">한문</option>
+                                    <option value="의예">의과</option>
+                                    <option value="식품">식품</option>
+                                    <option value="통계">통계</option>
+                                    <option value="공공인재">공공인재</option>
                                     <option value="간호">간호</option>
-                                    <option value="건설">건설</option>
+                                    <option value="방송">방송</option>
+                                    <option value="스포츠">스포츠</option>
+                                    <option value="체육">체육</option>
+                                    <option value="약학">약학</option>
+                                    <option value="역사">역사</option>
+                                    <option value="회계">회계</option>
+                                    <option value="교통">교통</option>
+                                    <option value="토목">토목</option>
+                                    <option value="사학">사학</option>
+                                    <option value="지리">지리</option>
+                                    <option value="항공">항공</option>
+                                    <option value="우주">우주</option>
+                                    <option value="생물">생물</option>
+                                    <option value="융합">융합</option>
+                                    <option value="무역">무역</option>
+                                    <option value="부동산">부동산</option>
+                                    <option value="조경">조경</option>
                                     <option value="디자인">디자인</option>
-                                    <option value="생활과학">생활과학</option>
-                                    <option value="의예">의예</option>
-                                    <option value="전기전자컴퓨터">전기/전자/컴퓨터</option>
-                                    <option value="치료보건">치료/보건</option>
-                                    <option value="수학통계">수학/통계</option>
+                                    <option value="과학">과학계열</option>
+                                    <option value="공학">공학계열</option>
                                 </select><select style="margin-bottom: 5px;"
                                         class="form-control preferColleges"
                                         name="college1" id="college1">
-                                    <option value="-1">터치하면 리스트가 보입니다.</option>
-                                    <option value="인문자율전공">인문자율전공</option>
-                                    <option value="언어문학">언어/문학</option>
-                                    <option value="인문학">인문학</option>
-                                    <option value="경영경제">경영/경제</option>
-                                    <option value="법률">법률</option>
-                                    <option value="사회과학">사회과학</option>
+                                  <option value="-1">터치하면 리스트가 보입니다.</option>
+                                    <option value="화학">화학</option>
+                                    <option value="수학">수학</option>
+                                    <option value="생명">생명공학</option>
+                                    <option value="물리">물리</option>
+                                    <option value="의류">의류</option>
+                                    <option value="건축">건축</option>
+                                    <option value="교육">교육</option>
                                     <option value="유아교육">유아교육</option>
-                                    <option value="초등교육">초등교육</option>
-                                    <option value="중등교육">중등교육</option>
-                                    <option value="특수교육">특수교육</option>
+                                    <option value="아동">아동</option>
+                                    <option value="컴퓨터">컴퓨터</option>
+                                    <option value="전자">전자</option>
+                                    <option value="전기">전기</option>
+                                    <option value="환경">환경</option>
+                                    <option value="에너지">에너지</option>
+                                    <option value="원자력">원자력</option>
+                                    <option value="신소재">신소재</option>
+                                    <option value="산업">산업공학</option>
+                                    <option value="자동차">자동차</option>
+                                    <option value="기계">기계</option>
+                                    <option value="도시">도시</option>
+                                    <option value="행정">행정</option>
+                                    <option value="문학과">언어계열</option>
+                                    <option value="통번역">번역학</option>
+                                    <option value="정치">정치/외교</option>
+                                    <option value="경영">경영</option>
+                                    <option value="경제">경제</option>
+                                    <option value="사회">사회</option>
+                                    <option value="미디어">미디어</option>
+                                    <option value="법">법</option>
+                                    <option value="문화">문화</option>
+                                    <option value="심리">심리</option>
+                                    <option value="환경">환경</option>
+                                    <option value="정보">정보</option>
+                                    <option value="로봇">로봇</option>
+                                    <option value="철학">철학</option>
+                                    <option value="한문">한문</option>
+                                    <option value="의예">의과</option>
+                                    <option value="식품">식품</option>
+                                    <option value="통계">통계</option>
+                                    <option value="공공인재">공공인재</option>
                                     <option value="간호">간호</option>
-                                    <option value="건설">건설</option>
+                                    <option value="방송">방송</option>
+                                    <option value="스포츠">스포츠</option>
+                                    <option value="체육">체육</option>
+                                    <option value="약학">약학</option>
+                                    <option value="역사">역사</option>
+                                    <option value="회계">회계</option>
+                                    <option value="교통">교통</option>
+                                    <option value="토목">토목</option>
+                                    <option value="사학">사학</option>
+                                    <option value="지리">지리</option>
+                                    <option value="항공">항공</option>
+                                    <option value="우주">우주</option>
+                                    <option value="생물">생물</option>
+                                    <option value="융합">융합</option>
+                                    <option value="무역">무역</option>
+                                    <option value="부동산">부동산</option>
+                                    <option value="조경">조경</option>
                                     <option value="디자인">디자인</option>
-                                    <option value="생활과학">생활과학</option>
-                                    <option value="의예">의예</option>
-                                    <option value="전기전자컴퓨터">전기/전자/컴퓨터</option>
-                                    <option value="치료보건">치료/보건</option>
-                                    <option value="수학통계">수학/통계</option>
+                                    <option value="과학">과학계열</option>
+                                    <option value="공학">공학계열</option>
                                 </select><select style="margin-bottom: 5px;"
                                         class="form-control preferColleges"
                                         name="college2" id="college2">
-                                    <option value="-1">터치하면 리스트가 보입니다.</option>
-                                    <!-- <option value="인문자율전공">인문자율전공</option> -->
-                                    <option value="언어문학">언어/문학</option>
-                                    <option value="인문학">인문학</option>
-                                    <option value="경영경제">경영/경제</option>
-                                    <option value="법률">법률</option>
-                                    <option value="사회과학">사회과학</option>
+                                   <option value="-1">터치하면 리스트가 보입니다.</option>
+                                    <option value="화학">화학</option>
+                                    <option value="수학">수학</option>
+                                    <option value="생명">생명공학</option>
+                                    <option value="물리">물리</option>
+                                    <option value="의류">의류</option>
+                                    <option value="건축">건축</option>
+                                    <option value="교육">교육</option>
                                     <option value="유아교육">유아교육</option>
-                                    <option value="초등교육">초등교육</option>
-                                    <option value="중등교육">중등교육</option>
-                                    <option value="특수교육">특수교육</option>
+                                    <option value="아동">아동</option>
+                                    <option value="컴퓨터">컴퓨터</option>
+                                    <option value="전자">전자</option>
+                                    <option value="전기">전기</option>
+                                    <option value="환경">환경</option>
+                                    <option value="에너지">에너지</option>
+                                    <option value="원자력">원자력</option>
+                                    <option value="신소재">신소재</option>
+                                    <option value="산업">산업공학</option>
+                                    <option value="자동차">자동차</option>
+                                    <option value="기계">기계</option>
+                                    <option value="도시">도시</option>
+                                    <option value="행정">행정</option>
+                                    <option value="문학과">언어계열</option>
+                                    <option value="통번역">번역학</option>
+                                    <option value="정치">정치/외교</option>
+                                    <option value="경영">경영</option>
+                                    <option value="경제">경제</option>
+                                    <option value="사회">사회</option>
+                                    <option value="미디어">미디어</option>
+                                    <option value="법">법</option>
+                                    <option value="문화">문화</option>
+                                    <option value="심리">심리</option>
+                                    <option value="환경">환경</option>
+                                    <option value="정보">정보</option>
+                                    <option value="로봇">로봇</option>
+                                    <option value="철학">철학</option>
+                                    <option value="한문">한문</option>
+                                    <option value="의예">의과</option>
+                                    <option value="식품">식품</option>
+                                    <option value="통계">통계</option>
+                                    <option value="공공인재">공공인재</option>
                                     <option value="간호">간호</option>
-                                    <option value="건설">건설</option>
+                                    <option value="방송">방송</option>
+                                    <option value="스포츠">스포츠</option>
+                                    <option value="체육">체육</option>
+                                    <option value="약학">약학</option>
+                                    <option value="역사">역사</option>
+                                    <option value="회계">회계</option>
+                                    <option value="교통">교통</option>
+                                    <option value="토목">토목</option>
+                                    <option value="사학">사학</option>
+                                    <option value="지리">지리</option>
+                                    <option value="항공">항공</option>
+                                    <option value="우주">우주</option>
+                                    <option value="생물">생물</option>
+                                    <option value="융합">융합</option>
+                                    <option value="무역">무역</option>
+                                    <option value="부동산">부동산</option>
+                                    <option value="조경">조경</option>
                                     <option value="디자인">디자인</option>
-                                    <option value="생활과학">생활과학</option>
-                                    <option value="의예">의예</option>
-                                    <option value="전기전자컴퓨터">전기/전자/컴퓨터</option>
-                                    <option value="치료보건">치료/보건</option>
-                                    <option value="수학통계">수학/통계</option>
+                                    <option value="과학">과학계열</option>
+                                    <option value="공학">공학계열</option>
                                 </select><select style="margin-bottom: 5px;"
                                         class="form-control preferColleges"
                                         name="college3" id="college3">
                                     <option value="-1">터치하면 리스트가 보입니다.</option>
-                                    <!-- <option value="인문자율전공">인문자율전공</option> -->
-                                    <option value="언어문학">언어/문학</option>
-                                    <option value="인문학">인문학</option>
-                                    <option value="경영경제">경영/경제</option>
-                                    <option value="법률">법률</option>
-                                    <option value="사회과학">사회과학</option>
+                                    <option value="화학">화학</option>
+                                    <option value="수학">수학</option>
+                                    <option value="생명">생명공학</option>
+                                    <option value="물리">물리</option>
+                                    <option value="의류">의류</option>
+                                    <option value="건축">건축</option>
+                                    <option value="교육">교육</option>
                                     <option value="유아교육">유아교육</option>
-                                    <option value="초등교육">초등교육</option>
-                                    <option value="중등교육">중등교육</option>
-                                    <option value="특수교육">특수교육</option>
+                                    <option value="아동">아동</option>
+                                    <option value="컴퓨터">컴퓨터</option>
+                                    <option value="전자">전자</option>
+                                    <option value="전기">전기</option>
+                                    <option value="환경">환경</option>
+                                    <option value="에너지">에너지</option>
+                                    <option value="원자력">원자력</option>
+                                    <option value="신소재">신소재</option>
+                                    <option value="산업">산업공학</option>
+                                    <option value="자동차">자동차</option>
+                                    <option value="기계">기계</option>
+                                    <option value="도시">도시</option>
+                                    <option value="행정">행정</option>
+                                    <option value="문학과">언어계열</option>
+                                    <option value="통번역">번역학</option>
+                                    <option value="정치">정치/외교</option>
+                                    <option value="경영">경영</option>
+                                    <option value="경제">경제</option>
+                                    <option value="사회">사회</option>
+                                    <option value="미디어">미디어</option>
+                                    <option value="법">법</option>
+                                    <option value="문화">문화</option>
+                                    <option value="심리">심리</option>
+                                    <option value="환경">환경</option>
+                                    <option value="정보">정보</option>
+                                    <option value="로봇">로봇</option>
+                                    <option value="철학">철학</option>
+                                    <option value="한문">한문</option>
+                                    <option value="의예">의과</option>
+                                    <option value="식품">식품</option>
+                                    <option value="통계">통계</option>
+                                    <option value="공공인재">공공인재</option>
                                     <option value="간호">간호</option>
-                                    <option value="건설">건설</option>
+                                    <option value="방송">방송</option>
+                                    <option value="스포츠">스포츠</option>
+                                    <option value="체육">체육</option>
+                                    <option value="약학">약학</option>
+                                    <option value="역사">역사</option>
+                                    <option value="회계">회계</option>
+                                    <option value="교통">교통</option>
+                                    <option value="토목">토목</option>
+                                    <option value="사학">사학</option>
+                                    <option value="지리">지리</option>
+                                    <option value="항공">항공</option>
+                                    <option value="우주">우주</option>
+                                    <option value="생물">생물</option>
+                                    <option value="융합">융합</option>
+                                    <option value="무역">무역</option>
+                                    <option value="부동산">부동산</option>
+                                    <option value="조경">조경</option>
                                     <option value="디자인">디자인</option>
-                                    <option value="생활과학">생활과학</option>
-                                    <option value="의예">의예</option>
-                                    <option value="전기전자컴퓨터">전기/전자/컴퓨터</option>
-                                    <option value="치료보건">치료/보건</option>
-                                    <option value="수학통계">수학/통계</option>
+                                    <option value="과학">과학계열</option>
+                                    <option value="공학">공학계열</option>
                                 </select><select style="margin-bottom: 5px;"
                                         class="form-control preferColleges"
                                         name="college4" id="college4">
                                     <option value="-1">터치하면 리스트가 보입니다.</option>
-                                    <!-- <option value="인문자율전공">인문자율전공</option> -->
-                                    <option value="언어문학">언어/문학</option>
-                                    <option value="인문학">인문학</option>
-                                    <option value="경영경제">경영/경제</option>
-                                    <option value="법률">법률</option>
-                                    <option value="사회과학">사회과학</option>
+                                    <option value="화학">화학</option>
+                                    <option value="수학">수학</option>
+                                    <option value="생명">생명공학</option>
+                                    <option value="물리">물리</option>
+                                    <option value="의류">의류</option>
+                                    <option value="건축">건축</option>
+                                    <option value="교육">교육</option>
                                     <option value="유아교육">유아교육</option>
-                                    <option value="초등교육">초등교육</option>
-                                    <option value="중등교육">중등교육</option>
-                                    <option value="특수교육">특수교육</option>
+                                    <option value="아동">아동</option>
+                                    <option value="컴퓨터">컴퓨터</option>
+                                    <option value="전자">전자</option>
+                                    <option value="전기">전기</option>
+                                    <option value="환경">환경</option>
+                                    <option value="에너지">에너지</option>
+                                    <option value="원자력">원자력</option>
+                                    <option value="신소재">신소재</option>
+                                    <option value="산업">산업공학</option>
+                                    <option value="자동차">자동차</option>
+                                    <option value="기계">기계</option>
+                                    <option value="도시">도시</option>
+                                    <option value="행정">행정</option>
+                                    <option value="문학과">언어계열</option>
+                                    <option value="통번역">번역학</option>
+                                    <option value="정치">정치/외교</option>
+                                    <option value="경영">경영</option>
+                                    <option value="경제">경제</option>
+                                    <option value="사회">사회</option>
+                                    <option value="미디어">미디어</option>
+                                    <option value="법">법</option>
+                                    <option value="문화">문화</option>
+                                    <option value="심리">심리</option>
+                                    <option value="환경">환경</option>
+                                    <option value="정보">정보</option>
+                                    <option value="로봇">로봇</option>
+                                    <option value="철학">철학</option>
+                                    <option value="한문">한문</option>
+                                    <option value="의예">의과</option>
+                                    <option value="식품">식품</option>
+                                    <option value="통계">통계</option>
+                                    <option value="공공인재">공공인재</option>
                                     <option value="간호">간호</option>
-                                    <option value="건설">건설</option>
+                                    <option value="방송">방송</option>
+                                    <option value="스포츠">스포츠</option>
+                                    <option value="체육">체육</option>
+                                    <option value="약학">약학</option>
+                                    <option value="역사">역사</option>
+                                    <option value="회계">회계</option>
+                                    <option value="교통">교통</option>
+                                    <option value="토목">토목</option>
+                                    <option value="사학">사학</option>
+                                    <option value="지리">지리</option>
+                                    <option value="항공">항공</option>
+                                    <option value="우주">우주</option>
+                                    <option value="생물">생물</option>
+                                    <option value="융합">융합</option>
+                                    <option value="무역">무역</option>
+                                    <option value="부동산">부동산</option>
+                                    <option value="조경">조경</option>
                                     <option value="디자인">디자인</option>
-                                    <option value="생활과학">생활과학</option>
-                                    <option value="의예">의예</option>
-                                    <option value="전기전자컴퓨터">전기/전자/컴퓨터</option>
-                                    <option value="치료보건">치료/보건</option>
-                                    <option value="수학통계">수학/통계</option>
+                                    <option value="과학">과학계열</option>
+                                    <option value="공학">공학계열</option>
                                 </select><select style="margin-bottom: 5px;"
                                         class="form-control preferColleges"
                                         name="college5" id="college5">
                                     <option value="-1">터치하면 리스트가 보입니다.</option>
-                                    <!-- <option value="인문자율전공">인문자율전공</option> -->
-                                    <option value="언어문학">언어/문학</option>
-                                    <option value="인문학">인문학</option>
-                                    <option value="경영경제">경영/경제</option>
-                                    <option value="법률">법률</option>
-                                    <option value="사회과학">사회과학</option>
+                                    <option value="화학">화학</option>
+                                    <option value="수학">수학</option>
+                                    <option value="생명">생명공학</option>
+                                    <option value="물리">물리</option>
+                                    <option value="의류">의류</option>
+                                    <option value="건축">건축</option>
+                                    <option value="교육">교육</option>
                                     <option value="유아교육">유아교육</option>
-                                    <option value="초등교육">초등교육</option>
-                                    <option value="중등교육">중등교육</option>
-                                    <option value="특수교육">특수교육</option>
+                                    <option value="아동">아동</option>
+                                    <option value="컴퓨터">컴퓨터</option>
+                                    <option value="전자">전자</option>
+                                    <option value="전기">전기</option>
+                                    <option value="환경">환경</option>
+                                    <option value="에너지">에너지</option>
+                                    <option value="원자력">원자력</option>
+                                    <option value="신소재">신소재</option>
+                                    <option value="산업">산업공학</option>
+                                    <option value="자동차">자동차</option>
+                                    <option value="기계">기계</option>
+                                    <option value="도시">도시</option>
+                                    <option value="행정">행정</option>
+                                    <option value="문학과">언어계열</option>
+                                    <option value="통번역">번역학</option>
+                                    <option value="정치">정치/외교</option>
+                                    <option value="경영">경영</option>
+                                    <option value="경제">경제</option>
+                                    <option value="사회">사회</option>
+                                    <option value="미디어">미디어</option>
+                                    <option value="법">법</option>
+                                    <option value="문화">문화</option>
+                                    <option value="심리">심리</option>
+                                    <option value="환경">환경</option>
+                                    <option value="정보">정보</option>
+                                    <option value="로봇">로봇</option>
+                                    <option value="철학">철학</option>
+                                    <option value="한문">한문</option>
+                                    <option value="의예">의과</option>
+                                    <option value="식품">식품</option>
+                                    <option value="통계">통계</option>
+                                    <option value="공공인재">공공인재</option>
                                     <option value="간호">간호</option>
-                                    <option value="건설">건설</option>
+                                    <option value="방송">방송</option>
+                                    <option value="스포츠">스포츠</option>
+                                    <option value="체육">체육</option>
+                                    <option value="약학">약학</option>
+                                    <option value="역사">역사</option>
+                                    <option value="회계">회계</option>
+                                    <option value="교통">교통</option>
+                                    <option value="토목">토목</option>
+                                    <option value="사학">사학</option>
+                                    <option value="지리">지리</option>
+                                    <option value="항공">항공</option>
+                                    <option value="우주">우주</option>
+                                    <option value="생물">생물</option>
+                                    <option value="융합">융합</option>
+                                    <option value="무역">무역</option>
+                                    <option value="부동산">부동산</option>
+                                    <option value="조경">조경</option>
                                     <option value="디자인">디자인</option>
-                                    <option value="생활과학">생활과학</option>
-                                    <option value="의예">의예</option>
-                                    <option value="전기전자컴퓨터">전기/전자/컴퓨터</option>
-                                    <option value="치료보건">치료/보건</option>
-                                    <option value="수학통계">수학/통계</option>
+                                    <option value="과학">과학계열</option>
+                                    <option value="공학">공학계열</option>
                                 </select>
                             </div>
                         </div>
@@ -1043,13 +1244,7 @@ $("select").each(function(cSelect) {
 
 
 {% endif %}
-{% if messages %}
-<ul class="messages">
-    {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-    {% endfor %}
-</ul>
-{% endif %}
+
 <!-- js 부분 -->
 <script
   src="https://code.jquery.com/jquery-1.4.4.min.js"

@@ -2,6 +2,8 @@ from django.urls import path
 from . import views	# 현재 폴더 views import
 from django.conf.urls import handler404, handler500
 
+from django.conf import settings
+from django.conf.urls.static import static
 app_name='main'
 urlpatterns = [
 	path('', views.index,name='home'),
@@ -46,7 +48,7 @@ urlpatterns = [
 
     path('hap/',views.hap),
 
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     
 # handler404 = 'main.views.handler404'
 # handler500 = 'main.views.hander500'

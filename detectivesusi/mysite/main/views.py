@@ -1,3 +1,6 @@
+from django.shortcuts import get_object_or_404
+from django.db.models import F
+
 import time
 from django.contrib import messages
 from django.contrib.auth.models import User
@@ -26,10 +29,9 @@ from .models import p_case
 def index(request):
     return render(request, 'main/index.html')
 
-# progress var
 def search_result(request):
     #현재유저 정보 user 에 저장
- # 검색 결과 insert
+    # 검색 결과 insert
     # __gt = 값 : 값보다 큰 값 필터됨 .
     # __lt = 값 : 값보다 작은 값 필터됨.
     # Entry.objects.get(조건) : 하나의 데이터 얻어옴
@@ -44,10 +46,9 @@ def search_result(request):
     postset = chk_value.objects.filter(user=user).order_by('-pk')[0]
 
     # 소신 대학리스트 뽑기      합격자 가장 좋은 내신 =  본인내신-0.2 ~ 본인내신-0.5
-    if search_history.objects.filter(ch_val=postset).count()==0:    #0임 
-        unsafe_outputList = c_admission.objects.filter(cut_off__lt=postset.total_avgrate+0.2, h_cut_off__gt=postset.total_avgrate+0.5)
-        unsafe_outputList= c_admission.objects.filter(Q(d_name__contains=postset.prefertype1)|Q(d_name__contains=postset.prefertype2)|Q(d_name__contains=postset.prefertype3)|Q(d_name__contains=postset.prefertype4)|Q(d_name__contains=postset.prefertype5)|Q(d_name__contains=postset.prefertype6))
-
+    if search_history.objects.filter(ch_val=postset).count()==0:    #0임
+        unsafe_outputList = c_admission.objects.filter(l_cut_off__lt=2*postset.total_avgrate-F('cut_off'),l_cut_off__gt=postset.total_avgrate).filter(Q(d_name__contains=postset.prefertype1)|Q(d_name__contains=postset.prefertype2)|Q(d_name__contains=postset.prefertype3)|Q(d_name__contains=postset.prefertype4)|Q(d_name__contains=postset.prefertype5)|Q(d_name__contains=postset.prefertype6)).order_by('?')[:4]#, l_cut_off__lt=2*postset.total_avgrate-F('cut_off'))
+        #unsafe_outputList= unsafe_outputList.filter(Q(d_name__contains=postset.prefertype1)|Q(d_name__contains=postset.prefertype2)|Q(d_name__contains=postset.prefertype3)|Q(d_name__contains=postset.prefertype4)|Q(d_name__contains=postset.prefertype5)|Q(d_name__contains=postset.prefertype6)).order_by('?')[:4]
         for s in unsafe_outputList:    # 소신 대학 리스트
             search_his = search_history (ch_val=postset,
                                         c_name=s,
@@ -57,8 +58,9 @@ def search_result(request):
 
 
         # 적정 대학리스트 뽑기
-        outputList = c_admission.objects.filter(l_cut_off__lt=postset.total_avgrate-0.3,  h_cut_off__gt=postset.total_avgrate+0.2)
-        outputList= c_admission.objects.filter(Q(d_name__contains=postset.prefertype1)|Q(d_name__contains=postset.prefertype2)|Q(d_name__contains=postset.prefertype3)|Q(d_name__contains=postset.prefertype4)|Q(d_name__contains=postset.prefertype5)|Q(d_name__contains=postset.prefertype6))
+        outputList = c_admission.objects.filter(l_cut_off__gt=2*postset.total_avgrate-F('cut_off'),  h_cut_off__lt=2*postset.total_avgrate-F('cut_off')).filter(Q(d_name__contains=postset.prefertype1)|Q(d_name__contains=postset.prefertype2)|Q(d_name__contains=postset.prefertype3)|Q(d_name__contains=postset.prefertype4)|Q(d_name__contains=postset.prefertype5)|Q(d_name__contains=postset.prefertype6)).order_by('?')[:4]
+        #outputList= outputList.filter(Q(d_name__contains=postset.prefertype1)|Q(d_name__contains=postset.prefertype2)|Q(d_name__contains=postset.prefertype3)|Q(d_name__contains=postset.prefertype4)|Q(d_name__contains=postset.prefertype5)|Q(d_name__contains=postset.prefertype6)).order_by('?')[:4]
+        #outputList= c_admission.objects.filter(Q(d_name__contains=postset.prefertype1)|Q(d_name__contains=postset.prefertype2)|Q(d_name__contains=postset.prefertype3)|Q(d_name__contains=postset.prefertype4)|Q(d_name__contains=postset.prefertype5)|Q(d_name__contains=postset.prefertype6)).order_by('?')[:4]
         for s in outputList:    # 적정 대학 리스트
             search_his = search_history (ch_val=postset,
                                         c_name=s,
@@ -67,8 +69,7 @@ def search_result(request):
             search_his.save()
         
         # 안정 대학 리스트 뽑기
-        safe_outputList = c_admission.objects.filter(cut_off__lte=postset.total_avgrate, h_cut_off__gte=postset.total_avgrate)
-        safe_outputList= c_admission.objects.filter(Q(d_name__contains=postset.prefertype1)|Q(d_name__contains=postset.prefertype2)|Q(d_name__contains=postset.prefertype3)|Q(d_name__contains=postset.prefertype4)|Q(d_name__contains=postset.prefertype5)|Q(d_name__contains=postset.prefertype6))
+        safe_outputList = c_admission.objects.filter(h_cut_off__gt=2*postset.total_avgrate-F('cut_off'),h_cut_off__lt=postset.total_avgrate).filter(Q(d_name__contains=postset.prefertype1)|Q(d_name__contains=postset.prefertype2)|Q(d_name__contains=postset.prefertype3)|Q(d_name__contains=postset.prefertype4)|Q(d_name__contains=postset.prefertype5)|Q(d_name__contains=postset.prefertype6)).order_by('?')[:4]
 
         for s in safe_outputList:    # 안정 대학 리스트
             search_his = search_history (ch_val=postset,
@@ -76,7 +77,7 @@ def search_result(request):
                                         r_type="안정"
                                         )
             search_his.save()
-        #time.sleep(3)
+        time.sleep(3)
         context = {
                 'uso_list':unsafe_outputList,
                 'o_list':outputList,
@@ -134,8 +135,11 @@ def igrade1(request):
 def hap(request):
     id = request.GET['id']
     col=c_admission.objects.get(id=id)
-    p = p_case.objects.filter(c_name=col)
-    context={
+    p = p_case.objects.filter(c_name__c_name=col.c_name)
+    #col=get_object_or_404(c_admission,id=id)
+    #col=c_admission.objects.get(id=id)
+    #p = p_case.objects.filter(c_name__c_name=col.c_name)
+    context = {
             'p' : p,
     }
     return render(request, 'main/hap.html',context)
@@ -154,7 +158,6 @@ def igrade_del(request):
 def result(request):
     user = request.user
     datas = chk_value.objects.filter(user=user).order_by('-created_date')   # date 최신것 부터 목록뽑기
-    #datas = chk_value.objects.filter(user=user)
     context = {
         'chk_value':datas
     }
@@ -167,7 +170,14 @@ def contact(request):
 	return render(request, 'main/contact.html')
 
 def search(request):
-	return render(request, 'main/search.html')
+    user=request.user
+    if user.is_authenticated:
+        datass = input_data.objects.filter(user=user)
+        context = {
+            'input_datas': datass,
+        }
+    return render(request, 'main/search.html',context)
+    #return render(request, 'main/search.html',context)
 
 def faq(request):
 	return render(request, 'main/faq.html')
@@ -399,11 +409,24 @@ def searchWork(request):
     for s in isu:
         isu_mul_rate+=s.complete_unit*s.rate
     if(isu_sum['complete_unit__sum']):
-        total_isu = isu_mul_rate/isu_sum['complete_unit__sum']
+        total_isu = round(isu_mul_rate/isu_sum['complete_unit__sum'],1)
     avgs = input_data.objects.filter(user=user).aggregate(Avg('rate'))
 
     # 주요 과목 평균 구하기.
-    data2 = 3
+    
+    # 문/이과 확인
+    if Profile.objects.get(user=user).type=="이과": # 이과인 경우
+        p_isu = input_data.objects.filter(user=user).filter(~Q(subject1="예체능"),~Q(subject1="사회"))
+    else:   #문과인경우
+        p_isu = input_data.objects.filter(user=user).filter(~Q(subject1="예체능"),~Q(subject1="과학"))
+
+    p_isu_sum = p_isu.aggregate(Sum('complete_unit'))
+    p_isu_mul_rate=0
+    data2=0
+    for s in p_isu:
+        p_isu_mul_rate+=s.complete_unit*s.rate
+    if(p_isu_sum['complete_unit__sum']):
+        data2 = round(p_isu_mul_rate/p_isu_sum['complete_unit__sum'],1)
 
     context = {
         'current_chk':current_chk,
@@ -520,9 +543,14 @@ def show_result(request):
     rid = request.GET['id']
     user=request.user
     p = chk_value.objects.get(id=rid)
-    data = search_history.objects.filter(ch_val=p)
+    data_1 = search_history.objects.filter(ch_val=p).filter(r_type="소신")  # error?
+    data_2 = search_history.objects.filter(ch_val=p).filter(r_type="적정")  # error?
+    data_3 = search_history.objects.filter(ch_val=p).filter(r_type="안정") # error?
+
     context = {
-        's_history':data
+        's1_history':data_1,
+        's2_history':data_2,
+        's3_history':data_3,
     }
     return render(request,'main/show_prev.html',context)
 

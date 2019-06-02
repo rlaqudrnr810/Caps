@@ -126,6 +126,13 @@ STATICFILES_DIRS = (    # STATIC 파일 호출 시 STATIC 폴더에서 찾음.
     os.path.join(BASE_DIR, 'static'),
 ) 
 
+## media 파일 링크
+# 각 media 파일에 대한 URL Prefix
+MEDIA_URL = '/media/' # 항상 / 로 끝나도록 설정
+
+# 업로드된 파일을 저장할 디렉토리 경로
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 MESSAGE_TAGS = {message_constants.DEBUG: 'debug',
                 message_constants.INFO: 'info',
                 message_constants.SUCCESS: 'success',
