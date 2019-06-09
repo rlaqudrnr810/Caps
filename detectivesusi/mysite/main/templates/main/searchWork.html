@@ -1455,9 +1455,7 @@ $(document).ready(function() {
                     <a class="btn btn-secondary btn-block {% if current_chk|add:0 == 1 %}disabled{% endif %}" href = "{% if current_chk|add:0 == 2 %}/searchWork?current_chk=1{% endif %}{% if current_chk|add:0 == 3 %}/searchWork?current_chk=2{% endif %}{% if current_chk|add:0 == 4 %}/searchWork?current_chk=3{% endif %}">이전단계(prev)</a>
                 </td>
                 <td>
-                    <!-- <a href = "{% if current_chk|add:0 == 1 %}/searchWork?current_chk=2{% endif %}{% if current_chk|add:0 == 2 %}/searchWork?current_chk=3{% endif %}{% if current_chk|add:0 == 3 %}/searchWork?current_chk=4{% endif %}"> -->
                     <input type=button value="임시저장(next)" class="btn btn-secondary btn-block {% if current_chk|add:0 == 4 %}disabled{% endif %}" onclick="return {% if current_chk|add:0 == 1 %}preferChk(){% endif %}{% if current_chk|add:0 == 2 %}ratechk(){% endif %}{% if current_chk|add:0 == 3 %}circlechk(){% endif %}"></a>
-                    <!-- <a class="btn btn-secondary btn-block {% if current_chk|add:0 == 4 %}disabled{% endif %}" href = "{% if current_chk|add:0 == 1 %}/searchWork?current_chk=2{% endif %}{% if current_chk|add:0 == 2 %}/searchWork?current_chk=3{% endif %}{% if current_chk|add:0 == 3 %}/searchWork?current_chk=4{% endif %}" onclick="return {% if current_chk|add:0 == 1 %}preferChk(){% endif %}{% if current_chk|add:0 == 2 %}ratechk(){% endif %}">임시저장(next)</a> -->
                 </td>
             </tr>
         </table>

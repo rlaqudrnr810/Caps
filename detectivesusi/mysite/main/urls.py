@@ -34,10 +34,6 @@ urlpatterns = [
     path('save_chk/', views.save_chk),
     path('save_chk2/', views.save_chk2),
     path('save_chk1/', views.save_chk1),
-    #path('searchWork?current_chk=4/', views.search_final),
-    #path('search_final/', views.search_final),
-   # path('listSpecificPageWork/$', views.listSpecificPageWork),
-	#path('^areas/(?P<area>.+)/$', views.areas),
     path('prev_result_del/',views.del_result),
     path('show_result/',views.show_result),
 

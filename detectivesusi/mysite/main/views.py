@@ -53,7 +53,7 @@ def search_result(request):
             unsafe_outputList = c_admission.objects.filter(l_cut_off__lt=2*postset.total_avgrate-F('cut_off'),l_cut_off__gt=postset.total_avgrate).filter(Q(d_name__contains=postset.prefertype1)|Q(d_name__contains=postset.prefertype2)|Q(d_name__contains=postset.prefertype3)|Q(d_name__contains=postset.prefertype4)|Q(d_name__contains=postset.prefertype5)|Q(d_name__contains=postset.prefertype6)).filter(~Q(admission__contains="특성화"))#, l_cut_off__lt=2*postset.total_avgrate-F('cut_off'))
         #unsafe_outputList= unsafe_outputList.filter(Q(d_name__contains=postset.prefertype1)|Q(d_name__contains=postset.prefertype2)|Q(d_name__contains=postset.prefertype3)|Q(d_name__contains=postset.prefertype4)|Q(d_name__contains=postset.prefertype5)|Q(d_name__contains=postset.prefertype6)).order_by('?')[:4]
         if Profile.objects.get(user=user).sex=="남":
-            unsafe_outputList = unsafe_outputList.filter(~Q(admission__contains="여자")).order_by('?')[:4]
+            unsafe_outputList = unsafe_outputList.filter(~Q(c_name__contains="여자")).order_by('?')[:4]
         else:
             unsafe_outputList = unsafe_outputList.order_by('?')[:4]
         for s in unsafe_outputList:    # 소신 대학 리스트
@@ -69,10 +69,9 @@ def search_result(request):
             outputList = c_admission.objects.filter(l_cut_off__gt=2*postset.total_avgrate-F('cut_off'),  h_cut_off__lt=2*postset.total_avgrate-F('cut_off')).filter(Q(d_name__contains=postset.prefertype1)|Q(d_name__contains=postset.prefertype2)|Q(d_name__contains=postset.prefertype3)|Q(d_name__contains=postset.prefertype4)|Q(d_name__contains=postset.prefertype5)|Q(d_name__contains=postset.prefertype6))
         else:
             outputList = c_admission.objects.filter(l_cut_off__gt=2*postset.total_avgrate-F('cut_off'),  h_cut_off__lt=2*postset.total_avgrate-F('cut_off')).filter(Q(d_name__contains=postset.prefertype1)|Q(d_name__contains=postset.prefertype2)|Q(d_name__contains=postset.prefertype3)|Q(d_name__contains=postset.prefertype4)|Q(d_name__contains=postset.prefertype5)|Q(d_name__contains=postset.prefertype6)).filter(~Q(admission__contains="특성화"))
-        #outputList= outputList.filter(Q(d_name__contains=postset.prefertype1)|Q(d_name__contains=postset.prefertype2)|Q(d_name__contains=postset.prefertype3)|Q(d_name__contains=postset.prefertype4)|Q(d_name__contains=postset.prefertype5)|Q(d_name__contains=postset.prefertype6)).order_by('?')[:4]
-        #outputList= c_admission.objects.filter(Q(d_name__contains=postset.prefertype1)|Q(d_name__contains=postset.prefertype2)|Q(d_name__contains=postset.prefertype3)|Q(d_name__contains=postset.prefertype4)|Q(d_name__contains=postset.prefertype5)|Q(d_name__contains=postset.prefertype6)).order_by('?')[:4]
+
         if Profile.objects.get(user=user).sex=="남":
-            outputList = outputList.filter(~Q(admission__contains="여자")).order_by('?')[:4]
+            outputList = outputList.filter(~Q(c_name__contains="여자")).order_by('?')[:4]
         else:
             outputList = outputList.order_by('?')[:4]
 
@@ -90,7 +89,7 @@ def search_result(request):
             safe_outputList = c_admission.objects.filter(h_cut_off__gt=2*postset.total_avgrate-F('cut_off'),h_cut_off__lt=postset.total_avgrate).filter(Q(d_name__contains=postset.prefertype1)|Q(d_name__contains=postset.prefertype2)|Q(d_name__contains=postset.prefertype3)|Q(d_name__contains=postset.prefertype4)|Q(d_name__contains=postset.prefertype5)|Q(d_name__contains=postset.prefertype6)).filter(~Q(admission__contains="특성화"))
 
         if Profile.objects.get(user=user).sex=="남":
-            safe_outputList = safe_outputList.filter(~Q(admission__contains="여자")).order_by('?')[:4]
+            safe_outputList = safe_outputList.filter(~Q(c_name__contains="여자")).order_by('?')[:4]
         else:
             safe_outputList = safe_outputList.order_by('?')[:4]
 
@@ -110,7 +109,8 @@ def search_result(request):
         return render(request, 'main/search_result.html',context)
     else:   # 에러
         return render(request, 'main/index.html')
-    # 계산항목 !!
+
+    # 계산항목 #
     # where d_name like %chk_val.prefertype1% || # preferwhere1, preferwhere2, preferwhere3 => univ where
     # prefertype1, prefertype2, prefertype3, prefertype4, prefertype5, prefertype6 => prefertype
     # total_avgrate, main_avgrate, executive_cnt, absent, award_cnt, circle_cnt, volunteer, reading
@@ -128,10 +128,6 @@ def mypage(request):
 
 @csrf_exempt
 def igrade1(request):
-    # if 'grde-c-1' in  request.POST:
-    #     grde_c_1 = request.POST['grde-c-1']
-    # else:
-    #     grde_c_1 = False
     if 'rcount' in  request.POST:
         rcount = request.POST['rcount']
     else:
@@ -159,9 +155,6 @@ def hap(request):
     id = request.GET['id']
     col=c_admission.objects.get(id=id)
     p = p_case.objects.filter(c_name__c_name=col.c_name)
-    #col=get_object_or_404(c_admission,id=id)
-    #col=c_admission.objects.get(id=id)
-    #p = p_case.objects.filter(c_name__c_name=col.c_name)
     context = {
             'p' : p,
     }
@@ -176,7 +169,7 @@ def igrade_del(request):
     p.delete()
     url='../mypage/?igrade='+igrade
     return redirect(url)
-#################
+
 # prev. result
 def result(request):
     user = request.user
@@ -201,12 +194,11 @@ def search(request):
         }
         return render(request, 'main/search.html',context)
     return render(request, 'main/search.html')    
-    #return render(request, 'main/search.html',context)
 
 def faq(request):
 	return render(request, 'main/faq.html')
 
-## login & sign up ##
+# login & sign up #
 def login(request):
     if request.method == 'POST':
         login_form = LoginForm(request.POST)
@@ -230,14 +222,6 @@ def login(request):
         'login_form': login_form,
     }
     return render(request, 'main/login.html', context)
-
-# # id check
-# def signup_idcheck(request):
-#     if request.method == 'POST':
-#         input_id = request.POST['username']
-#         if User.objects.filter(username=input_id).exists():
-
-#         return render()
 
 def signup(request):
     if request.method == 'POST':
@@ -418,7 +402,7 @@ def DeleteSpecificRow(request):
     return redirect(url)
 #########################################################################################
 
-#search
+# search
 def searchWork(request):
     current_chk = request.GET['current_chk']
 
@@ -438,7 +422,6 @@ def searchWork(request):
     avgs = input_data.objects.filter(user=user).aggregate(Avg('rate'))
 
     # 주요 과목 평균 구하기.
-    
     # 문/이과 확인
     if Profile.objects.get(user=user).type=="이과": # 이과인 경우
         p_isu = input_data.objects.filter(user=user).filter(~Q(subject1="예체능"),~Q(subject1="사회"))
@@ -461,7 +444,6 @@ def searchWork(request):
         'p_avg_rate':data2
     }
 
-    #return render(request,'main/searchWork/?current_chk=2',context)
     return render(request,'main/searchWork.html',context)
 
 # 선호지역 받기1
@@ -489,23 +471,10 @@ def save_chk1(request):
     
     return redirect(url)
 
-# 회원 가입시 테이블 하나를 미리 생성 해둔 뒤 update 방식으로 해야할듯.(중복 테이블 계속 생김.)
-# 중복된 테이블 있는지 보는것도 괜찮을듯.
-
 # 내신성적받기2
 @csrf_exempt
 def save_chk(request):
     user = request.user
-    # current_chk = request.GET['current_chk']
-    # user = User.objects.get(id=username)
-    # username = None
-    # if request.user.is_authenticated:
-    #     username = request.user.username
-    
-    # if 'avgRate' in request.POST:
-    #     avgRate = request.POST['avgRate']
-    # else:
-    #     avgRate = False
 
     if 'absent' in request.POST:
         absent = request.POST['absent']
@@ -548,11 +517,6 @@ def save_chk2(request):
 
     url = '../searchWork/?current_chk=4'# + str(current_chk)
     return redirect(url)
-
-# def search_final(request):
-#     user = request.user
-#     datas = chk_value.objects.filter(user=user)
-#     return render(request, '', {'chk_value':datas})
 
 def del_result(request):
     rid = request.GET.get('id',False)

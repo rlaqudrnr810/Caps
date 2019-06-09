@@ -55,7 +55,6 @@ class input_data(models.Model):
 	rate = models.FloatField(null=True,blank=True)		# 취득한 등급
 
 class c_admission(models.Model):
-	#c_name = models.ForeignKey(c_info,on_delete=models.CASCADE)	# 대학교
 	c_name = models.CharField(null=True,blank=True,max_length=50)	# 대학교 이름
 	d_name = models.CharField(null=True,blank=True,max_length=50)	# 학과 이름
 	admission = models.CharField(null=True,blank=True,max_length=50)# 전형명
@@ -69,15 +68,11 @@ class c_admission(models.Model):
 	   return self.c_name	# object -> c_name 출력
 
 class c_info(models.Model):
-	#c_name = models.CharField(null=True,blank=True,max_length=50)	# 대학교 이름
 	c_name = models.ForeignKey(c_admission,on_delete=models.CASCADE)	# 대학교
 	area = models.CharField(null=True,blank=True,max_length=50)			# 대학교 지역
 
 class p_case(models.Model):
 	c_name = models.ForeignKey(c_admission,on_delete=models.CASCADE)	# 대학교
-	#d_name = models.ForeignKey(c_admission,on_delete=models.CASCADE)	# 학과
-	#admission = models.ForeignKey(c_admission,on_delete=models.CASCADE)	# 전형
-	#year = models.ForeignKey(c_admission,on_delete=models.CASCADE)		# 연도
 	p_num = models.IntegerField(null=True,blank=True)		# ?
 	volunteer = models.IntegerField(null=True,blank=True)	# 봉사 횟수
 	rate = models.FloatField(null=True,blank=True)			# 등급

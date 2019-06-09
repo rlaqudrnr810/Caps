@@ -52,15 +52,6 @@ class SignupForm(forms.Form):
         )
     )
 
-    # birth_date = forms.DateField(
-    #     help_text='Required. YYYY-MM-DD',
-    #     widget=forms.DateInput(
-    #         attrs={
-    #             'class': 'form-control',
-    #         }
-    #     )
-    # )
-
     # username필드의 검증에 username이 이미 사용중인지 여부 검사
     def clean_username(self):
         username = self.cleaned_data['username']

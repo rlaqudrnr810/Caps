@@ -21,22 +21,7 @@
     /*카테고리 확인*/
 
 var stdScoreType = '';
-// function gotoScoreDetail(tp){           
-//         gfn_Submission_Call("/kcue/ast/eip/com/getStdptView.do", 'type='+tp+"&userId=20-1043555541", function(data){
-//             if(data != null){
-//                 $("#scoreDetailView").html(data);
-//             }
-//         },'html');
-// }
-// $(document).ready(function(){
-//     if('' == stdScoreType){
-//         var item = sessionStorage.getItem("stdptExno");
-//         if(typeof item !== 'string') item = ('' != '') ? '' : '31';
-        
-//         sessionStorage.setItem("stdptExno", item);
-//         gotoScoreDetail(item);
-//     }
-// });
+
 function gotograde(tp){
       location.replace("/mypage?igrade="+tp);
 }
@@ -136,16 +121,6 @@ time, mark, audio, video
 $(document).ready(function() {
     });
 
-/***********************************************************************
-함수명 : fn_check_num
-설 명 : 정수 및 소수점을 포함한 숫자 체크
-인 자 : str_val : 체크할 값
-        type : 정수/소수점 체크 구분(1,2)
-사용법 : fn_check_num(str_val, type)
-작성자 : 이형준
------- ------ -------------------
-2015.10.08 이형준 최초생성
-***********************************************************************/
 function fn_check_num(str_val, type){
     var check_num = /^\d*$/;
     var check_dot_num = /^\d*(\.?\d*)$/;
@@ -211,7 +186,7 @@ function btn_upd_onclick(rid)
      
     $("#row-"+rid).html(strRow);
     
-    gfn_Submission_Call("/kcue/ast/eip/cun/mng/sgc/courseList.do", $("#stdptSesScr").serialize(), function(data){
+    gfn_Submission_Call("", $("#stdptSesScr").serialize(), function(data){
         if(data != null){
             var dataResultList = data.resultList;
             if (data.resultVO.resultCode == "SUCCESS"){
@@ -239,7 +214,7 @@ function btn_upd_onclick(rid)
     , "json");
         
     $("#changeFlag").val("1");
-    gfn_Submission_Call("/kcue/ast/eip/cun/mng/sgc/sbjectList.do?linkParamDefaultField="+courseSn, $("#stdptSesScr").serialize(), function(data){
+    gfn_Submission_Call("="+courseSn, $("#stdptSesScr").serialize(), function(data){
         if(data != null){
             var dataResultList = data.resultList;
             if (data.resultVO.resultCode == "SUCCESS"){
@@ -328,17 +303,14 @@ function btn_save_onclick(){
             return;
         }
     }
-    //alert('d');
     $("#sgrd_rcount").val(rsize);
-    //$.blockUI({ onUnblock: $.unblockUI });
-    //alert('d2');
     form.submit();
 }
 
 function sel_course_onchange(courseId, courseSn)
 {
     $("#changeFlag").val("1");
-    gfn_Submission_Call("/kcue/ast/eip/cun/mng/sgc/sbjectList.do?linkParamDefaultField="+courseSn, $("#stdptSesScr").serialize(), function(data){
+    gfn_Submission_Call(""+courseSn, $("#stdptSesScr").serialize(), function(data){
         if(data != null){
             var dataResultList = data.resultList;
             if (data.resultVO.resultCode == "SUCCESS"){
